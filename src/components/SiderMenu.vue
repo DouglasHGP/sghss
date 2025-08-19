@@ -1,10 +1,10 @@
 <template>
   <q-item clickable :to="props.link" class="text-teal-7">
-    <q-item-section v-if="props.icon" avatar>
+    <q-item-section class="text-white" v-if="props.icon" avatar>
       <q-icon :name="props.icon" />
     </q-item-section>
 
-    <q-item-section>
+    <q-item-section class="text-white">
       <q-item-label>{{ props.title }}</q-item-label>
       <q-item-label caption>{{ props.caption }}</q-item-label>
     </q-item-section>
