@@ -14,7 +14,7 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered class="bg-teal-4 text-white">
+    <q-drawer elevated v-model="leftDrawerOpen" show-if-above bordered class="bg-teal-4 text-white">
       <q-list>
         <q-item-label class="text-white text-bold text-h6" header>{{
           userPermission === 'admin'
