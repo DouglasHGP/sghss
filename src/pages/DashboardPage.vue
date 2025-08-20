@@ -4,6 +4,7 @@
       title="Dashboard"
       description="Bem-vindo ao painel de controle do Sistema de Gestão Hospitalar"
     />
+
     <CardBase title="Profissionais" icon="badge">
       <template #actions>
         <q-btn glossy color="secondary" icon="add"
@@ -12,21 +13,21 @@
       </template>
 
       <div class="row q-gutter-md">
-        <q-card class="col">
+        <q-card class="col" :class="{'col-grow' : $q.platform.is.mobile}">
           <q-card-section class="text-center">
             <div class="text-h2 text-primary">128</div>
             <div class="text-caption">Ativos</div>
           </q-card-section>
         </q-card>
 
-        <q-card class="col">
+        <q-card class="col" :class="{'col-grow' : $q.platform.is.mobile}">
           <q-card-section class="text-center">
             <div class="text-h2 text-primary">96</div>
             <div class="text-caption">Disponíveis Hoje</div>
           </q-card-section>
         </q-card>
 
-        <q-card class="col">
+        <q-card class="col" :class="{'col-grow' : $q.platform.is.mobile}">
           <q-card-section class="text-center">
             <div class="text-h2 text-negative">12</div>
             <div class="text-caption">Afastados</div>
@@ -35,7 +36,7 @@
       </div>
 
       <div class="row q-gutter-md q-mt-xs">
-        <CardBase class="col" title="Especialidades" icon="search">
+        <CardBase class="col" title="Especialidades" icon="search" >
           <template #actions>
             <q-btn flat color="secondary" icon="visibility"
               ><q-tooltip><span class="text-subtitle2">Detalhar</span></q-tooltip></q-btn
@@ -97,28 +98,28 @@
       </template>
 
       <div class="row q-gutter-md">
-        <q-card class="col">
+        <q-card class="col" :class="{'col-grow' : $q.platform.is.mobile}">
           <q-card-section class="text-center">
             <div class="text-h2 text-primary">4.523</div>
             <div class="text-caption">Cadastrados</div>
           </q-card-section>
         </q-card>
 
-        <q-card class="col">
+        <q-card class="col" :class="{'col-grow' : $q.platform.is.mobile}">
           <q-card-section class="text-center">
             <div class="text-h2 text-positive">128</div>
             <div class="text-caption">Novos no Mês</div>
           </q-card-section>
         </q-card>
 
-        <q-card class="col">
+        <q-card class="col" :class="{'col-grow' : $q.platform.is.mobile}">
           <q-card-section class="text-center">
             <div class="text-h2 text-warning">32</div>
             <div class="text-caption">Internados Hoje</div>
           </q-card-section>
         </q-card>
 
-        <q-card class="col">
+        <q-card class="col" :class="{'col-grow' : $q.platform.is.mobile}">
           <q-card-section class="text-center">
             <div class="text-h2 text-secondary">56</div>
             <div class="text-caption">Consultas Agendadas</div>
@@ -187,25 +188,25 @@
         </q-btn>
       </template>
       <div class="row q-gutter-md">
-        <q-card class="col"
+        <q-card class="col" :class="{'col-grow' : $q.platform.is.mobile}"
           ><q-card-section class="text-center"
             ><div class="text-h2 text-primary">250</div>
             <div class="text-caption">Total</div></q-card-section
           ></q-card
         >
-        <q-card class="col"
+        <q-card class="col" :class="{'col-grow' : $q.platform.is.mobile}"
           ><q-card-section class="text-center"
             ><div class="text-h2 text-negative">180</div>
             <div class="text-caption">Ocupados</div></q-card-section
           ></q-card
         >
-        <q-card class="col"
+        <q-card class="col" :class="{'col-grow' : $q.platform.is.mobile}"
           ><q-card-section class="text-center"
             ><div class="text-h2 text-positive">60</div>
             <div class="text-caption">Disponíveis</div></q-card-section
           ></q-card
         >
-        <q-card class="col"
+        <q-card class="col" :class="{'col-grow' : $q.platform.is.mobile}"
           ><q-card-section class="text-center"
             ><div class="text-h2 text-warning">10</div>
             <div class="text-caption">Em Manutenção</div></q-card-section
@@ -268,25 +269,25 @@
       </template>
 
       <div class="row q-gutter-md">
-        <q-card class="col"
+        <q-card class="col" :class="{'col-grow' : $q.platform.is.mobile}"
           ><q-card-section class="text-center"
             ><div class="text-h2 text-primary">450</div>
             <div class="text-caption">Itens Cadastrados</div></q-card-section
           ></q-card
         >
-        <q-card class="col"
+        <q-card class="col" :class="{'col-grow' : $q.platform.is.mobile}"
           ><q-card-section class="text-center"
             ><div class="text-h2 text-positive">320</div>
             <div class="text-caption">Em Estoque</div></q-card-section
           ></q-card
         >
-        <q-card class="col"
+        <q-card class="col" :class="{'col-grow' : $q.platform.is.mobile}"
           ><q-card-section class="text-center"
             ><div class="text-h2 text-warning">25</div>
             <div class="text-caption">Próx. ao Vencimento</div></q-card-section
           ></q-card
         >
-        <q-card class="col"
+        <q-card class="col" :class="{'col-grow' : $q.platform.is.mobile}"
           ><q-card-section class="text-center"
             ><div class="text-h2 text-negative">12</div>
             <div class="text-caption">Em Falta</div></q-card-section
@@ -350,19 +351,19 @@
       </template>
 
       <div class="row q-gutter-md">
-        <q-card class="col"
+        <q-card class="col" :class="{'col-grow' : $q.platform.is.mobile}"
           ><q-card-section class="text-center"
             ><div class="text-h2 text-primary">1.250</div>
             <div class="text-caption">Itens Cadastrados</div></q-card-section
           ></q-card
         >
-        <q-card class="col"
+        <q-card class="col" :class="{'col-grow' : $q.platform.is.mobile}"
           ><q-card-section class="text-center"
             ><div class="text-h2 text-positive">980</div>
             <div class="text-caption">Disponíveis</div></q-card-section
           ></q-card
         >
-        <q-card class="col"
+        <q-card class="col" :class="{'col-grow' : $q.platform.is.mobile}"
           ><q-card-section class="text-center"
             ><div class="text-h2 text-warning">150</div>
             <div class="text-caption">Estoque Crítico</div></q-card-section
