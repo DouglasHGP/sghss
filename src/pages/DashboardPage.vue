@@ -17,46 +17,19 @@
         <div class="row q-gutter-md">
           <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }">
             <q-card-section class="text-center">
-              <div
-                :class="{
-                  'text-h2': $q.screen.gt.md,
-                  'text-h4': $q.screen.lt.lg,
-                  'text-h6': $q.screen.lt.md,
-                }"
-                class="text-primary"
-              >
-                128
-              </div>
+              <div :class="[responsiveText()]" class="text-primary">128</div>
               <div class="text-caption">Matriculados</div>
             </q-card-section>
           </q-card>
           <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }">
             <q-card-section class="text-center">
-              <div
-                :class="{
-                  'text-h2': $q.screen.gt.md,
-                  'text-h4': $q.screen.lt.lg,
-                  'text-h6': $q.screen.lt.md,
-                }"
-                class="text-primary"
-              >
-                96
-              </div>
+              <div :class="[responsiveText()]" class="text-primary">96</div>
               <div class="text-caption">Disponíveis Hoje</div>
             </q-card-section>
           </q-card>
           <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }">
             <q-card-section class="text-center">
-              <div
-                :class="{
-                  'text-h2': $q.screen.gt.md,
-                  'text-h4': $q.screen.lt.lg,
-                  'text-h6': $q.screen.lt.md,
-                }"
-                class="text-negative"
-              >
-                12
-              </div>
+              <div :class="[responsiveText()]" class="text-negative">12</div>
               <div class="text-caption">Afastados</div>
             </q-card-section>
           </q-card>
@@ -127,46 +100,19 @@
         <div class="row q-gutter-md">
           <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }">
             <q-card-section class="text-center">
-              <div
-                :class="{
-                  'text-h2': $q.screen.gt.md,
-                  'text-h4': $q.screen.lt.lg,
-                  'text-h6': $q.screen.lt.md,
-                }"
-                class="text-primary"
-              >
-                4.523
-              </div>
+              <div :class="[responsiveText()]" class="text-primary">4.523</div>
               <div class="text-caption">Cadastrados</div>
             </q-card-section>
           </q-card>
           <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }">
             <q-card-section class="text-center">
-              <div
-                :class="{
-                  'text-h2': $q.screen.gt.md,
-                  'text-h4': $q.screen.lt.lg,
-                  'text-h6': $q.screen.lt.md,
-                }"
-                class="text-positive"
-              >
-                128
-              </div>
+              <div :class="[responsiveText()]" class="text-positive">128</div>
               <div class="text-caption">Novos no Mês</div>
             </q-card-section>
           </q-card>
           <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }">
             <q-card-section class="text-center">
-              <div
-                :class="{
-                  'text-h2': $q.screen.gt.md,
-                  'text-h4': $q.screen.lt.lg,
-                  'text-h6': $q.screen.lt.md,
-                }"
-                class="text-secondary"
-              >
-                56
-              </div>
+              <div :class="[responsiveText()]" class="text-secondary">56</div>
               <div class="text-caption">Consultas Agendadas</div>
             </q-card-section>
           </q-card>
@@ -240,46 +186,19 @@
       <div class="row q-gutter-md">
         <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }"
           ><q-card-section class="text-center"
-            ><div
-              :class="{
-                'text-h2': $q.screen.gt.md,
-                'text-h4': $q.screen.lt.lg,
-                'text-h6': $q.screen.lt.md,
-              }"
-              class="text-primary"
-            >
-              1.250
-            </div>
+            ><div :class="[responsiveText()]" class="text-primary">1.250</div>
             <div class="text-caption">Itens Cadastrados</div></q-card-section
           ></q-card
         >
         <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }"
           ><q-card-section class="text-center"
-            ><div
-              :class="{
-                'text-h2': $q.screen.gt.md,
-                'text-h4': $q.screen.lt.lg,
-                'text-h6': $q.screen.lt.md,
-              }"
-              class="text-positive"
-            >
-              980
-            </div>
+            ><div :class="[responsiveText()]" class="text-positive">980</div>
             <div class="text-caption">Disponíveis</div></q-card-section
           ></q-card
         >
         <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }"
           ><q-card-section class="text-center"
-            ><div
-              :class="{
-                'text-h2': $q.screen.gt.md,
-                'text-h4': $q.screen.lt.lg,
-                'text-h6': $q.screen.lt.md,
-              }"
-              class="text-warning"
-            >
-              150
-            </div>
+            ><div :class="[responsiveText()]" class="text-warning">150</div>
             <div class="text-caption">Estoque Crítico</div></q-card-section
           ></q-card
         >
@@ -344,61 +263,25 @@
       <div class="row q-gutter-md">
         <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }"
           ><q-card-section class="text-center"
-            ><div
-              :class="{
-                'text-h2': $q.screen.gt.md,
-                'text-h4': $q.screen.lt.lg,
-                'text-h6': $q.screen.lt.md,
-              }"
-              class="text-primary"
-            >
-              450
-            </div>
+            ><div :class="[responsiveText()]" class="text-primary">450</div>
             <div class="text-caption">Itens Cadastrados</div></q-card-section
           ></q-card
         >
         <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }"
           ><q-card-section class="text-center"
-            ><div
-              :class="{
-                'text-h2': $q.screen.gt.md,
-                'text-h4': $q.screen.lt.lg,
-                'text-h6': $q.screen.lt.md,
-              }"
-              class="text-positive"
-            >
-              320
-            </div>
+            ><div :class="[responsiveText()]" class="text-positive">320</div>
             <div class="text-caption">Em Estoque</div></q-card-section
           ></q-card
         >
         <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }"
           ><q-card-section class="text-center"
-            ><div
-              :class="{
-                'text-h2': $q.screen.gt.md,
-                'text-h4': $q.screen.lt.lg,
-                'text-h6': $q.screen.lt.md,
-              }"
-              class="text-warning"
-            >
-              25
-            </div>
+            ><div :class="[responsiveText()]" class="text-warning">25</div>
             <div class="text-caption">Próx. ao Vencimento</div></q-card-section
           ></q-card
         >
         <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }"
           ><q-card-section class="text-center"
-            ><div
-              :class="{
-                'text-h2': $q.screen.gt.md,
-                'text-h4': $q.screen.lt.lg,
-                'text-h6': $q.screen.lt.md,
-              }"
-              class="text-negative"
-            >
-              12
-            </div>
+            ><div :class="[responsiveText()]" class="text-negative">12</div>
             <div class="text-caption">Em Falta</div></q-card-section
           ></q-card
         >
@@ -463,61 +346,25 @@
       <div class="row q-gutter-md">
         <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }"
           ><q-card-section class="text-center"
-            ><div
-              :class="{
-                'text-h2': $q.screen.gt.md,
-                'text-h4': $q.screen.lt.lg,
-                'text-h6': $q.screen.lt.md,
-              }"
-              class="text-primary"
-            >
-              250
-            </div>
+            ><div :class="[responsiveText()]" class="text-primary">250</div>
             <div class="text-caption">Total</div></q-card-section
           ></q-card
         >
         <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }"
           ><q-card-section class="text-center"
-            ><div
-              :class="{
-                'text-h2': $q.screen.gt.md,
-                'text-h4': $q.screen.lt.lg,
-                'text-h6': $q.screen.lt.md,
-              }"
-              class="text-negative"
-            >
-              180
-            </div>
+            ><div :class="[responsiveText()]" class="text-negative">180</div>
             <div class="text-caption">Ocupados</div></q-card-section
           ></q-card
         >
         <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }"
           ><q-card-section class="text-center"
-            ><div
-              :class="{
-                'text-h2': $q.screen.gt.md,
-                'text-h4': $q.screen.lt.lg,
-                'text-h6': $q.screen.lt.md,
-              }"
-              class="text-positive"
-            >
-              60
-            </div>
+            ><div :class="[responsiveText()]" class="text-positive">60</div>
             <div class="text-caption">Disponíveis</div></q-card-section
           ></q-card
         >
         <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }"
           ><q-card-section class="text-center"
-            ><div
-              :class="{
-                'text-h2': $q.screen.gt.md,
-                'text-h4': $q.screen.lt.lg,
-                'text-h6': $q.screen.lt.md,
-              }"
-              class="text-warning"
-            >
-              10
-            </div>
+            ><div :class="[responsiveText()]" class="text-warning">10</div>
             <div class="text-caption">Em Manutenção</div></q-card-section
           ></q-card
         >
@@ -571,3 +418,8 @@
     </CardBase>
   </q-page>
 </template>
+<script setup>
+import { useResponsiveText } from 'src/composables/useResponsiveText'
+
+const { responsiveText } = useResponsiveText()
+</script>

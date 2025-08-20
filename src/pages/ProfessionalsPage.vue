@@ -10,46 +10,19 @@
         <div class="row q-gutter-md">
           <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }">
             <q-card-section class="text-center">
-              <div
-                :class="{
-                  'text-h2': $q.screen.gt.md,
-                  'text-h4': $q.screen.lt.lg,
-                  'text-h6': $q.screen.lt.md,
-                }"
-                class="text-primary"
-              >
-                128
-              </div>
+              <div :class="[responsiveText()]" class="text-primary">128</div>
               <div class="text-caption">Matriculados</div>
             </q-card-section>
           </q-card>
           <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }">
             <q-card-section class="text-center">
-              <div
-                :class="{
-                  'text-h2': $q.screen.gt.md,
-                  'text-h4': $q.screen.lt.lg,
-                  'text-h6': $q.screen.lt.md,
-                }"
-                class="text-primary"
-              >
-                96
-              </div>
+              <div :class="[responsiveText()]" class="text-primary">96</div>
               <div class="text-caption">Disponíveis Hoje</div>
             </q-card-section>
           </q-card>
           <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }">
             <q-card-section class="text-center">
-              <div
-                :class="{
-                  'text-h2': $q.screen.gt.md,
-                  'text-h4': $q.screen.lt.lg,
-                  'text-h6': $q.screen.lt.md,
-                }"
-                class="text-negative"
-              >
-                12
-              </div>
+              <div :class="[responsiveText()]" class="text-negative">12</div>
               <div class="text-caption">Afastados</div>
             </q-card-section>
           </q-card>
@@ -132,6 +105,9 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useResponsiveText } from 'src/composables/useResponsiveText'
+
+const { responsiveText } = useResponsiveText()
 
 const professionals = ref([
   { id: 1, name: 'João Silva', role: 'Médico', status: 'Ativo' },

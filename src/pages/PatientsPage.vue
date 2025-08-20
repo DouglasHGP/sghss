@@ -7,46 +7,19 @@
         <div class="row q-gutter-md">
           <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }">
             <q-card-section class="text-center">
-              <div
-                :class="{
-                  'text-h2': $q.screen.gt.md,
-                  'text-h4': $q.screen.lt.lg,
-                  'text-h6': $q.screen.lt.md,
-                }"
-                class="text-primary"
-              >
-                4.523
-              </div>
+              <div :class="[responsiveText()]" class="text-primary">4.523</div>
               <div class="text-caption">Cadastrados</div>
             </q-card-section>
           </q-card>
           <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }">
             <q-card-section class="text-center">
-              <div
-                :class="{
-                  'text-h2': $q.screen.gt.md,
-                  'text-h4': $q.screen.lt.lg,
-                  'text-h6': $q.screen.lt.md,
-                }"
-                class="text-positive"
-              >
-                128
-              </div>
+              <div :class="[responsiveText()]" class="text-positive">128</div>
               <div class="text-caption">Novos no Mês</div>
             </q-card-section>
           </q-card>
           <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }">
             <q-card-section class="text-center">
-              <div
-                :class="{
-                  'text-h2': $q.screen.gt.md,
-                  'text-h4': $q.screen.lt.lg,
-                  'text-h6': $q.screen.lt.md,
-                }"
-                class="text-secondary"
-              >
-                56
-              </div>
+              <div :class="[responsiveText()]" class="text-secondary">56</div>
               <div class="text-caption">Consultas Agendadas</div>
             </q-card-section>
           </q-card>
@@ -129,6 +102,9 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useResponsiveText } from 'src/composables/useResponsiveText'
+
+const { responsiveText } = useResponsiveText()
 
 const patients = ref([
   { id: 1, name: 'João da Silva', age: 30, condition: 'Estável' },
