@@ -138,18 +138,18 @@
       </template>
       <q-table
         :rows="[
-          { id: 1, name: 'Dr. João Silva', role: 'Médico', status: 'Ativo' },
-          { id: 2, name: 'Enf. Ana Costa', role: 'Enfermeira', status: 'Ativo' },
-          { id: 3, name: 'Tec. Carlos Lima', role: 'Técnico', status: 'Afastado' },
-          { id: 4, name: 'Dr. Maria Souza', role: 'Médica', status: 'Ativo' },
-          { id: 5, name: 'Enf. Pedro Rocha', role: 'Enfermeiro', status: 'Ativo' },
-          { id: 6, name: 'Tec. Luiza Fernandes', role: 'Técnica', status: 'Ativo' },
-          { id: 7, name: 'Dr. Ricardo Alves', role: 'Médico', status: 'Ativo' },
-          { id: 8, name: 'Enf. Carla Mendes', role: 'Enfermeira', status: 'Afastada' },
-          { id: 9, name: 'Tec. Bruno Santos', role: 'Técnico', status: 'Ativo' },
-          { id: 10, name: 'Dr. Fernanda Lima', role: 'Médica', status: 'Ativo' },
-          { id: 11, name: 'Enf. Lucas Pereira', role: 'Enfermeiro', status: 'Ativo' },
-          { id: 12, name: 'Tec. Mariana Rocha', role: 'Técnica', status: 'Afastada' },
+          { id: 1, name: 'João Silva', role: 'Médico', status: 'Ativo' },
+          { id: 2, name: 'Ana Costa', role: 'Enfermeira', status: 'Ativo' },
+          { id: 3, name: 'Carlos Lima', role: 'Técnico', status: 'Afastado' },
+          { id: 4, name: 'Maria Souza', role: 'Médica', status: 'Ativo' },
+          { id: 5, name: 'Pedro Rocha', role: 'Enfermeiro', status: 'Ativo' },
+          { id: 6, name: 'Luiza Fernandes', role: 'Técnica', status: 'Ativo' },
+          { id: 7, name: 'Ricardo Alves', role: 'Médico', status: 'Ativo' },
+          { id: 8, name: 'Carla Mendes', role: 'Enfermeira', status: 'Afastada' },
+          { id: 9, name: 'Bruno Santos', role: 'Técnico', status: 'Ativo' },
+          { id: 10, name: 'Fernanda Lima', role: 'Médica', status: 'Ativo' },
+          { id: 11, name: 'Lucas Pereira', role: 'Enfermeiro', status: 'Ativo' },
+          { id: 12, name: 'Mariana Rocha', role: 'Técnica', status: 'Afastada' },
         ]"
         :columns="[
           { name: 'id', label: 'ID', field: 'id', align: 'left' },
