@@ -229,7 +229,7 @@
     <CardBase title="Leitos" icon="hotel" collapsible>
       <template #actions>
         <q-btn glossy color="secondary" icon="add">
-          <q-tooltip><span class="text-subtitle2">Adicionar Paciente</span></q-tooltip>
+          <q-tooltip><span class="text-subtitle2">Adicionar Leito</span></q-tooltip>
         </q-btn>
       </template>
       <div class="row q-gutter-md">
@@ -252,9 +252,9 @@
           ><q-card-section class="text-center"
             ><div
               :class="{
-                'text-h2': $q.screen.gt.md, // desktops grandes
-                'text-h4': $q.screen.lt.lg, // médios
-                'text-h6': $q.screen.lt.md, // tablets/celulares
+                'text-h2': $q.screen.gt.md,
+                'text-h4': $q.screen.lt.lg,
+                'text-h6': $q.screen.lt.md,
               }"
               class="text-negative"
             >

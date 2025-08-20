@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-btn-dropdown push color="teal" dropdown-icon="more_vert" flat>
+    <q-btn-dropdown push color="teal" dense padding="xs" dropdown-icon="more_vert" flat>
       <q-list class="bg-teal-1 text-teal-9 q-py-sm" dense>
         <q-item
           v-for="(action, index) in props.actions"
@@ -26,7 +26,7 @@
       </q-list>
     </q-btn-dropdown>
 
-    <q-tooltip>
+    <q-tooltip v-if="props.tooltip">
       <span class="text-subtitle2">{{ props.tooltip }}</span>
     </q-tooltip>
   </div>
@@ -53,7 +53,7 @@ const props = defineProps({
   },
   tooltip: {
     type: String,
-    default: 'Ações',
+    default: '',
   },
 })
 
