@@ -149,9 +149,9 @@ const professionals = ref([
 ])
 
 const columns = [
-  { name: 'id', label: 'ID', field: 'id', align: 'left' },
-  { name: 'name', label: 'Nome', field: 'name', align: 'left' },
-  { name: 'role', label: 'Função', field: 'role', align: 'left' },
+  { name: 'id', label: 'ID', field: 'id', align: 'center' },
+  { name: 'name', label: 'Nome', field: 'name', align: 'center' },
+  { name: 'role', label: 'Função', field: 'role', align: 'center' },
   { name: 'status', label: 'Status', field: 'status', align: 'center' },
 ]
 

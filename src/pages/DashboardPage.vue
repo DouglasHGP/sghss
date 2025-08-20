@@ -8,9 +8,9 @@
     <div class="row q-gutter-md" :class="{ 'q-mr-sm q-pr-sm': $q.platform.is.mobile }">
       <CardBase class="col" title="Profissionais" icon="badge">
         <template #actions>
-          <q-btn glossy color="secondary" icon="add"
+          <q-btn glossy color="secondary" icon="open_in_new"
             ><q-tooltip
-              ><span class="text-subtitle2">Adicionar Profissional</span></q-tooltip
+              ><span class="text-subtitle2">Ir para o Módulo Profissional</span></q-tooltip
             ></q-btn
           >
         </template>
@@ -116,11 +116,13 @@
           </CardBase>
         </div>
       </CardBase>
-      <CardBase class="col" title="Pacientes" icon="groups">
+      <CardBase class="col" title="Pacientes" icon="group">
         <template #actions>
-          <q-btn glossy color="secondary" icon="add">
-            <q-tooltip><span class="text-subtitle2">Adicionar Paciente</span></q-tooltip>
-          </q-btn>
+          <q-btn glossy color="secondary" icon="open_in_new"
+            ><q-tooltip
+              ><span class="text-subtitle2">Ir para o Módulo Pacientes</span></q-tooltip
+            ></q-btn
+          >
         </template>
         <div class="row q-gutter-md">
           <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }">
@@ -226,12 +228,15 @@
       </CardBase>
     </div>
 
-    <CardBase title="Leitos" icon="hotel" collapsible>
+    <CardBase class="col" title="Materiais" icon="inventory" collapsible>
       <template #actions>
-        <q-btn glossy color="secondary" icon="add">
-          <q-tooltip><span class="text-subtitle2">Adicionar Leito</span></q-tooltip>
-        </q-btn>
+        <q-btn glossy color="secondary" icon="open_in_new"
+          ><q-tooltip
+            ><span class="text-subtitle2">Ir para o Módulo Outros Recursos</span></q-tooltip
+          ></q-btn
+        >
       </template>
+
       <div class="row q-gutter-md">
         <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }"
           ><q-card-section class="text-center"
@@ -243,24 +248,9 @@
               }"
               class="text-primary"
             >
-              250
+              1.250
             </div>
-            <div class="text-caption">Total</div></q-card-section
-          ></q-card
-        >
-        <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }"
-          ><q-card-section class="text-center"
-            ><div
-              :class="{
-                'text-h2': $q.screen.gt.md,
-                'text-h4': $q.screen.lt.lg,
-                'text-h6': $q.screen.lt.md,
-              }"
-              class="text-negative"
-            >
-              180
-            </div>
-            <div class="text-caption">Ocupados</div></q-card-section
+            <div class="text-caption">Itens Cadastrados</div></q-card-section
           ></q-card
         >
         <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }"
@@ -273,7 +263,7 @@
               }"
               class="text-positive"
             >
-              60
+              980
             </div>
             <div class="text-caption">Disponíveis</div></q-card-section
           ></q-card
@@ -288,31 +278,31 @@
               }"
               class="text-warning"
             >
-              10
+              150
             </div>
-            <div class="text-caption">Em Manutenção</div></q-card-section
+            <div class="text-caption">Estoque Crítico</div></q-card-section
           ></q-card
         >
       </div>
 
       <div class="row q-gutter-md q-mt-xs">
-        <CardBase class="col" title="Ocupação por Ala" icon="apartment">
+        <CardBase class="col" title="Consumo por Setor" icon="bar_chart">
           <template #actions>
             <q-btn flat color="secondary" icon="visibility">
               <q-tooltip><span class="text-subtitle2">Detalhar</span></q-tooltip>
             </q-btn>
           </template>
           <div class="q-mb-md">
-            <div class="row justify-between"><span>Clínica Médica</span><span>75%</span></div>
-            <q-linear-progress :value="0.75" color="primary" rounded />
+            <div class="row justify-between"><span>Bloco Cirúrgico</span><span>45%</span></div>
+            <q-linear-progress :value="0.45" color="primary" rounded />
           </div>
           <div class="q-mb-md">
-            <div class="row justify-between"><span>UTI</span><span>90%</span></div>
-            <q-linear-progress :value="0.9" color="negative" rounded />
+            <div class="row justify-between"><span>Enfermaria</span><span>35%</span></div>
+            <q-linear-progress :value="0.35" color="secondary" rounded />
           </div>
           <div>
-            <div class="row justify-between"><span>Pediatria</span><span>60%</span></div>
-            <q-linear-progress :value="0.6" color="secondary" rounded />
+            <div class="row justify-between"><span>UTI</span><span>20%</span></div>
+            <q-linear-progress :value="0.2" color="accent" rounded />
           </div>
         </CardBase>
 
@@ -324,17 +314,17 @@
           </template>
           <q-list bordered separator>
             <q-item
-              ><q-item-section avatar><q-icon name="bed" color="orange" /></q-item-section
+              ><q-item-section avatar><q-icon name="inventory_2" color="orange" /></q-item-section
               ><q-item-section
-                ><q-item-label>Leito UTI bloqueado</q-item-label
-                ><q-item-label caption>Sala 204</q-item-label></q-item-section
+                ><q-item-label>Estoque crítico</q-item-label
+                ><q-item-label caption>Luvas cirúrgicas</q-item-label></q-item-section
               ></q-item
             >
             <q-item
-              ><q-item-section avatar><q-icon name="build" color="red" /></q-item-section
+              ><q-item-section avatar><q-icon name="delete_sweep" color="red" /></q-item-section
               ><q-item-section
-                ><q-item-label>Leito em manutenção</q-item-label
-                ><q-item-label caption>Sala 305</q-item-label></q-item-section
+                ><q-item-label>Material em falta</q-item-label
+                ><q-item-label caption>Máscaras N95</q-item-label></q-item-section
               ></q-item
             >
           </q-list>
@@ -342,11 +332,13 @@
       </div>
     </CardBase>
 
-    <CardBase title="Medicamentos" icon="medication" collapsible>
+    <CardBase class="col" title="Medicamentos" icon="medication" collapsible>
       <template #actions>
-        <q-btn glossy color="secondary" icon="add">
-          <q-tooltip><span class="text-subtitle2">Cadastrar Medicamento</span></q-tooltip>
-        </q-btn>
+        <q-btn glossy color="secondary" icon="open_in_new"
+          ><q-tooltip
+            ><span class="text-subtitle2">Ir para o Módulo Outros Recursos</span></q-tooltip
+          ></q-btn
+        >
       </template>
 
       <div class="row q-gutter-md">
@@ -460,13 +452,14 @@
       </div>
     </CardBase>
 
-    <CardBase title="Materiais" icon="inventory" collapsible>
+    <CardBase class="col" title="Leitos" icon="hotel" collapsible>
       <template #actions>
-        <q-btn glossy color="secondary" icon="add">
-          <q-tooltip><span class="text-subtitle2">Adicionar Material</span></q-tooltip>
-        </q-btn>
+        <q-btn glossy color="secondary" icon="open_in_new"
+          ><q-tooltip
+            ><span class="text-subtitle2">Ir para o Módulo Outros Recursos</span></q-tooltip
+          ></q-btn
+        >
       </template>
-
       <div class="row q-gutter-md">
         <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }"
           ><q-card-section class="text-center"
@@ -478,9 +471,24 @@
               }"
               class="text-primary"
             >
-              1.250
+              250
             </div>
-            <div class="text-caption">Itens Cadastrados</div></q-card-section
+            <div class="text-caption">Total</div></q-card-section
+          ></q-card
+        >
+        <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }"
+          ><q-card-section class="text-center"
+            ><div
+              :class="{
+                'text-h2': $q.screen.gt.md,
+                'text-h4': $q.screen.lt.lg,
+                'text-h6': $q.screen.lt.md,
+              }"
+              class="text-negative"
+            >
+              180
+            </div>
+            <div class="text-caption">Ocupados</div></q-card-section
           ></q-card
         >
         <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }"
@@ -493,7 +501,7 @@
               }"
               class="text-positive"
             >
-              980
+              60
             </div>
             <div class="text-caption">Disponíveis</div></q-card-section
           ></q-card
@@ -508,31 +516,31 @@
               }"
               class="text-warning"
             >
-              150
+              10
             </div>
-            <div class="text-caption">Estoque Crítico</div></q-card-section
+            <div class="text-caption">Em Manutenção</div></q-card-section
           ></q-card
         >
       </div>
 
       <div class="row q-gutter-md q-mt-xs">
-        <CardBase class="col" title="Consumo por Setor" icon="bar_chart">
+        <CardBase class="col" title="Ocupação por Ala" icon="apartment">
           <template #actions>
             <q-btn flat color="secondary" icon="visibility">
               <q-tooltip><span class="text-subtitle2">Detalhar</span></q-tooltip>
             </q-btn>
           </template>
           <div class="q-mb-md">
-            <div class="row justify-between"><span>Bloco Cirúrgico</span><span>45%</span></div>
-            <q-linear-progress :value="0.45" color="primary" rounded />
+            <div class="row justify-between"><span>Clínica Médica</span><span>75%</span></div>
+            <q-linear-progress :value="0.75" color="primary" rounded />
           </div>
           <div class="q-mb-md">
-            <div class="row justify-between"><span>Enfermaria</span><span>35%</span></div>
-            <q-linear-progress :value="0.35" color="secondary" rounded />
+            <div class="row justify-between"><span>UTI</span><span>90%</span></div>
+            <q-linear-progress :value="0.9" color="negative" rounded />
           </div>
           <div>
-            <div class="row justify-between"><span>UTI</span><span>20%</span></div>
-            <q-linear-progress :value="0.2" color="accent" rounded />
+            <div class="row justify-between"><span>Pediatria</span><span>60%</span></div>
+            <q-linear-progress :value="0.6" color="secondary" rounded />
           </div>
         </CardBase>
 
@@ -544,17 +552,17 @@
           </template>
           <q-list bordered separator>
             <q-item
-              ><q-item-section avatar><q-icon name="inventory_2" color="orange" /></q-item-section
+              ><q-item-section avatar><q-icon name="bed" color="orange" /></q-item-section
               ><q-item-section
-                ><q-item-label>Estoque crítico</q-item-label
-                ><q-item-label caption>Luvas cirúrgicas</q-item-label></q-item-section
+                ><q-item-label>Leito UTI bloqueado</q-item-label
+                ><q-item-label caption>Sala 204</q-item-label></q-item-section
               ></q-item
             >
             <q-item
-              ><q-item-section avatar><q-icon name="delete_sweep" color="red" /></q-item-section
+              ><q-item-section avatar><q-icon name="build" color="red" /></q-item-section
               ><q-item-section
-                ><q-item-label>Material em falta</q-item-label
-                ><q-item-label caption>Máscaras N95</q-item-label></q-item-section
+                ><q-item-label>Leito em manutenção</q-item-label
+                ><q-item-label caption>Sala 305</q-item-label></q-item-section
               ></q-item
             >
           </q-list>
@@ -563,4 +571,3 @@
     </CardBase>
   </q-page>
 </template>
-
