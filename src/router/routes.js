@@ -20,7 +20,7 @@ const routes = [
       { path: 'recursos', component: () => import('pages/ResourcesPage.vue') },
       { path: 'relatorios', component: () => import('pages/ReportsPage.vue') },
       { path: 'agenda', component: () => import('pages/AgendaPage.vue') },
-      { path: 'prontuarios', component: () => import('pages/PacientRecordsPage.vue') },
+      { path: 'prontuarios', component: () => import('src/pages/PatientRecordsPage.vue') },
       { path: 'prescricoes', component: () => import('pages/PrescriptionsPage.vue') },
       {
         path: 'agendamento-presencial',
