@@ -226,7 +226,7 @@
       </CardBase>
     </div>
 
-    <CardBase title="Leitos" icon="hotel">
+    <CardBase title="Leitos" icon="hotel" collapsible>
       <template #actions>
         <q-btn glossy color="secondary" icon="add">
           <q-tooltip><span class="text-subtitle2">Adicionar Paciente</span></q-tooltip>
@@ -342,7 +342,7 @@
       </div>
     </CardBase>
 
-    <CardBase title="Medicamentos" icon="medication">
+    <CardBase title="Medicamentos" icon="medication" collapsible>
       <template #actions>
         <q-btn glossy color="secondary" icon="add">
           <q-tooltip><span class="text-subtitle2">Cadastrar Medicamento</span></q-tooltip>
@@ -460,7 +460,7 @@
       </div>
     </CardBase>
 
-    <CardBase title="Materiais" icon="inventory">
+    <CardBase title="Materiais" icon="inventory" collapsible>
       <template #actions>
         <q-btn glossy color="secondary" icon="add">
           <q-tooltip><span class="text-subtitle2">Adicionar Material</span></q-tooltip>

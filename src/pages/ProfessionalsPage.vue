@@ -6,7 +6,7 @@
     />
 
     <div class="row q-gutter-md" :class="{ 'q-mr-sm q-pr-sm': $q.platform.is.mobile }">
-      <CardBase class="col" title="Resumo" icon="info">
+      <CardBase class="col" title="Resumo" icon="info" collapsible>
         <template #actions>
           <q-btn glossy color="secondary" icon="add"
             ><q-tooltip

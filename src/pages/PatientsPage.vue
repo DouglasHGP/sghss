@@ -3,7 +3,7 @@
     <TitlePage title="Pacientes" description="Gerencie os pacientes e mapeie-os" />
 
     <div class="row q-gutter-md" :class="{ 'q-mr-sm q-pr-sm': $q.platform.is.mobile }">
-      <CardBase class="col" title="Resumo" icon="info">
+      <CardBase class="col" title="Resumo" icon="info" collapsible>
         <template #actions>
           <q-btn glossy color="secondary" icon="add">
             <q-tooltip><span class="text-subtitle2">Adicionar Paciente</span></q-tooltip>
