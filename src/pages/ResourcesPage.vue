@@ -9,8 +9,8 @@
       <CardBase class="col" title="Resumo" icon="info" collapsible>
         <div class="row q-gutter-md">
           <CardBase class="col" title="Suprimentos e Leitos" icon="medication">
-            <q-scroll-area style="height: 200px;">
-              <div style="width: 98%;">
+            <q-scroll-area style="height: 200px">
+              <div style="width: 98%">
                 <div class="q-mb-md">
                   <div class="row justify-between"><span>Antibióticos</span><span>40%</span></div>
                   <q-linear-progress :value="0.4" color="primary" rounded />
@@ -54,7 +54,7 @@
           </CardBase>
 
           <CardBase class="col" title="Alertas" icon="warning">
-            <q-scroll-area style="height: 200px;">
+            <q-scroll-area style="height: 200px">
               <q-list bordered separator dense>
                 <q-item
                   ><q-item-section avatar
