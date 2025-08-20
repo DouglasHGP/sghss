@@ -5,7 +5,7 @@
         {{ props.title }}
       </div>
       <q-icon name="info_outline" size="xs" color="grey-6" class="q-mt-sm q-ml-sm cursor-pointer">
-        <q-tooltip>{{ props.description }}</q-tooltip>
+        <q-tooltip><span class="text-subtitle2">{{ props.description }}</span></q-tooltip>
       </q-icon>
     </div>
     <q-space />
