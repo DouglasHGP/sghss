@@ -1,15 +1,20 @@
 <template>
   <q-card class="q-mt-md" :class="{ 'col-grow': $q.platform.is.mobile }">
     <q-card-section
-      class="row items-center justify-between q-pa-none" :class="{ 'cursor-pointer': collapsible }"
+      class="row items-center justify-between q-py-sm q-px-md"
+      :class="{ 'cursor-pointer': collapsible }"
       @click="collapsible && toggleVisibility()"
     >
-      <div class="row items-center q-ml-md">
-        <q-icon :name="icon" color="secondary" size="md" class="q-mr-md" />
-        <span class="text-h6 text-weight-light">{{ title }}</span>
+      <q-icon :name="icon" color="secondary" size="md" />
+
+      <div v-if="!searchable" class="col-grow q-mx-md text-h6 text-weight-light">
+        {{ title }}
+      </div>
+      <div v-else class="col-grow q-mx-md">
+        <slot name="filters-prepend" />
       </div>
 
-      <q-card-actions>
+      <q-card-actions class="q-pa-none">
         <q-btn
           v-if="collapsible"
           flat
@@ -32,12 +37,12 @@
 
 <script setup>
 import { ref } from 'vue'
-import { defineProps } from 'vue'
 
 defineProps({
   title: { type: String, required: true },
   icon: { type: String, default: 'info' },
   collapsible: { type: Boolean, default: false },
+  searchable: { type: Boolean, default: false },
 })
 
 const isVisible = ref(false)

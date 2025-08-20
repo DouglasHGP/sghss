@@ -62,7 +62,7 @@
           </q-card>
         </div>
         <div class="row q-gutter-md q-mt-xs">
-          <CardBase class="col" title="Especialidades" icon="search">
+          <CardBase class="col" title="Função" icon="search">
             <template #actions>
               <q-btn flat color="secondary" icon="visibility"
                 ><q-tooltip><span class="text-subtitle2">Detalhar</span></q-tooltip></q-btn
@@ -170,7 +170,7 @@
           </q-card>
         </div>
         <div class="row q-gutter-md q-mt-xs">
-          <CardBase class="col" title="Perfil Demográfico" icon="pie_chart">
+          <CardBase class="col" title="Perfil" icon="pie_chart">
             <template #actions>
               <q-btn flat color="secondary" icon="visibility">
                 <q-tooltip><span class="text-subtitle2">Detalhar</span></q-tooltip>
@@ -563,37 +563,4 @@
     </CardBase>
   </q-page>
 </template>
-<!-- <q-btn-dropdown color="secondary" flat dropdown-icon="menu">
-            <q-list class="bg-teal-1 text-teal-10">
-              <q-item clickable v-ripple>
-                <q-item-section avatar>
-                  <q-icon name="list" />
-                </q-item-section>
-                <q-item-section>Listar</q-item-section>
-              </q-item>
-              <q-item clickable v-ripple>
-                <q-item-section avatar>
-                  <q-icon name="add" />
-                </q-item-section>
-                <q-item-section>Adicionar</q-item-section>
-              </q-item>
-              <q-item clickable v-ripple>
-                <q-item-section avatar>
-                  <q-icon name="edit" />
-                </q-item-section>
-                <q-item-section>Editar</q-item-section>
-              </q-item>
-              <q-item clickable v-ripple>
-                <q-item-section avatar>
-                  <q-icon name="visibility" />
-                </q-item-section>
-                <q-item-section>Detalhar</q-item-section>
-              </q-item>
-              <q-item clickable v-ripple class="text-negative">
-                <q-item-section avatar>
-                  <q-icon name="delete" />
-                </q-item-section>
-                <q-item-section>Excluir</q-item-section>
-              </q-item>
-            </q-list>
-          </q-btn-dropdown> -->
+

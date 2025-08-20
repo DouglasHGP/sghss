@@ -7,13 +7,6 @@
 
     <div class="row q-gutter-md">
       <CardBase class="col" title="Resumo" icon="info" collapsible>
-        <template #actions>
-          <q-btn glossy color="secondary" icon="add"
-            ><q-tooltip
-              ><span class="text-subtitle2">Adicionar Profissional</span></q-tooltip
-            ></q-btn
-          >
-        </template>
         <div class="row q-gutter-md">
           <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }">
             <q-card-section class="text-center">
@@ -118,6 +111,58 @@
       </CardBase>
     </div>
 
-    <CardBase title="Profissionais" icon="search"></CardBase>
+    <CardBase title="Lista" icon="list" searchable>
+      <template #filters-prepend>
+        <q-input
+          :style="!$q.platform.is.mobile ? 'width: 350px' : ''"
+          dense
+          standout="bg-teal-4 text-white"
+          rounded
+          label="Buscar"
+        >
+          <template v-slot:append>
+            <q-btn round dense flat icon="search" />
+          </template>
+        </q-input>
+      </template>
+      <template #actions>
+        <q-btn
+          glossy
+          color="secondary"
+          :icon="$q.platform.is.mobile ? 'filter_alt ' : undefined"
+          :label="!$q.platform.is.mobile ? 'Filtrar' : undefined"
+          :style="!$q.platform.is.mobile ? 'width: 100px' : ''"
+        >
+          <q-tooltip><span class="text-subtitle2">Filtrar Por</span></q-tooltip>
+        </q-btn>
+      </template>
+      <q-table
+        :rows="[
+          { id: 1, name: 'Dr. João Silva', role: 'Médico', status: 'Ativo' },
+          { id: 2, name: 'Enf. Ana Costa', role: 'Enfermeira', status: 'Ativo' },
+          { id: 3, name: 'Tec. Carlos Lima', role: 'Técnico', status: 'Afastado' },
+          { id: 4, name: 'Dr. Maria Souza', role: 'Médica', status: 'Ativo' },
+          { id: 5, name: 'Enf. Pedro Rocha', role: 'Enfermeiro', status: 'Ativo' },
+          { id: 6, name: 'Tec. Luiza Fernandes', role: 'Técnica', status: 'Ativo' },
+          { id: 7, name: 'Dr. Ricardo Alves', role: 'Médico', status: 'Ativo' },
+          { id: 8, name: 'Enf. Carla Mendes', role: 'Enfermeira', status: 'Afastada' },
+          { id: 9, name: 'Tec. Bruno Santos', role: 'Técnico', status: 'Ativo' },
+          { id: 10, name: 'Dr. Fernanda Lima', role: 'Médica', status: 'Ativo' },
+          { id: 11, name: 'Enf. Lucas Pereira', role: 'Enfermeiro', status: 'Ativo' },
+          { id: 12, name: 'Tec. Mariana Rocha', role: 'Técnica', status: 'Afastada' },
+        ]"
+        :columns="[
+          { name: 'id', label: 'ID', field: 'id', align: 'left' },
+          { name: 'name', label: 'Nome', field: 'name', align: 'left' },
+          { name: 'role', label: 'Função', field: 'role', align: 'left' },
+          { name: 'status', label: 'Status', field: 'status', align: 'center' },
+        ]"
+        row-key="name"
+        flat
+        bordered
+        dense
+        :rows-per-page-options="[5, 10, 15]"
+      ></q-table>
+    </CardBase>
   </q-page>
 </template>
