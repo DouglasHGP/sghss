@@ -8,7 +8,7 @@
     <div class="row q-gutter-md" :class="{ 'q-mr-sm q-pr-sm': $q.platform.is.mobile }">
       <CardBase class="col" title="Profissionais" icon="badge">
         <template #actions>
-          <q-btn glossy color="secondary" icon="open_in_new"
+          <q-btn glossy color="secondary" icon="open_in_new" to="/professionals"
             ><q-tooltip
               ><span class="text-subtitle2">Ir para o Módulo Profissional</span></q-tooltip
             ></q-btn
@@ -118,7 +118,7 @@
       </CardBase>
       <CardBase class="col" title="Pacientes" icon="group">
         <template #actions>
-          <q-btn glossy color="secondary" icon="open_in_new"
+          <q-btn glossy color="secondary" icon="open_in_new" to="/patients"
             ><q-tooltip
               ><span class="text-subtitle2">Ir para o Módulo Pacientes</span></q-tooltip
             ></q-btn
@@ -230,7 +230,7 @@
 
     <CardBase class="col" title="Materiais" icon="inventory" collapsible>
       <template #actions>
-        <q-btn glossy color="secondary" icon="open_in_new"
+        <q-btn glossy color="secondary" icon="open_in_new" to="/resources"
           ><q-tooltip
             ><span class="text-subtitle2">Ir para o Módulo Outros Recursos</span></q-tooltip
           ></q-btn
@@ -334,7 +334,7 @@
 
     <CardBase class="col" title="Medicamentos" icon="medication" collapsible>
       <template #actions>
-        <q-btn glossy color="secondary" icon="open_in_new"
+        <q-btn glossy color="secondary" icon="open_in_new" to="/resources"
           ><q-tooltip
             ><span class="text-subtitle2">Ir para o Módulo Outros Recursos</span></q-tooltip
           ></q-btn
@@ -454,7 +454,7 @@
 
     <CardBase class="col" title="Leitos" icon="hotel" collapsible>
       <template #actions>
-        <q-btn glossy color="secondary" icon="open_in_new"
+        <q-btn glossy color="secondary" icon="open_in_new" to="/resources"
           ><q-tooltip
             ><span class="text-subtitle2">Ir para o Módulo Outros Recursos</span></q-tooltip
           ></q-btn
