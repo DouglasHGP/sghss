@@ -63,10 +63,13 @@ function login() {
 
   if (user && organization.value) {
     error.value = ''
-    // Armazena a permissão do usuário de forma reativa ou global
-    // Para simplificação, podemos usar um localStorage ou Pinia/Vuex
-    // Aqui, vamos apenas simular a passagem da permissão
+    // Armazena role
     localStorage.setItem('userRole', user.role)
+    // Armazena organização
+    const org = organization.value;
+    if (org) {
+      localStorage.setItem('userOrganization', JSON.stringify(org));
+    }
 
     router.push('/')
   } else {

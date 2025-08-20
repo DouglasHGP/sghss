@@ -4,7 +4,7 @@
       <q-toolbar class="bg-secondary text-white">
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title> SGH e Serviços de Saúde </q-toolbar-title>
+        <q-toolbar-title> SGHSS - {{ org.name }}</q-toolbar-title>
 
         <div>
           <q-btn flat round icon="account_circle" to="/" /><q-tooltip
@@ -50,6 +50,9 @@ const userPermission = ref(localStorage.getItem('userRole') || 'guest')
 const filteredLinks = computed(() => {
   return linksList.filter((link) => link.roles.includes(userPermission.value))
 })
+
+// Verifica organização do usuário
+const org = JSON.parse(localStorage.getItem('userOrganization'))
 
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
