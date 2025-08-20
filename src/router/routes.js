@@ -13,7 +13,14 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', redirect: '/dashboard' },
+      {
+        path: '',
+        redirect: () => {
+          const userRole = localStorage.getItem('userRole') || 'guest'
+          const firstAccessible = menuMiddleware.find((item) => item.roles.includes(userRole))
+          return firstAccessible ? firstAccessible.link : '/login'
+        },
+      },
       { path: 'dashboard', component: () => import('pages/DashboardPage.vue') },
       { path: 'professionals', component: () => import('pages/ProfessionalsPage.vue') },
       { path: 'patients', component: () => import('pages/PatientsPage.vue') },
@@ -41,3 +48,5 @@ const routes = [
 ]
 
 export default routes
+
+import menuMiddleware from 'src/middleware/MenuMiddleware'

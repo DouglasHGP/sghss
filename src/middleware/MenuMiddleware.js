@@ -5,7 +5,7 @@ export default [
     caption: 'Visão geral do sistema',
     icon: 'dashboard',
     link: '/dashboard',
-    roles: ['dev', 'admin', 'professional', 'patient'],
+    roles: ['dev', 'admin'],
   },
   {
     title: 'Profissionais',

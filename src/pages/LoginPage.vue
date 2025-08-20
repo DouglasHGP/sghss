@@ -68,7 +68,7 @@ function login() {
     // Aqui, vamos apenas simular a passagem da permissão
     localStorage.setItem('userRole', user.role)
 
-    router.push('/home')
+    router.push('/')
   } else {
     error.value = 'Usuário, senha ou organização inválidos.'
   }
