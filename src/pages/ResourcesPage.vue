@@ -1,5 +1,5 @@
 <template>
-  <q-page padding>
+  <q-page class="q-pa-md">
     <TitlePage
       title="Recursos"
       description="Gerencie os recursos hospitalares, como equipamentos e suprimentos médicos."

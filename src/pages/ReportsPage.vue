@@ -1,5 +1,5 @@
 <template>
-  <q-page padding>
+  <q-page class="q-pa-md">
     <TitlePage
       title="Relatórios"
       description="Gerencie os relatórios e estatísticas da Organização"

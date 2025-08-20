@@ -1,5 +1,5 @@
 <template>
-  <q-page padding>
+  <q-page class="q-pa-md">
     <TitlePage
       title="Prescrições"
       description="Gerencie suas prescrições médicas e veja o histórico de medicamentos"

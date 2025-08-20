@@ -1,11 +1,11 @@
 <template>
-  <q-page padding>
+  <q-page class="q-pa-md">
     <TitlePage
       title="Profissionais"
       description="Gerencie os profissionais disponíveis no sistema"
     />
 
-    <div class="row q-gutter-md" :class="{ 'q-mr-sm q-pr-sm': $q.platform.is.mobile }">
+    <div class="row q-gutter-md">
       <CardBase class="col" title="Resumo" icon="info" collapsible>
         <template #actions>
           <q-btn glossy color="secondary" icon="add"
@@ -117,5 +117,7 @@
         </div>
       </CardBase>
     </div>
+
+    <CardBase title="Profissionais" icon="search"></CardBase>
   </q-page>
 </template>
