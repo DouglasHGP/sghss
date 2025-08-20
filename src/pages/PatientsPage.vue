@@ -2,13 +2,8 @@
   <q-page class="q-pa-md">
     <TitlePage title="Pacientes" description="Gerencie os pacientes e mapeie-os" />
 
-    <div class="row q-gutter-md" :class="{ 'q-mr-sm q-pr-sm': $q.platform.is.mobile }">
+    <div class="row q-gutter-md">
       <CardBase class="col" title="Resumo" icon="info" collapsible>
-        <template #actions>
-          <q-btn glossy color="secondary" icon="add">
-            <q-tooltip><span class="text-subtitle2">Adicionar Paciente</span></q-tooltip>
-          </q-btn>
-        </template>
         <div class="row q-gutter-md">
           <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }">
             <q-card-section class="text-center">
@@ -112,5 +107,67 @@
         </div>
       </CardBase>
     </div>
+
+    <TableList
+      icon="list"
+      :rows="patients"
+      :columns="columns"
+      :actions="[
+        { icon: 'add', label: 'Adicionar', event: 'add' },
+        { icon: 'filter_alt', label: 'Filtros', event: 'filter' },
+      ]"
+      :row-actions="[
+        { icon: 'visibility', label: 'Detalhar', event: 'view' },
+        { icon: 'edit', label: 'Editar', event: 'edit' },
+        { icon: 'delete', label: 'Excluir', event: 'delete' },
+      ]"
+      @action="handleTableAction"
+      @rowAction="handleLineAction"
+    />
   </q-page>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+
+const patients = ref([
+  { id: 1, name: 'João da Silva', age: 30, condition: 'Estável' },
+  { id: 2, name: 'Maria Oliveira', age: 45, condition: 'Crítico' },
+  { id: 3, name: 'Ana Costa', age: 60, condition: 'Recuperação' },
+  { id: 4, name: 'Carlos Pereira', age: 50, condition: 'Estável' },
+  { id: 5, name: 'Luiza Fernandes', age: 35, condition: 'Estável' },
+  { id: 6, name: 'Ricardo Alves', age: 40, condition: 'Estável' },
+  { id: 7, name: 'Carla Mendes', age: 55, condition: 'Estável' },
+  { id: 8, name: 'Bruno Santos', age: 25, condition: 'Estável' },
+  { id: 9, name: 'Fernanda Lima', age: 65, condition: 'Estável' },
+  { id: 10, name: 'Pedro Rocha', age: 70, condition: 'Crítico' },
+  { id: 11, name: 'Lucas Pereira', age: 75, condition: 'Recuperação' },
+  { id: 12, name: 'Mariana Rocha', age: 80, condition: 'Estável' },
+])
+const columns = [
+  { name: 'id', label: 'ID', field: 'id', align: 'left' },
+  { name: 'name', label: 'Nome', field: 'name', align: 'left' },
+  { name: 'age', label: 'Idade', field: 'age', align: 'center' },
+  { name: 'condition', label: 'Condição', field: 'condition', align: 'center' },
+]
+const handleTableAction = (event) => {
+  if (event === 'add') {
+    console.log('Adicionar clicado')
+  }
+  if (event === 'filter') {
+    console.log('Filtros clicado')
+  }
+}
+
+const handleLineAction = ({ event, row }) => {
+  if (event === 'view') {
+    console.log('Visualizar clicado para a linha:', row)
+  }
+  if (event === 'edit') {
+    console.log('Editar clicado para a linha:', row)
+  }
+  if (event === 'delete') {
+    console.log('Deletar clicado para a linha:', row)
+  }
+}
+</script>

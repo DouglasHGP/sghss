@@ -113,7 +113,7 @@
 
     <TableList
       icon="list"
-      :rows="profissionais"
+      :rows="professionals"
       :columns="columns"
       :actions="[
         { icon: 'add', label: 'Adicionar', event: 'add' },
@@ -132,11 +132,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import TitlePage from 'components/TitlePage.vue'
-import CardBase from 'components/CardBase.vue'
-import TableList from 'components/TableList.vue'
 
-const profissionais = ref([
+const professionals = ref([
   { id: 1, name: 'João Silva', role: 'Médico', status: 'Ativo' },
   { id: 2, name: 'Ana Costa', role: 'Enfermeira', status: 'Ativo' },
   { id: 3, name: 'Carlos Lima', role: 'Técnico', status: 'Afastado' },
