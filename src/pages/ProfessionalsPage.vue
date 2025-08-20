@@ -126,15 +126,14 @@
         </q-input>
       </template>
       <template #actions>
-        <q-btn
-          glossy
-          color="secondary"
-          :icon="$q.platform.is.mobile ? 'filter_alt ' : undefined"
-          :label="!$q.platform.is.mobile ? 'Filtrar' : undefined"
-          :style="!$q.platform.is.mobile ? 'width: 100px' : ''"
-        >
-          <q-tooltip><span class="text-subtitle2">Filtrar Por</span></q-tooltip>
-        </q-btn>
+        <ActionsDropdown
+          :actions="[
+            { icon: 'add', label: 'Adicionar', event: 'add' },
+            { icon: 'filter_alt', label: 'Filtros', event: 'filter' }
+          ]"
+          tooltip="Ações"
+          @action="handleAction"
+        />
       </template>
       <q-table
         :rows="[
@@ -161,8 +160,25 @@
         flat
         bordered
         dense
-        :rows-per-page-options="[5, 10, 15]"
+        :rows-per-page-options="[10, 15, 20]"
       ></q-table>
     </CardBase>
   </q-page>
 </template>
+<script>
+export default {
+  setup() {
+    return {}
+  },
+  methods: {
+    handleAction(event) {
+      if (event === 'add') {
+        console.log('Adicionar clicado')
+      }
+      if (event === 'filter') {
+        console.log('Filtros clicado')
+      }
+    },
+  },
+}
+</script>

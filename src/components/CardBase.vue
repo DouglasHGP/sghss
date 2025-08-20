@@ -10,7 +10,7 @@
       <div v-if="!searchable" class="col-grow q-mx-md text-h6 text-weight-light">
         {{ title }}
       </div>
-      <div v-else class="col-grow q-mx-md">
+      <div v-else class="col-grow q-ml-md q-mr-xs ">
         <slot name="filters-prepend" />
       </div>
 
