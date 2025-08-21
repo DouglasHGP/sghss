@@ -1,7 +1,7 @@
 export default [
   // Links de Gestão Administrativa
   {
-    title: 'Dashboard',
+    title: 'Painel',
     caption: 'Visão geral do sistema',
     icon: 'dashboard',
     link: '/dashboard',

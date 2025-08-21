@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-pa-md">
     <TitlePage
-      title="Dashboard"
+      title="Painel"
       description="Bem-vindo ao painel de controle do Sistema de Gestão Hospitalar"
     />
 

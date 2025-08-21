@@ -4,12 +4,27 @@
       <q-toolbar class="bg-secondary text-white">
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title> SGHSS - {{ org.name }}</q-toolbar-title>
+        <q-toolbar-title>
+          <router-link to="/" class="flex items-center cursor-pointer">
+            <q-img
+              class="bg-white q-my-xs rounded-borders custom-img"
+              src="/public/logo/logo-vida-plus-teal.png"
+            />
+          </router-link>
+        </q-toolbar-title>
 
-        <div>
-          <q-btn flat round icon="account_circle" to="/" /><q-tooltip
-            ><span class="text-subtitle2">Acessar</span></q-tooltip
-          >
+        <q-space />
+
+        <div class="row items-center">
+          <span class="text-subtitle2">{{ org.name }}</span>
+
+          <q-separator vertical inset class="q-mx-sm" color="white" />
+
+          <q-btn round icon="account_circle" to="/">
+            <q-tooltip>
+              <span class="text-subtitle2">Perfil</span>
+            </q-tooltip>
+          </q-btn>
         </div>
       </q-toolbar>
     </q-header>
@@ -22,8 +37,8 @@
             : userPermission === 'professional'
               ? 'Profissional'
               : userPermission === 'patient'
-              ? 'Paciente'
-              : 'Dev Mode'
+                ? 'Paciente'
+                : 'Dev Mode'
         }}</q-item-label>
 
         <SiderMenu v-for="link in filteredLinks" :key="link.title" v-bind="link" />
@@ -58,3 +73,11 @@ function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
 </script>
+<style>
+.custom-img {
+  width: 90px;
+  transition: all 0.3s ease;
+  box-shadow: 5px 0 15px rgba(255, 255, 255, 1);
+  filter: brightness(1.1) contrast(1.05);
+}
+</style>
