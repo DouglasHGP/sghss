@@ -2,7 +2,7 @@
   "name": "sghss-app",
   "version": "0.0.1",
   "description": "O sistema visa centralizar o cadastro e atendimento de pacientes, a gestão de profissionais de saúde, a administração hospitalar e os serviços de telemedicina. Requisitos essenciais incluem segurança de dados (LGPD), escalabilidade, desempenho e acessibilidade. A atividade permite que o desenvolvedor escolha uma ênfase específica para focar, como Back-end, Front-end ou Qualidade de Software.",
-  "productName": "Sistema de Gestão Hospitalar e de Serviços de Saúde",
+  "productName": "SisGe VidaPlus",
   "author": "Douglas Dev <dglpereira@gmail.com>",
   "type": "module",
   "private": true,

@@ -8,7 +8,7 @@
     <div class="row q-gutter-md" :class="{ 'q-mr-sm q-pr-sm': $q.platform.is.mobile }">
       <CardBase class="col" title="Profissionais" icon="badge">
         <template #actions>
-          <q-btn glossy color="secondary" icon="open_in_new" to="/professionals"
+          <q-btn flat color="secondary" icon="open_in_new" to="/professionals"
             ><q-tooltip
               ><span class="text-subtitle2">Ir para o Módulo Profissional</span></q-tooltip
             ></q-btn
@@ -17,13 +17,13 @@
         <div class="row q-gutter-md">
           <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }">
             <q-card-section class="text-center">
-              <div :class="[responsiveText()]" class="text-primary">128</div>
+              <div :class="[responsiveText()]" class="text-teal">128</div>
               <div class="text-caption">Matriculados</div>
             </q-card-section>
           </q-card>
           <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }">
             <q-card-section class="text-center">
-              <div :class="[responsiveText()]" class="text-primary">96</div>
+              <div :class="[responsiveText()]" class="text-teal">96</div>
               <div class="text-caption">Disponíveis Hoje</div>
             </q-card-section>
           </q-card>
@@ -36,36 +36,26 @@
         </div>
         <div class="row q-gutter-md q-mt-xs">
           <CardBase class="col" title="Função" icon="search">
-            <template #actions>
-              <q-btn flat color="secondary" icon="visibility"
-                ><q-tooltip><span class="text-subtitle2">Detalhar</span></q-tooltip></q-btn
-              >
-            </template>
             <div class="q-mb-md">
               <div class="row justify-between items-center">
                 <span>Médicos</span><span>40%</span>
               </div>
-              <q-linear-progress :value="0.4" color="primary" rounded />
+              <q-linear-progress :value="0.4" color="teal-9" rounded />
             </div>
             <div class="q-mb-md">
               <div class="row justify-between items-center">
                 <span>Enfermeiros</span><span>35%</span>
               </div>
-              <q-linear-progress :value="0.35" color="secondary" rounded />
+              <q-linear-progress :value="0.35" color="teal-4" rounded />
             </div>
             <div>
               <div class="row justify-between items-center">
                 <span>Técnicos</span><span>25%</span>
               </div>
-              <q-linear-progress :value="0.25" color="accent" rounded />
+              <q-linear-progress :value="0.25" color="teal-3" rounded />
             </div>
           </CardBase>
           <CardBase class="col" title="Alertas" icon="warning">
-            <template #actions>
-              <q-btn flat color="secondary" icon="visibility"
-                ><q-tooltip><span class="text-subtitle2">Detalhar</span></q-tooltip></q-btn
-              >
-            </template>
             <q-list bordered separator>
               <q-item clickable>
                 <q-item-section avatar>
@@ -91,7 +81,7 @@
       </CardBase>
       <CardBase class="col" title="Pacientes" icon="group">
         <template #actions>
-          <q-btn glossy color="secondary" icon="open_in_new" to="/patients"
+          <q-btn flat color="secondary" icon="open_in_new" to="/patients"
             ><q-tooltip
               ><span class="text-subtitle2">Ir para o Módulo Pacientes</span></q-tooltip
             ></q-btn
@@ -100,69 +90,53 @@
         <div class="row q-gutter-md">
           <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }">
             <q-card-section class="text-center">
-              <div :class="[responsiveText()]" class="text-primary">4.523</div>
+              <div :class="[responsiveText()]" class="text-teal">4.523</div>
               <div class="text-caption">Cadastrados</div>
             </q-card-section>
           </q-card>
           <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }">
             <q-card-section class="text-center">
-              <div :class="[responsiveText()]" class="text-positive">128</div>
+              <div :class="[responsiveText()]" class="text-teal">128</div>
               <div class="text-caption">Novos no Mês</div>
             </q-card-section>
           </q-card>
           <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }">
             <q-card-section class="text-center">
-              <div :class="[responsiveText()]" class="text-secondary">56</div>
+              <div :class="[responsiveText()]" class="text-teal">56</div>
               <div class="text-caption">Consultas Agendadas</div>
             </q-card-section>
           </q-card>
         </div>
         <div class="row q-gutter-md q-mt-xs">
           <CardBase class="col" title="Perfil" icon="pie_chart">
-            <template #actions>
-              <q-btn flat color="secondary" icon="visibility">
-                <q-tooltip><span class="text-subtitle2">Detalhar</span></q-tooltip>
-              </q-btn>
-            </template>
             <div class="q-mb-md">
               <div class="row justify-between items-center">
                 <span>Crianças</span><span>15%</span>
               </div>
-              <q-linear-progress :value="0.15" color="info" rounded />
+              <q-linear-progress :value="0.15" color="teal-9" rounded />
             </div>
             <div class="q-mb-md">
               <div class="row justify-between items-center">
                 <span>Adultos</span><span>55%</span>
               </div>
-              <q-linear-progress :value="0.55" color="primary" rounded />
+              <q-linear-progress :value="0.55" color="teal-4" rounded />
             </div>
             <div>
               <div class="row justify-between items-center">
                 <span>Idosos</span><span>30%</span>
               </div>
-              <q-linear-progress :value="0.3" color="orange" rounded />
+              <q-linear-progress :value="0.3" color="teal-3" rounded />
             </div>
           </CardBase>
           <CardBase class="col" title="Alertas" icon="warning">
-            <template #actions>
-              <q-btn flat color="secondary" icon="visibility">
-                <q-tooltip><span class="text-subtitle2">Detalhar</span></q-tooltip>
-              </q-btn>
-            </template>
             <q-list bordered separator>
               <q-item clickable>
-                <q-item-section avatar>
-                  <q-icon name="priority_high" color="red" />
-                </q-item-section>
                 <q-item-section>
                   <q-item-label>Paciente crítico em UTI</q-item-label>
                   <q-item-label caption>José da Silva</q-item-label>
                 </q-item-section>
               </q-item>
               <q-item clickable>
-                <q-item-section avatar>
-                  <q-icon name="assignment_late" color="orange" />
-                </q-item-section>
                 <q-item-section>
                   <q-item-label>Exame pendente</q-item-label>
                   <q-item-label caption>Maria Souza</q-item-label>
@@ -176,7 +150,7 @@
 
     <CardBase class="col" title="Materiais" icon="inventory" collapsible>
       <template #actions>
-        <q-btn glossy color="secondary" icon="open_in_new" to="/resources"
+        <q-btn flat color="secondary" icon="open_in_new" to="/resources"
           ><q-tooltip
             ><span class="text-subtitle2">Ir para o Módulo Outros Recursos</span></q-tooltip
           ></q-btn
@@ -186,7 +160,7 @@
       <div class="row q-gutter-md">
         <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }"
           ><q-card-section class="text-center"
-            ><div :class="[responsiveText()]" class="text-primary">1.250</div>
+            ><div :class="[responsiveText()]" class="text-teal">1.250</div>
             <div class="text-caption">Itens Cadastrados</div></q-card-section
           ></q-card
         >
@@ -213,7 +187,7 @@
           </template>
           <div class="q-mb-md">
             <div class="row justify-between"><span>Bloco Cirúrgico</span><span>45%</span></div>
-            <q-linear-progress :value="0.45" color="primary" rounded />
+            <q-linear-progress :value="0.45" color="teal" rounded />
           </div>
           <div class="q-mb-md">
             <div class="row justify-between"><span>Enfermaria</span><span>35%</span></div>
@@ -253,7 +227,7 @@
 
     <CardBase class="col" title="Medicamentos" icon="medication" collapsible>
       <template #actions>
-        <q-btn glossy color="secondary" icon="open_in_new" to="/resources"
+        <q-btn flat color="secondary" icon="open_in_new" to="/resources"
           ><q-tooltip
             ><span class="text-subtitle2">Ir para o Módulo Outros Recursos</span></q-tooltip
           ></q-btn
@@ -263,7 +237,7 @@
       <div class="row q-gutter-md">
         <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }"
           ><q-card-section class="text-center"
-            ><div :class="[responsiveText()]" class="text-primary">450</div>
+            ><div :class="[responsiveText()]" class="text-teal">450</div>
             <div class="text-caption">Itens Cadastrados</div></q-card-section
           ></q-card
         >
@@ -296,7 +270,7 @@
           </template>
           <div class="q-mb-md">
             <div class="row justify-between"><span>Antibióticos</span><span>40%</span></div>
-            <q-linear-progress :value="0.4" color="primary" rounded />
+            <q-linear-progress :value="0.4" color="teal" rounded />
           </div>
           <div class="q-mb-md">
             <div class="row justify-between"><span>Analgésicos</span><span>30%</span></div>
@@ -337,7 +311,7 @@
 
     <CardBase class="col" title="Leitos" icon="hotel" collapsible>
       <template #actions>
-        <q-btn glossy color="secondary" icon="open_in_new" to="/resources"
+        <q-btn flat color="secondary" icon="open_in_new" to="/resources"
           ><q-tooltip
             ><span class="text-subtitle2">Ir para o Módulo Outros Recursos</span></q-tooltip
           ></q-btn
@@ -346,7 +320,7 @@
       <div class="row q-gutter-md">
         <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }"
           ><q-card-section class="text-center"
-            ><div :class="[responsiveText()]" class="text-primary">250</div>
+            ><div :class="[responsiveText()]" class="text-teal">250</div>
             <div class="text-caption">Total</div></q-card-section
           ></q-card
         >
@@ -379,7 +353,7 @@
           </template>
           <div class="q-mb-md">
             <div class="row justify-between"><span>Clínica Médica</span><span>75%</span></div>
-            <q-linear-progress :value="0.75" color="primary" rounded />
+            <q-linear-progress :value="0.75" color="teal" rounded />
           </div>
           <div class="q-mb-md">
             <div class="row justify-between"><span>UTI</span><span>90%</span></div>
