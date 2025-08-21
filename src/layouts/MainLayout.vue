@@ -20,10 +20,11 @@
 
           <q-separator vertical inset class="q-mx-sm" color="white" />
 
-          <q-btn round icon="account_circle" to="/">
-            <q-tooltip>
-              <span class="text-subtitle2">Perfil</span>
-            </q-tooltip>
+          <q-btn color="white" rounded unelevated>
+            <div class="row items-center no-wrap">
+              <q-icon color="teal" left name="person" />
+              <div class="text-center text-teal">Perfil</div>
+            </div>
           </q-btn>
         </div>
       </q-toolbar>
@@ -77,7 +78,7 @@ function toggleLeftDrawer() {
 .custom-img {
   width: 90px;
   transition: all 0.3s ease;
-  box-shadow: 5px 0 15px rgba(255, 255, 255, 1);
+  box-shadow: inset 0 0 5px rgb(114, 113, 113);
   filter: brightness(1.1) contrast(1.05);
 }
 </style>
