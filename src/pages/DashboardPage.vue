@@ -137,6 +137,7 @@
     <q-card class="q-mt-md">
       <q-tabs
         v-model="tab"
+        :inline-label="!$q.platform.is.mobile"
         dense
         class="text-white bg-teal-3 q-mt-sm"
         active-color="teal-9"
@@ -144,9 +145,9 @@
         align="justify"
         narrow-indicator
       >
-        <q-tab name="materiais" label="Materais" />
-        <q-tab name="medicamentos" label="Medicamentos" />
-        <q-tab name="leitos" label="Leitos" />
+        <q-tab name="materiais" label="Materais" icon="inventory" />
+        <q-tab name="medicamentos" label="Medicamentos" icon="medication" />
+        <q-tab name="leitos" label="Leitos" icon="hotel" />
       </q-tabs>
       <q-tab-panels v-model="tab" animated>
         <q-tab-panel name="materiais" class="q-pa-none">
@@ -170,7 +171,9 @@
             <div class="row q-gutter-md q-mt-xs">
               <CardBase class="col" title="Consumo por Setor" icon="bar_chart">
                 <div class="q-mb-md">
-                  <div class="row justify-between"><span>Bloco Cirúrgico</span><span>45%</span></div>
+                  <div class="row justify-between">
+                    <span>Bloco Cirúrgico</span><span>45%</span>
+                  </div>
                   <q-linear-progress :value="0.45" color="teal-9" rounded />
                 </div>
                 <div class="q-mb-md">
@@ -201,16 +204,9 @@
             </div>
           </div>
         </q-tab-panel>
-        <q-tab-panel name="medicamentos">
-          <CardBase class="col" title="Medicamentos" icon="medication">
-            <template #actions>
-              <q-btn flat color="secondary" icon="open_in_new" to="/resources"
-                ><q-tooltip
-                  ><span class="text-subtitle2">Ir para o Módulo Outros Recursos</span></q-tooltip
-                ></q-btn
-              >
-            </template>
-            <q-card class="row justify-around">
+        <q-tab-panel name="medicamentos" class="q-pa-none">
+          <div class="q-mx-md q-mb-md">
+            <q-card class="row justify-around q-mt-md">
               <q-card-section class="text-center">
                 <div :class="[responsiveText()]" class="text-teal">450</div>
                 <div class="text-caption">Cadastrados</div>
@@ -266,18 +262,11 @@
                 </q-list>
               </CardBase>
             </div>
-          </CardBase>
+          </div>
         </q-tab-panel>
-        <q-tab-panel name="leitos">
-          <CardBase class="col" title="Leitos" icon="hotel">
-            <template #actions>
-              <q-btn flat color="secondary" icon="open_in_new" to="/resources"
-                ><q-tooltip
-                  ><span class="text-subtitle2">Ir para o Módulo Outros Recursos</span></q-tooltip
-                ></q-btn
-              >
-            </template>
-            <q-card class="row justify-around">
+        <q-tab-panel name="leitos" class="q-pa-none">
+          <div class="q-mx-md q-mb-md">
+            <q-card class="row justify-around q-mt-md">
               <q-card-section class="text-center">
                 <div :class="[responsiveText()]" class="text-teal">250</div>
                 <div class="text-caption">Total</div>
@@ -330,7 +319,7 @@
                 </q-list>
               </CardBase>
             </div>
-          </CardBase>
+          </div>
         </q-tab-panel>
       </q-tab-panels>
     </q-card>
