@@ -69,7 +69,7 @@
           </CardBase>
         </div>
       </CardBase>
-      <CardBase class="col" title="Pacientes" icon="group">
+      <CardBase class="col" title="Pacientes" icon="group" :collapsible="$q.platform.is.mobile">
         <template #actions>
           <q-btn flat color="secondary" icon="open_in_new" to="/patients"
             ><q-tooltip
