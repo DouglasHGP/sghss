@@ -331,5 +331,5 @@ import { ref } from 'vue'
 
 const { responsiveText } = useResponsiveText()
 
-const tab = ref('pacientes')
+const tab = ref('materiais')
 </script>

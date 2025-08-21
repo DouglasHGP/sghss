@@ -7,72 +7,52 @@
 
     <div class="row q-gutter-md">
       <CardBase class="col" title="Resumo" icon="info" collapsible>
-        <div class="row q-gutter-md">
-          <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }">
-            <q-card-section class="text-center">
-              <div :class="[responsiveText()]" class="text-primary">128</div>
-              <div class="text-caption">Matriculados</div>
-            </q-card-section>
-          </q-card>
-          <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }">
-            <q-card-section class="text-center">
-              <div :class="[responsiveText()]" class="text-primary">96</div>
-              <div class="text-caption">Disponíveis Hoje</div>
-            </q-card-section>
-          </q-card>
-          <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }">
-            <q-card-section class="text-center">
-              <div :class="[responsiveText()]" class="text-negative">12</div>
-              <div class="text-caption">Afastados</div>
-            </q-card-section>
-          </q-card>
-        </div>
+        <q-card class="row justify-around">
+          <q-card-section class="text-center">
+            <div :class="[responsiveText()]" class="text-teal">128</div>
+            <div class="text-caption">Matriculados</div>
+          </q-card-section>
+          <q-separator vertical inset />
+          <q-card-section class="text-center">
+            <div :class="[responsiveText()]" class="text-teal">96</div>
+            <div class="text-caption">Disponíveis Hoje</div>
+          </q-card-section>
+          <q-separator vertical inset />
+          <q-card-section class="text-center">
+            <div :class="[responsiveText()]" class="text-negative">12</div>
+            <div class="text-caption">Afastados</div>
+          </q-card-section>
+        </q-card>
         <div class="row q-gutter-md q-mt-xs">
-          <CardBase class="col" title="Especialidades" icon="search">
-            <template #actions>
-              <q-btn flat color="secondary" icon="visibility"
-                ><q-tooltip><span class="text-subtitle2">Detalhar</span></q-tooltip></q-btn
-              >
-            </template>
+          <CardBase class="col" title="Função" icon="search">
             <div class="q-mb-md">
               <div class="row justify-between items-center">
                 <span>Médicos</span><span>40%</span>
               </div>
-              <q-linear-progress :value="0.4" color="primary" rounded />
+              <q-linear-progress :value="0.4" color="teal-9" rounded />
             </div>
             <div class="q-mb-md">
               <div class="row justify-between items-center">
                 <span>Enfermeiros</span><span>35%</span>
               </div>
-              <q-linear-progress :value="0.35" color="secondary" rounded />
+              <q-linear-progress :value="0.35" color="teal-4" rounded />
             </div>
             <div>
               <div class="row justify-between items-center">
                 <span>Técnicos</span><span>25%</span>
               </div>
-              <q-linear-progress :value="0.25" color="accent" rounded />
+              <q-linear-progress :value="0.25" color="teal-3" rounded />
             </div>
           </CardBase>
           <CardBase class="col" title="Alertas" icon="warning">
-            <template #actions>
-              <q-btn flat color="secondary" icon="visibility"
-                ><q-tooltip><span class="text-subtitle2">Detalhar</span></q-tooltip></q-btn
-              >
-            </template>
             <q-list bordered separator>
               <q-item clickable>
-                <q-item-section avatar>
-                  <q-icon name="warning" color="orange" />
-                </q-item-section>
                 <q-item-section>
                   <q-item-label>CRM vence em 7 dias</q-item-label>
                   <q-item-label caption>Médico: João Silva</q-item-label>
                 </q-item-section>
               </q-item>
               <q-item clickable>
-                <q-item-section avatar>
-                  <q-icon name="event" color="red" />
-                </q-item-section>
                 <q-item-section>
                   <q-item-label>Férias programadas</q-item-label>
                   <q-item-label caption>Enfermeira: Ana Costa</q-item-label>

@@ -4,72 +4,52 @@
 
     <div class="row q-gutter-md">
       <CardBase class="col" title="Resumo" icon="info" collapsible>
-        <div class="row q-gutter-md">
-          <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }">
-            <q-card-section class="text-center">
-              <div :class="[responsiveText()]" class="text-primary">4.523</div>
-              <div class="text-caption">Cadastrados</div>
-            </q-card-section>
-          </q-card>
-          <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }">
-            <q-card-section class="text-center">
-              <div :class="[responsiveText()]" class="text-positive">128</div>
-              <div class="text-caption">Novos no Mês</div>
-            </q-card-section>
-          </q-card>
-          <q-card class="col" :class="{ 'col-grow': $q.platform.is.mobile }">
-            <q-card-section class="text-center">
-              <div :class="[responsiveText()]" class="text-secondary">56</div>
-              <div class="text-caption">Consultas Agendadas</div>
-            </q-card-section>
-          </q-card>
-        </div>
+        <q-card class="row justify-around">
+          <q-card-section class="text-center">
+            <div :class="[responsiveText()]" class="text-teal">4.523</div>
+            <div class="text-caption">Cadastrados</div>
+          </q-card-section>
+          <q-separator vertical inset />
+          <q-card-section class="text-center">
+            <div :class="[responsiveText()]" class="text-teal">128</div>
+            <div class="text-caption">Novos Mês</div>
+          </q-card-section>
+          <q-separator vertical inset />
+          <q-card-section class="text-center">
+            <div :class="[responsiveText()]" class="text-teal">56</div>
+            <div class="text-caption">Agendados Hoje</div>
+          </q-card-section>
+        </q-card>
         <div class="row q-gutter-md q-mt-xs">
-          <CardBase class="col" title="Perfil Demográfico" icon="pie_chart">
-            <template #actions>
-              <q-btn flat color="secondary" icon="visibility">
-                <q-tooltip><span class="text-subtitle2">Detalhar</span></q-tooltip>
-              </q-btn>
-            </template>
+          <CardBase class="col" title="Perfil" icon="pie_chart">
             <div class="q-mb-md">
               <div class="row justify-between items-center">
                 <span>Crianças</span><span>15%</span>
               </div>
-              <q-linear-progress :value="0.15" color="info" rounded />
+              <q-linear-progress :value="0.15" color="teal-9" rounded />
             </div>
             <div class="q-mb-md">
               <div class="row justify-between items-center">
                 <span>Adultos</span><span>55%</span>
               </div>
-              <q-linear-progress :value="0.55" color="primary" rounded />
+              <q-linear-progress :value="0.55" color="teal-4" rounded />
             </div>
             <div>
               <div class="row justify-between items-center">
                 <span>Idosos</span><span>30%</span>
               </div>
-              <q-linear-progress :value="0.3" color="orange" rounded />
+              <q-linear-progress :value="0.3" color="teal-3" rounded />
             </div>
           </CardBase>
           <CardBase class="col" title="Alertas" icon="warning">
-            <template #actions>
-              <q-btn flat color="secondary" icon="visibility">
-                <q-tooltip><span class="text-subtitle2">Detalhar</span></q-tooltip>
-              </q-btn>
-            </template>
             <q-list bordered separator>
               <q-item clickable>
-                <q-item-section avatar>
-                  <q-icon name="priority_high" color="red" />
-                </q-item-section>
                 <q-item-section>
                   <q-item-label>Paciente crítico em UTI</q-item-label>
                   <q-item-label caption>José da Silva</q-item-label>
                 </q-item-section>
               </q-item>
               <q-item clickable>
-                <q-item-section avatar>
-                  <q-icon name="assignment_late" color="orange" />
-                </q-item-section>
                 <q-item-section>
                   <q-item-label>Exame pendente</q-item-label>
                   <q-item-label caption>Maria Souza</q-item-label>
