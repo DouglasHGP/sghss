@@ -4,8 +4,16 @@
 
     <div class="row q-gutter-md">
       <CardBase class="col" title="Geral" icon="calendar_month" collapsible>
+        <template #header-actions>
+            <q-btn-group glossy push>
+              <q-btn color="secondary" icon="chevron_left" @click.stop="moveMonth(-1)" />
+              <q-btn color="secondary" icon="today" @click.stop="goToToday()" />
+              <q-btn color="secondary" icon="chevron_right" @click.stop="moveMonth(1)" />
+            </q-btn-group>
+          </template>
         <q-card class="row justify-around">
           <q-calendar-month
+            ref="calendarMonth"
             v-model="selectedDate"
             animated
             bordered
@@ -32,7 +40,7 @@
     </div>
 
     <div class="row q-gutter-md q-mt-xs">
-      <CardBase class="col" title="Minha Semana" icon="event">
+      <CardBase class="col-6" title="Minha Semana" icon="event">
         <q-scroll-area style="height: 670px">
           <q-calendar
             v-model="selectedDate"
@@ -69,7 +77,7 @@
           </q-calendar>
         </q-scroll-area>
       </CardBase>
-      <div class="col q-pt-md">
+      <div class="col-grow q-pt-md" :class="{ 'q-pr-md': $q.platform.is.mobile }">
         <span class="col-grow q-mx-md text-h6 text-weight-light">Eventos para {{ formatDate(selectedDate) }}</span>
         <q-separator inset class="q-mb-md"/>
         <q-input
@@ -123,9 +131,10 @@ import { QCalendarMonth } from '@quasar/quasar-ui-qcalendar'
 import { QCalendar } from '@quasar/quasar-ui-qcalendar'
 import '@quasar/quasar-ui-qcalendar/dist/index.css'
 
-const selectedDate = ref(format(new Date(), 'yyyy-MM-dd')) // com hífens
+const selectedDate = ref(format(new Date(), 'yyyy-MM-dd'))
 const searchQuery = ref('')
 const isAdminOrDev = ref(true)
+const calendarMonth = ref(null)
 
 const events = ref([
   {
@@ -243,6 +252,18 @@ watch(
   },
   { immediate: true },
 )
+
+const goToToday = () => {
+  if (calendarMonth.value) {
+    calendarMonth.value.moveToToday()
+  }
+}
+
+const moveMonth = (val) => {
+  if (calendarMonth.value) {
+    calendarMonth.value.move(val)
+  }
+}
 
 const filterEvents = () => {}
 

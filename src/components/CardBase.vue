@@ -14,6 +14,10 @@
         <slot name="filters-prepend" />
       </div>
 
+      <div class="col-grow q-mr-xl ">
+        <slot name="header-actions" />
+      </div>
+
       <q-card-actions class="q-pa-none">
         <q-btn
           v-if="collapsible"
