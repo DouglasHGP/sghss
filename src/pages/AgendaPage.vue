@@ -6,9 +6,15 @@
       <CardBase class="col" title="Geral" icon="calendar_month" collapsible>
         <template #header-actions>
           <q-btn-group glossy push>
-            <q-btn color="secondary" icon="chevron_left" @click.stop="moveMonth(-1)" ><q-tooltip><span class="text-subtitle2">Anterior</span></q-tooltip></q-btn>
-            <q-btn color="secondary" icon="today" @click.stop="goToToday()" ><q-tooltip><span class="text-subtitle2">Vigente</span></q-tooltip></q-btn>
-            <q-btn color="secondary" icon="chevron_right" @click.stop="moveMonth(1)" ><q-tooltip><span class="text-subtitle2">Posterior</span></q-tooltip></q-btn>
+            <q-btn color="secondary" icon="chevron_left" @click.stop="moveMonth(-1)">
+              <q-tooltip><span class="text-subtitle2">Anterior</span></q-tooltip>
+            </q-btn>
+            <q-btn color="secondary" icon="today" @click.stop="goToToday()">
+              <q-tooltip><span class="text-subtitle2">Vigente</span></q-tooltip>
+            </q-btn>
+            <q-btn color="secondary" icon="chevron_right" @click.stop="moveMonth(1)">
+              <q-tooltip><span class="text-subtitle2">Posterior</span></q-tooltip>
+            </q-btn>
           </q-btn-group>
         </template>
         <q-card class="row justify-around">
@@ -23,11 +29,12 @@
           >
             <template #day="{ scope }">
               <div class="q-pa-xs">
-                <div class="text-caption">{{ scope.timestamp.day }}</div>
-                <div v-for="event in getEvents(scope.timestamp.date)" :key="event.id">
+                <div class="row items-start q-gutter-xs flex-wrap">
                   <q-badge
+                    v-for="event in getEvents(scope.timestamp.date)"
+                    :key="event.id"
                     :color="statusColors[event.status]"
-                    class="q-mt-xs full-width text-center"
+                    class="text-center"
                   >
                     {{ event.title }}
                   </q-badge>
@@ -127,7 +134,7 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
-import { format } from 'date-fns'
+import { format, eachDayOfInterval, getDay } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { QCalendarMonth } from '@quasar/quasar-ui-qcalendar'
 import { QCalendar } from '@quasar/quasar-ui-qcalendar'
@@ -138,53 +145,98 @@ const searchQuery = ref('')
 const isAdminOrDev = ref(true)
 const calendarMonth = ref(null)
 
-const events = ref([
-  {
-    id: 1,
-    date: '2025/08/21',
-    time: '09:00',
-    title: 'Consulta de Rotina',
-    patientName: 'João da Silva',
-    professionalName: 'Dr. Carlos Mendes',
-    status: 'marcada',
-  },
-  {
-    id: 2,
-    date: '2025/08/21',
-    time: '14:30',
-    title: 'Retorno Pós-operatório',
-    patientName: 'Maria Oliveira',
-    professionalName: 'Dra. Ana Costa',
-    status: 'confirmada',
-  },
-  {
-    id: 3,
-    date: '2025/08/22',
-    time: '10:00',
-    title: 'Disponibilidade',
-    patientName: '-',
-    professionalName: 'Dr. Carlos Mendes',
-    status: 'disponivel',
-  },
-  {
-    id: 4,
-    date: '2025/08/23',
-    time: '11:00',
-    title: 'Folga',
-    patientName: '-',
-    professionalName: 'Dr. Carlos Mendes',
-    status: 'folga',
-  },
-  {
-    id: 5,
-    date: '2025/08/24',
-    time: '09:00',
-    title: 'Férias',
-    patientName: '-',
-    professionalName: 'Dr. Carlos Mendes',
-    status: 'ferias',
-  },
-])
+const events = ref([])
+
+function generateEvents() {
+  const start = new Date(2025, 5, 1) // Junho (0-based → 5 = Junho)
+  const end = new Date(2025, 9, 31) // Outubro
+
+  const days = eachDayOfInterval({ start, end })
+
+  let idCounter = 1
+
+  days.forEach((day) => {
+    const dateStr = format(day, 'yyyy/MM/dd')
+    const dow = getDay(day) // 0=Dom, 1=Seg ... 6=Sáb
+
+    // --- Regras ---
+    // 1. Férias em junho
+    if (day.getMonth() === 5) {
+      // Junho
+      events.value.push({
+        id: idCounter++,
+        date: dateStr,
+        time: '09:00',
+        title: 'Férias',
+        patientName: '-',
+        professionalName: 'Dr. Carlos Mendes',
+        status: 'ferias',
+      })
+      return
+    }
+
+    // 2. Folgas sábados e domingos (Julho-Outubro)
+    if (dow === 0 || dow === 6) {
+      events.value.push({
+        id: idCounter++,
+        date: dateStr,
+        time: '09:00',
+        title: 'Folga',
+        patientName: '-',
+        professionalName: 'Dr. Carlos Mendes',
+        status: 'folga',
+      })
+      return
+    }
+
+    // 3. Sextas → Disponibilidade
+    if (dow === 5) {
+      events.value.push({
+        id: idCounter++,
+        date: dateStr,
+        time: '09:00',
+        title: 'Disponibilidade',
+        patientName: '-',
+        professionalName: 'Dr. Carlos Mendes',
+        status: 'disponivel',
+      })
+      return
+    }
+
+    // 4. Terças e Quintas → consultas
+    if (dow === 2 || dow === 4) {
+      const morningSlots = ['08:00', '09:00', '10:00', '11:00']
+      const afternoonSlots = ['14:00', '15:00', '16:00']
+
+      morningSlots.forEach((time) => {
+        events.value.push({
+          id: idCounter++,
+          date: dateStr,
+          time,
+          title: 'Consulta',
+          patientName: `Paciente ${idCounter}`,
+          professionalName: 'Dr. Carlos Mendes',
+          status: 'marcada',
+        })
+      })
+
+      afternoonSlots.forEach((time) => {
+        events.value.push({
+          id: idCounter++,
+          date: dateStr,
+          time,
+          title: 'Consulta',
+          patientName: `Paciente ${idCounter}`,
+          professionalName: 'Dr. Carlos Mendes',
+          status: 'marcada',
+        })
+      })
+    }
+  })
+}
+
+// gerar massa ao carregar
+generateEvents()
 
 const statusColors = {
   disponivel: 'green',
