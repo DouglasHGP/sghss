@@ -14,7 +14,7 @@
         <slot name="filters-prepend" />
       </div>
 
-      <div class="col-grow q-mr-xl ">
+      <div v-show="isVisible" class="col-grow q-mr-xl ">
         <slot name="header-actions" />
       </div>
 

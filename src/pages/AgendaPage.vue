@@ -5,12 +5,12 @@
     <div class="row q-gutter-md">
       <CardBase class="col" title="Geral" icon="calendar_month" collapsible>
         <template #header-actions>
-            <q-btn-group glossy push>
-              <q-btn color="secondary" icon="chevron_left" @click.stop="moveMonth(-1)" />
-              <q-btn color="secondary" icon="today" @click.stop="goToToday()" />
-              <q-btn color="secondary" icon="chevron_right" @click.stop="moveMonth(1)" />
-            </q-btn-group>
-          </template>
+          <q-btn-group glossy push>
+            <q-btn color="secondary" icon="chevron_left" @click.stop="moveMonth(-1)" ><q-tooltip><span class="text-subtitle2">Anterior</span></q-tooltip></q-btn>
+            <q-btn color="secondary" icon="today" @click.stop="goToToday()" ><q-tooltip><span class="text-subtitle2">Vigente</span></q-tooltip></q-btn>
+            <q-btn color="secondary" icon="chevron_right" @click.stop="moveMonth(1)" ><q-tooltip><span class="text-subtitle2">Posterior</span></q-tooltip></q-btn>
+          </q-btn-group>
+        </template>
         <q-card class="row justify-around">
           <q-calendar-month
             ref="calendarMonth"
@@ -78,8 +78,10 @@
         </q-scroll-area>
       </CardBase>
       <div class="col-grow q-pt-md" :class="{ 'q-pr-md': $q.platform.is.mobile }">
-        <span class="col-grow q-mx-md text-h6 text-weight-light">Eventos para {{ formatDate(selectedDate) }}</span>
-        <q-separator inset class="q-mb-md"/>
+        <span class="col-grow q-mx-md text-h6 text-weight-light"
+          >Eventos para {{ formatDate(selectedDate) }}</span
+        >
+        <q-separator inset class="q-mb-md" />
         <q-input
           v-if="isAdminOrDev"
           standout
