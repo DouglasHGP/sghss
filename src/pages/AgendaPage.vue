@@ -2,9 +2,9 @@
   <q-page class="q-pa-md">
     <TitlePage title="Agenda" description="Gerencie suas consultas e horários de forma eficiente" />
 
-    <div class="row q-col-gutter-md">
-      <div class="col-12">
-        <CardBase class="col" title="Marcações" icon="calendar_month" collapsible>
+    <div class="row q-gutter-md">
+      <CardBase class="col" title="Geral" icon="calendar_month" collapsible>
+        <q-card class="row justify-around">
           <q-calendar-month
             v-model="selectedDate"
             animated
@@ -16,9 +16,6 @@
             <template #day="{ scope }">
               <div class="q-pa-xs">
                 <div class="text-caption">{{ scope.timestamp.day }}</div>
-
-                <!-- Exemplo de status das consultas -->
-
                 <div v-for="event in getEvents(scope.timestamp.date)" :key="event.id">
                   <q-badge
                     :color="statusColors[event.status]"
@@ -30,16 +27,19 @@
               </div>
             </template>
           </q-calendar-month>
-        </CardBase>
-      </div>
+        </q-card>
+      </CardBase>
+    </div>
 
-      <div class="col-12 col-md-6">
-        <CardBase title="Minha Semana" icon="event">
+    <div class="row q-gutter-md q-mt-xs">
+      <CardBase class="col" title="Minha Semana" icon="event">
+        <q-scroll-area style="height: 670px">
           <q-calendar
             v-model="selectedDate"
             view="week"
             locale="pt-BR"
             animated
+            shortWeekdayLabel
             bordered
             :weekdays="[1, 2, 3, 4, 5, 6, 0]"
             :day-min-height="80"
@@ -67,54 +67,49 @@
               </div>
             </template>
           </q-calendar>
-        </CardBase>
-      </div>
-
-      <div class="col-12 col-md-6">
-        <CardBase
-          :title="`Eventos do Dia: ${formatDate(selectedDate)}`"
-          icon="schedule"
+        </q-scroll-area>
+      </CardBase>
+      <div class="col q-pt-md">
+        <span class="col-grow q-mx-md text-h6 text-weight-light">Eventos para {{ formatDate(selectedDate) }}</span>
+        <q-separator inset class="q-mb-md"/>
+        <q-input
+          v-if="isAdminOrDev"
+          standout
+          rounded
+          v-model="searchQuery"
+          label="Buscar por Paciente ou Profissional"
+          clearable
+          class="q-mb-md"
+          @update:model-value="filterEvents"
         >
-          <q-input
-            v-if="isAdminOrDev"
-            filled
-            v-model="searchQuery"
-            label="Buscar por Paciente ou Profissional"
-            clearable
-            class="q-mb-md"
-            @update:model-value="filterEvents"
-          >
-            <template v-slot:prepend>
-              <q-icon name="search" />
-            </template>
-          </q-input>
-
-          <q-table
-            v-if="filteredDailyEvents.length > 0"
-            :rows="filteredDailyEvents"
-            :columns="columns"
-            row-key="id"
-            flat
-            bordered
-            dense
-          >
-            <template v-slot:body-cell-status="props">
-              <q-td :props="props">
-                <q-badge :color="statusColors[props.row.status]" rounded />
-              </q-td>
-            </template>
-            <template v-slot:body-cell-actions="props">
-              <q-td :props="props">
-                <q-btn flat round icon="info" @click="showDetails(props.row)" />
-              </q-td>
-            </template>
-          </q-table>
-
-          <div v-else class="text-center text-grey-6 q-mt-xl">
-            <q-icon name="event_busy" size="md" />
-            <p>Nenhum evento agendado para este dia.</p>
-          </div>
-        </CardBase>
+          <template v-slot:prepend>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+        <q-table
+          v-if="filteredDailyEvents.length > 0"
+          :rows="filteredDailyEvents"
+          :columns="columns"
+          row-key="id"
+          flat
+          bordered
+          dense
+        >
+          <template v-slot:body-cell-status="props">
+            <q-td :props="props">
+              <q-badge :color="statusColors[props.row.status]" rounded />
+            </q-td>
+          </template>
+          <template v-slot:body-cell-actions="props">
+            <q-td :props="props">
+              <q-btn flat round icon="info" @click="showDetails(props.row)" />
+            </q-td>
+          </template>
+        </q-table>
+        <div v-else class="text-center text-grey-6 q-mt-xl">
+          <q-icon name="event_busy" size="md" />
+          <p>Nenhum evento agendado para este dia.</p>
+        </div>
       </div>
     </div>
   </q-page>
