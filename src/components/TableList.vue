@@ -7,7 +7,7 @@
         dense
         standout="bg-teal-4 text-white"
         rounded
-        label="Buscar"
+        :label="labelSearch"
       >
         <template v-slot:append>
           <q-btn round dense flat icon="search" />
@@ -47,6 +47,7 @@ import ActionsDropdown from 'components/ActionsDropdown.vue'
 const props = defineProps({
   title: { type: String, default: 'Lista' },
   icon: { type: String, default: 'list' },
+  labelSearch: { type: String, default: 'Buscar' },
   collapsible: { type: Boolean, default: false },
   rows: { type: Array, required: true },
   columns: { type: Array, required: true },

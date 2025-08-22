@@ -1,9 +1,8 @@
 <template>
   <q-page class="q-pa-md">
     <TitlePage title="Agenda" description="Gerencie suas consultas e horários de forma eficiente" />
-
     <div class="row q-gutter-md">
-      <CardBase class="col" title="Geral" icon="calendar_month" collapsible>
+      <CardBase class="col" :title="'Data: ' + selectedDate" icon="calendar_month" collapsible>
         <template #header-actions>
           <q-btn-group glossy push>
             <q-btn color="secondary" icon="chevron_left" @click.stop="moveMonth(-1)">
@@ -22,41 +21,10 @@
             ref="calendarMonth"
             v-model="selectedDate"
             animated
+            short-weekday-label
             bordered
             locale="pt-BR"
             :weekdays="[0, 1, 2, 3, 4, 5, 6]"
-            :day-min-height="80"
-          >
-            <template #day="{ scope }">
-              <div class="q-pa-xs">
-                <div class="row items-start q-gutter-xs flex-wrap">
-                  <q-badge
-                    v-for="event in getEvents(scope.timestamp.date)"
-                    :key="event.id"
-                    :color="statusColors[event.status]"
-                    class="text-center"
-                  >
-                    {{ event.title }}
-                  </q-badge>
-                </div>
-              </div>
-            </template>
-          </q-calendar-month>
-        </q-card>
-      </CardBase>
-    </div>
-
-    <div class="row q-gutter-md q-mt-xs">
-      <CardBase class="col-6" title="Minha Semana" icon="event">
-        <q-scroll-area style="height: 670px">
-          <q-calendar
-            v-model="selectedDate"
-            view="week"
-            locale="pt-BR"
-            animated
-            shortWeekdayLabel
-            bordered
-            :weekdays="[1, 2, 3, 4, 5, 6, 0]"
             :day-min-height="80"
           >
             <template #day="{ scope }">
@@ -68,76 +36,52 @@
                 class="q-pa-xs"
                 @click="selectDay(scope.timestamp.date)"
               >
-                <div class="text-caption text-bold">
-                  {{ scope.timestamp.dayName.slice(0, 3) }} {{ scope.timestamp.day }}
-                </div>
-                <div v-for="event in getEvents(scope.timestamp.date)" :key="event.id">
+                <div class="row items-start q-gutter-xs flex-wrap justify-around">
                   <q-badge
-                    :color="statusColors[event.status]"
-                    class="q-mt-xs full-width text-center"
+                    v-for="group in getEventsGrouped(scope.timestamp.date)"
+                    :key="group.status"
+                    :color="statusColors[group.status]"
+                    class="text-center"
                   >
-                    {{ event.title }}
+                    {{ group.sample.title }} #{{ group.count }}
                   </q-badge>
                 </div>
               </div>
             </template>
-          </q-calendar>
-        </q-scroll-area>
+          </q-calendar-month>
+        </q-card>
       </CardBase>
-      <div class="col-grow q-pt-md" :class="{ 'q-pr-md': $q.platform.is.mobile }">
-        <span class="col-grow q-mx-md text-h6 text-weight-light"
-          >Eventos para {{ formatDate(selectedDate) }}</span
-        >
-        <q-separator inset class="q-mb-md" />
-        <q-input
-          v-if="isAdminOrDev"
-          standout
-          rounded
-          v-model="searchQuery"
-          label="Buscar por Paciente ou Profissional"
-          clearable
-          class="q-mb-md"
-          @update:model-value="filterEvents"
-        >
-          <template v-slot:prepend>
-            <q-icon name="search" />
-          </template>
-        </q-input>
-        <q-table
-          v-if="filteredDailyEvents.length > 0"
-          :rows="filteredDailyEvents"
-          :columns="columns"
-          row-key="id"
-          flat
-          bordered
-          dense
-        >
-          <template v-slot:body-cell-status="props">
-            <q-td :props="props">
-              <q-badge :color="statusColors[props.row.status]" rounded />
-            </q-td>
-          </template>
-          <template v-slot:body-cell-actions="props">
-            <q-td :props="props">
-              <q-btn flat round icon="info" @click="showDetails(props.row)" />
-            </q-td>
-          </template>
-        </q-table>
-        <div v-else class="text-center text-grey-6 q-mt-xl">
-          <q-icon name="event_busy" size="md" />
-          <p>Nenhum evento agendado para este dia.</p>
-        </div>
-      </div>
     </div>
+
+    <TableList
+      v-if="filteredDailyEvents.length > 0"
+      icon="event"
+      :labelSearch="'Paciente ou Profissional'"
+      :rows="filteredDailyEvents"
+      :columns="columns"
+      :actions="[
+        { icon: 'add', label: 'Adicionar', event: 'add' },
+        { icon: 'filter_alt', label: 'Filtros', event: 'filter' },
+      ]"
+      :row-actions="[
+        { icon: 'visibility', label: 'Detalhar', event: 'view' },
+        { icon: 'edit', label: 'Editar', event: 'edit' },
+        { icon: 'delete', label: 'Excluir', event: 'delete' },
+      ]"
+      @action="handleTableAction"
+      @rowAction="handleLineAction"
+    />
+    <q-card v-else class="text-center text-grey-6 q-mt-md q-pt-md q-pb-xs">
+      <q-icon name="event_busy" size="md" />
+      <p>Nenhum evento agendado para este dia.</p>
+    </q-card>
   </q-page>
 </template>
 
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { format, eachDayOfInterval, getDay } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
 import { QCalendarMonth } from '@quasar/quasar-ui-qcalendar'
-import { QCalendar } from '@quasar/quasar-ui-qcalendar'
 import '@quasar/quasar-ui-qcalendar/dist/index.css'
 
 const selectedDate = ref(format(new Date(), 'yyyy-MM-dd'))
@@ -148,21 +92,17 @@ const calendarMonth = ref(null)
 const events = ref([])
 
 function generateEvents() {
-  const start = new Date(2025, 5, 1) // Junho (0-based → 5 = Junho)
-  const end = new Date(2025, 9, 31) // Outubro
+  const start = new Date(2025, 5, 1)
+  const end = new Date(2025, 9, 31)
 
   const days = eachDayOfInterval({ start, end })
-
   let idCounter = 1
 
   days.forEach((day) => {
-    const dateStr = format(day, 'yyyy/MM/dd')
-    const dow = getDay(day) // 0=Dom, 1=Seg ... 6=Sáb
+    const dateStr = format(day, 'yyyy-MM-dd')
+    const dow = getDay(day)
 
-    // --- Regras ---
-    // 1. Férias em junho
     if (day.getMonth() === 5) {
-      // Junho
       events.value.push({
         id: idCounter++,
         date: dateStr,
@@ -175,7 +115,6 @@ function generateEvents() {
       return
     }
 
-    // 2. Folgas sábados e domingos (Julho-Outubro)
     if (dow === 0 || dow === 6) {
       events.value.push({
         id: idCounter++,
@@ -189,7 +128,6 @@ function generateEvents() {
       return
     }
 
-    // 3. Sextas → Disponibilidade
     if (dow === 5) {
       events.value.push({
         id: idCounter++,
@@ -203,7 +141,6 @@ function generateEvents() {
       return
     }
 
-    // 4. Terças e Quintas → consultas
     if (dow === 2 || dow === 4) {
       const morningSlots = ['08:00', '09:00', '10:00', '11:00']
       const afternoonSlots = ['14:00', '15:00', '16:00']
@@ -235,7 +172,6 @@ function generateEvents() {
   })
 }
 
-// gerar massa ao carregar
 generateEvents()
 
 const statusColors = {
@@ -250,12 +186,11 @@ const statusColors = {
 }
 
 const columns = [
-  { name: 'status', label: ' ', align: 'left', field: 'status' },
+  { name: 'status', label: 'Status', align: 'left', field: 'status' },
   { name: 'time', label: 'Hora', field: 'time', align: 'left' },
   { name: 'title', label: 'Evento', field: 'title', align: 'left' },
   { name: 'patientName', label: 'Paciente', field: 'patientName', align: 'left' },
   { name: 'professionalName', label: 'Profissional', field: 'professionalName', align: 'left' },
-  { name: 'actions', label: '', field: 'actions', align: 'right' },
 ]
 
 const selectDay = (date) => {
@@ -263,23 +198,17 @@ const selectDay = (date) => {
 }
 
 const getEvents = (date) => {
-  return events.value.filter((e) => e.date === date.replaceAll('-', '/'))
+  return events.value.filter((e) => e.date === date)
 }
 
 const isToday = (date) => {
-  return date === format(new Date(), 'yyyy/MM/dd')
-}
-
-const formatDate = (date) => {
-  if (!date) return ''
-  return format(new Date(date), 'EEEE, dd/MM', { locale: ptBR })
+  return date === format(new Date(), 'yyyy-MM-dd')
 }
 
 const dailyEvents = computed(() => {
-  const eventsForDay = events.value.filter(
-    (e) => e.date === selectedDate.value.replaceAll('-', '/'),
-  )
-  return eventsForDay.sort((a, b) => a.time.localeCompare(b.time))
+  return events.value
+    .filter((e) => e.date === selectedDate.value)
+    .sort((a, b) => a.time.localeCompare(b.time))
 })
 
 const filteredDailyEvents = ref([])
@@ -319,10 +248,36 @@ const moveMonth = (val) => {
   }
 }
 
-const filterEvents = () => {}
+const handleTableAction = (event) => {
+  if (event === 'add') {
+    console.log('Adicionar clicado')
+  }
+  if (event === 'filter') {
+    console.log('Filtros clicado')
+  }
+}
 
-const showDetails = (event) => {
-  console.log('Detalhes do evento:', event)
+const handleLineAction = ({ event, row }) => {
+  if (event === 'view') {
+    console.log('Visualizar clicado para a linha:', row)
+  }
+  if (event === 'edit') {
+    console.log('Editar clicado para a linha:', row)
+  }
+  if (event === 'delete') {
+    console.log('Deletar clicado para a linha:', row)
+  }
+}
+
+const getEventsGrouped = (date) => {
+  const grouped = {}
+  for (const e of getEvents(date)) {
+    if (!grouped[e.status]) {
+      grouped[e.status] = { status: e.status, count: 0, sample: e }
+    }
+    grouped[e.status].count++
+  }
+  return Object.values(grouped)
 }
 </script>
 
