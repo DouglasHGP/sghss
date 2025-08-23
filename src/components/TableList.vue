@@ -1,5 +1,5 @@
 <template>
-  <CardBase :title="title" :icon="icon" :collapsible="collapsible" searchable>
+  <CardBase :title="title" :subtitle="subtitle" :icon="icon" :collapsible="collapsible" searchable>
     <template #filters-prepend>
       <q-input
         v-model="searchQuery"
@@ -13,6 +13,11 @@
           <q-btn round dense flat icon="search" />
         </template>
       </q-input>
+    </template>
+    <template #subtitle-prepend v-if="subtitle">
+      <div class="text-weight-light" :class="{ 'text-h6 ': !$q.platform.is.mobile, 'text-subtitle2 q-mt-xs': $q.platform.is.mobile }">
+        {{ subtitle }}
+      </div>
     </template>
     <template #actions>
       <ActionsDropdown :actions="actions" :tooltip="actionsTooltip" @action="handleAction" />
@@ -46,6 +51,7 @@ import ActionsDropdown from 'components/ActionsDropdown.vue'
 // Definição das props do componente
 const props = defineProps({
   title: { type: String, default: 'Lista' },
+  subtitle: { type: String, default: '' },
   icon: { type: String, default: 'list' },
   labelSearch: { type: String, default: 'Buscar' },
   collapsible: { type: Boolean, default: false },

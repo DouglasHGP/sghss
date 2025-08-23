@@ -10,14 +10,17 @@
       <div v-if="!searchable" class="col-grow q-mx-md text-h6 text-weight-light">
         {{ title }}
       </div>
-      <div v-else class="col-grow q-ml-md q-mr-xs ">
+
+      <div v-else class="col-grow q-ml-md q-mr-xs">
         <slot name="filters-prepend" />
       </div>
 
-      <div v-show="isVisible" class="col-grow q-mr-xl ">
+      <div v-if="isVisible" class="col-grow" :class="{ 'q-mr-xl': !$q.platform.is.mobile }">
         <slot name="header-actions" />
       </div>
-
+      <div v-if="subtitle" class="col-grow q-ml-sm">
+        <slot name="subtitle-prepend" />
+      </div>
       <q-card-actions class="q-pa-none">
         <q-btn
           v-if="collapsible"
@@ -44,6 +47,7 @@ import { ref } from 'vue'
 
 defineProps({
   title: { type: String, required: true },
+  subtitle: { type: String, default: '' },
   icon: { type: String, default: 'info' },
   collapsible: { type: Boolean, default: false },
   searchable: { type: Boolean, default: false },

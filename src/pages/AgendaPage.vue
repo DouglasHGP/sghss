@@ -2,7 +2,7 @@
   <q-page class="q-pa-md">
     <TitlePage title="Agenda" description="Gerencie suas consultas e horários de forma eficiente" />
     <div class="row q-gutter-md">
-      <CardBase class="col" :title="'Data: ' + selectedDate" icon="calendar_month" collapsible>
+      <CardBase class="col" title="Geral" icon="calendar_month" collapsible>
         <template #header-actions>
           <q-btn-group glossy push>
             <q-btn color="secondary" icon="chevron_left" @click.stop="moveMonth(-1)">
@@ -57,6 +57,7 @@
       v-if="filteredDailyEvents.length > 0"
       icon="event"
       :labelSearch="'Paciente ou Profissional'"
+      :subtitle="`Eventos em ${selectedDate}`"
       :rows="filteredDailyEvents"
       :columns="columns"
       :actions="[
