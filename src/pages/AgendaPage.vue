@@ -56,7 +56,7 @@
     <TableList
       v-if="filteredDailyEvents.length > 0"
       icon="event"
-      :labelSearch="'Paciente ou Profissional'"
+      :label-search="'Paciente ou Profissional'"
       :subtitle="`Eventos em ${selectedDate}`"
       :rows="filteredDailyEvents"
       :columns="columns"

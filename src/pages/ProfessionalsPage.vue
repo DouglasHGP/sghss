@@ -67,7 +67,7 @@
     <TableList
       icon="list"
       :rows="professionals"
-      :labelSearch="'Nome ou Função'"
+      :label-search="'Nome ou Função'"
       :columns="columns"
       :actions="[
         { icon: 'add', label: 'Adicionar', event: 'add' },

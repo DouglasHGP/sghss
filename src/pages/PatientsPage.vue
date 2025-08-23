@@ -63,6 +63,7 @@
 
     <TableList
       icon="list"
+      :label-search="'Nome ou Documento'"
       :rows="patients"
       :columns="columns"
       :actions="[

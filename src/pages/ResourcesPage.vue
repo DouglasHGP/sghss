@@ -207,6 +207,7 @@
 
     <TableList
       icon="list"
+      :label-search="'Nome Categoria ou Tipo'"
       :rows="materiais"
       :columns="columns"
       :actions="[
