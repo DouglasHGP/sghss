@@ -15,7 +15,7 @@
         <slot name="filters-prepend" />
       </div>
 
-      <div v-if="isVisible" class="col-grow" :class="{ 'q-mr-xl': !$q.platform.is.mobile }">
+      <div class="col-grow" :class="{ 'q-mr-xl': !$q.platform.is.mobile }">
         <slot name="header-actions" />
       </div>
       <div v-if="props.subtitle" class="col-grow q-ml-sm">
