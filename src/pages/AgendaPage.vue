@@ -37,43 +37,41 @@
                   class="q-pa-xs"
                   @click="selectDay(scope.timestamp.date)"
                 >
-                  <div class="column q-gutter-xs">
+                  <div
+                    class="justify-around"
+                    :class="{ row: !$q.platform.is.mobile, column: $q.platform.is.mobile }"
+                  >
                     <q-badge
+                      rounded
                       :outline="statusConfig[group.status].label === 'Efetivada'"
                       v-for="group in getEventsGrouped(scope.timestamp.date)"
                       :key="group.status"
                       :color="statusConfig[group.status]?.color"
                       class="justify-center"
                     >
-                      <span v-if="group.type === 'full-day'">
+                      <span v-if="group.type === 'full-day'" class="text-subtitle2">
                         {{ statusConfig[group.status].label }}
                       </span>
-                      <span v-else>
+                      <span
+                        v-else
+                        class="text-subtitle2"
+                        :class="{
+                          'q-px-md': !$q.platform.is.mobile,
+                          'q-px-sm': $q.platform.is.mobile,
+                        }"
+                      >
                         {{ group.count }}
                       </span>
+                      <q-tooltip v-if="group.type === 'slot'">
+                        <span class="text-subtitle2">
+                          {{ group.count }} {{ statusConfig[group.status].label }}(s)
+                        </span>
+                      </q-tooltip>
                     </q-badge>
                   </div>
                 </div>
               </template>
             </q-calendar-month>
-          </q-card>
-          <q-card class="col-auto">
-            <q-card-section>
-              <div class="text-subtitle1 text-weight-light">Legenda</div>
-              <q-separator class="q-mb-sm" />
-              <div class="column q-gutter-sm">
-                <q-badge
-                  v-for="(config, status) in statusConfig"
-                  :outline="config.label === 'Efetivada'"
-                  :key="status"
-                  :color="config.color"
-                  rounded
-                  class="justify-center"
-                >
-                  <span class="text-subtitle2">{{ config.label }}</span>
-                </q-badge>
-              </div>
-            </q-card-section>
           </q-card>
         </div>
       </CardBase>
@@ -97,7 +95,20 @@
       ]"
       @action="handleTableAction"
       @rowAction="handleLineAction"
-    />
+    >
+      <template #body-cell-title="props">
+        <q-td :props="props">
+          <q-badge
+            :color="statusConfig[props.row.status]?.color"
+            :outline="statusConfig[props.row.status].label === 'Efetivada'"
+            class="q-mr-sm"
+            rounded
+          >
+            {{ statusConfig[props.row.status]?.label }}
+          </q-badge>
+        </q-td>
+      </template>
+    </TableList>
     <q-card v-else class="text-center text-grey-6 q-mt-md q-pt-md q-pb-xs">
       <q-icon name="event_busy" size="md" />
       <p v-if="hasFullDayEvent(selectedDate)">
@@ -131,7 +142,7 @@ const statusConfig = {
   efetivada: {
     label: 'Efetivada',
     color: 'teal-9',
-    statusEvent: 'Não Aplica',
+    statusEvent: '- - -',
   },
   confirmada: {
     label: 'Confirmada',
@@ -216,21 +227,28 @@ function generateEvents() {
 
       const eventDateTime = new Date(`${dateStr}T${time}:00`)
 
-      if (isBefore(eventDateTime, now)) {
-        // Passado → tudo efetivada
+      if (isTodayFns(eventDateTime)) {
+        // ✅ Caso especial: hoje
+        if (isBefore(eventDateTime, now)) {
+          // Horário de hoje já passou
+          status = 'efetivada'
+          title = statusConfig.efetivada.label
+        } else {
+          // Horário de hoje ainda vai acontecer
+          if (index < consultas) {
+            status = 'prevista'
+            title = statusConfig.prevista.label
+          } else {
+            status = 'confirmada'
+            title = statusConfig.confirmada.label
+          }
+        }
+      } else if (isBefore(eventDateTime, now)) {
+        // Dias anteriores
         status = 'efetivada'
         title = statusConfig.efetivada.label
-      } else if (isTodayFns(eventDateTime)) {
-        // Presente → mistura confirmada e prevista
-        if (index < consultas) {
-          status = 'confirmada'
-          title = statusConfig.confirmada.label
-        } else {
-          status = 'prevista'
-          title = statusConfig.prevista.label
-        }
       } else {
-        // Futuro → prevista
+        // Dias futuros
         status = 'prevista'
         title = statusConfig.prevista.label
       }

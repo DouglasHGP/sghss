@@ -15,7 +15,13 @@
       </q-input>
     </template>
     <template #subtitle-prepend v-if="subtitle">
-      <div class="text-weight-light" :class="{ 'text-h6 ': !$q.platform.is.mobile, 'text-subtitle2 q-mt-xs': $q.platform.is.mobile }">
+      <div
+        class="text-weight-light"
+        :class="{
+          'text-h6 ': !$q.platform.is.mobile,
+          'text-subtitle2 q-mt-xs': $q.platform.is.mobile,
+        }"
+      >
         {{ subtitle }}
       </div>
     </template>
@@ -31,12 +37,29 @@
       dense
       :rows-per-page-options="[10, 15, 20]"
     >
+      <!-- Slot fixo para a coluna de ações -->
       <template v-slot:body-cell-actions="props">
         <q-td :props="props" style="width: 65px">
           <ActionsDropdown
             :actions="rowActions"
             @action="(event) => handleRowAction(event, props.row)"
           />
+        </q-td>
+      </template>
+
+      <!-- Repassa qualquer slot de coluna customizado -->
+      <template
+        v-for="col in props.columns"
+        :key="col.name"
+        v-slot:[`body-cell-${col.name}`]="slotProps"
+      >
+        <slot
+          v-if="$slots[`body-cell-${col.name}`]"
+          :name="`body-cell-${col.name}`"
+          v-bind="slotProps"
+        />
+        <q-td v-else :props="slotProps">
+          {{ slotProps.value }}
         </q-td>
       </template>
     </q-table>
