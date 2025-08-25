@@ -39,6 +39,7 @@
                 >
                   <div class="column q-gutter-xs">
                     <q-badge
+                      :outline="statusConfig[group.status].label === 'Efetivada'"
                       v-for="group in getEventsGrouped(scope.timestamp.date)"
                       :key="group.status"
                       :color="statusConfig[group.status]?.color"
@@ -62,7 +63,8 @@
               <q-separator class="q-mb-sm" />
               <div class="column q-gutter-sm">
                 <q-badge
-                  v-for="(config, status) in statusConfig"
+                v-for="(config, status) in statusConfig"
+                :outline="config.label === 'Efetivada'"
                   :key="status"
                   :color="config.color"
                   rounded
@@ -125,34 +127,34 @@ const statusConfig = {
   // Status de Consultas (slots)
   efetivada: {
     label: 'Efetivada',
-    color: 'green',
-    statusEvent:'Não Aplica'
+    color: 'teal-9',
+    statusEvent: 'Não Aplica',
   },
   confirmada: {
     label: 'Confirmada',
-    color: 'blue',
-    statusEvent:'A Consultar'
+    color: 'teal-9',
+    statusEvent: 'A Consultar',
   },
   prevista: {
     label: 'Prevista',
-    color: 'orange',
-    statusEvent:'A Confirmar'
+    color: 'teal-5',
+    statusEvent: 'A Confirmar',
   },
   // Status de Ausência (full-day)
   folga: {
     label: 'Folga',
     color: 'grey',
-    statusEvent:''
+    statusEvent: '',
   },
   ferias: {
     label: 'Férias',
     color: 'purple',
-    statusEvent:''
+    statusEvent: '',
   },
   afastamento: {
     label: 'Ausencia',
     color: 'red',
-    statusEvent:''
+    statusEvent: '',
   },
 }
 
