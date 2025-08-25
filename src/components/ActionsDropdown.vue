@@ -14,7 +14,7 @@
             <q-avatar
               :icon="action.icon"
               rounded
-              color="teal"
+              :color="action.event === 'delete' ? 'red' : 'teal'"
               text-color="white"
               class="custom-shadow glossy"
             />

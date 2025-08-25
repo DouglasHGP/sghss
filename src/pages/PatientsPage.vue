@@ -101,12 +101,14 @@ const patients = ref([
   { id: 11, name: 'Lucas Pereira', age: 75, condition: 'Recuperação' },
   { id: 12, name: 'Mariana Rocha', age: 80, condition: 'Estável' },
 ])
+
 const columns = [
   { name: 'id', label: 'ID', field: 'id', align: 'center' },
   { name: 'name', label: 'Nome', field: 'name', align: 'center' },
   { name: 'age', label: 'Idade', field: 'age', align: 'center' },
   { name: 'condition', label: 'Condição', field: 'condition', align: 'center' },
 ]
+
 const handleTableAction = (event) => {
   if (event === 'add') {
     console.log('Adicionar clicado')
