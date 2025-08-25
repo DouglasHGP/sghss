@@ -236,7 +236,7 @@ const statusColors = {
 
 const columns = [
   { name: 'time', label: 'Hora', field: 'time', align: 'left' },
-  { name: 'title', label: 'Consulta', field: 'title', align: 'left' },
+  { name: 'title', label: 'Consulta   ', field: 'title', align: 'left' },
   { name: 'status', label: 'Status', align: 'left', field: 'status' },
   { name: 'patientName', label: 'Paciente', field: 'patientName', align: 'left' },
   { name: 'professionalName', label: 'Profissional', field: 'professionalName', align: 'left' },
