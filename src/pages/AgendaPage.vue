@@ -108,13 +108,7 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
-import {
-  format,
-  eachDayOfInterval,
-  getDay,
-  isBefore,
-  isToday as isTodayFns,
-} from 'date-fns'
+import { format, eachDayOfInterval, getDay, isBefore, isToday as isTodayFns } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { QCalendarMonth } from '@quasar/quasar-ui-qcalendar'
 import '@quasar/quasar-ui-qcalendar/dist/index.css'
@@ -129,35 +123,36 @@ const events = ref([])
 // 📌 Configuração centralizada dos status
 const statusConfig = {
   // Status de Consultas (slots)
-  prevista: {
-    label: 'Prevista',
-    color: 'orange',
+  efetivada: {
+    label: 'Efetivada',
+    color: 'green',
+    statusEvent:'Não Aplica'
   },
   confirmada: {
     label: 'Confirmada',
     color: 'blue',
+    statusEvent:'A Consultar'
   },
-  efetivada: {
-    label: 'Efetivada',
-    color: 'green',
+  prevista: {
+    label: 'Prevista',
+    color: 'orange',
+    statusEvent:'A Confirmar'
   },
-  nao_aplica: {
-    label: 'Não Aplica',
-    color: 'teal',
-  },
-
   // Status de Ausência (full-day)
   folga: {
     label: 'Folga',
     color: 'grey',
+    statusEvent:''
   },
   ferias: {
     label: 'Férias',
     color: 'purple',
+    statusEvent:''
   },
   afastamento: {
-    label: 'Afastamento',
+    label: 'Ausencia',
     color: 'red',
+    statusEvent:''
   },
 }
 
@@ -262,7 +257,7 @@ const columns = [
     label: 'Status',
     align: 'left',
     field: 'status',
-    format: (val) => statusConfig[val]?.label || val,
+    format: (val) => statusConfig[val]?.statusEvent || val,
   },
   { name: 'patientName', label: 'Paciente', field: 'patientName', align: 'left' },
   { name: 'professionalName', label: 'Profissional', field: 'professionalName', align: 'left' },
@@ -382,8 +377,8 @@ const getEventsGrouped = (date) => {
     grouped[e.status].count++
   }
   return Object.values(grouped).sort((a, b) => {
-    // Ordem de exibição: confirmada, prevista, efetivada, não_aplica
-    const order = ['confirmada', 'prevista', 'efetivada', 'nao_aplica']
+    // Ordem de exibição
+    const order = ['efetivada', 'confirmada', 'prevista']
     return order.indexOf(a.status) - order.indexOf(b.status)
   })
 }
