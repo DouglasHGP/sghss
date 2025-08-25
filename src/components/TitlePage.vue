@@ -35,13 +35,22 @@
     </q-input>
     <q-space />
     <q-card-actions class="q-px-none q-pt-none">
+      <q-btn
+        v-if="isDialog"
+        flat
+        round
+        icon="close"
+        color="grey"
+        class=""
+        @click="$emit('close')"
+      />
+
       <slot name="actions" />
     </q-card-actions>
   </div>
 </template>
 
 <script setup>
-
 const props = defineProps({
   title: {
     type: String,
@@ -52,6 +61,10 @@ const props = defineProps({
     required: true,
   },
   searchable: {
+    type: Boolean,
+    default: false,
+  },
+  isDialog: {
     type: Boolean,
     default: false,
   },

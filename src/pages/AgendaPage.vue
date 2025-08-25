@@ -63,8 +63,8 @@
               <q-separator class="q-mb-sm" />
               <div class="column q-gutter-sm">
                 <q-badge
-                v-for="(config, status) in statusConfig"
-                :outline="config.label === 'Efetivada'"
+                  v-for="(config, status) in statusConfig"
+                  :outline="config.label === 'Efetivada'"
                   :key="status"
                   :color="config.color"
                   rounded
@@ -105,6 +105,7 @@
       </p>
       <p v-else>Nenhum evento agendado para este dia.</p>
     </q-card>
+    <PatientRecordsDialog ref="patientDialogRef" />
   </q-page>
 </template>
 
@@ -114,6 +115,7 @@ import { format, eachDayOfInterval, getDay, isBefore, isToday as isTodayFns } fr
 import { ptBR } from 'date-fns/locale'
 import { QCalendarMonth } from '@quasar/quasar-ui-qcalendar'
 import '@quasar/quasar-ui-qcalendar/dist/index.css'
+import PatientRecordsDialog from './PatientRecordsDialog.vue'
 
 // 📌 Estado principal
 const selectedDate = ref(format(new Date(), 'yyyy-MM-dd'))
@@ -121,6 +123,7 @@ const searchQuery = ref('')
 const isAdminOrDev = ref(true)
 const calendarMonth = ref(null)
 const events = ref([])
+const patientDialogRef = ref(null)
 
 // 📌 Configuração centralizada dos status
 const statusConfig = {
@@ -343,6 +346,21 @@ const handleTableAction = (event) => {
 const handleLineAction = ({ event, row }) => {
   if (event === 'respond') {
     console.log('Responder clicado para a linha:', row)
+    // Chamando o diálogo e passando os dados do paciente
+    if (patientDialogRef.value) {
+      patientDialogRef.value.openDialog({
+        patient: {
+          name: row.patientName,
+          age: 30,
+          condition: 'Estável',
+          last_appointment: row.date,
+        },
+        history: [], // aqui você pode passar histórico real
+        evolution: [],
+        prescriptions: [],
+        exams: [],
+      })
+    }
   }
   if (event === 'edit') {
     console.log('Editar clicado para a linha:', row)
