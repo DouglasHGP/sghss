@@ -31,10 +31,10 @@
               <template #day="{ scope }">
                 <div
                   :class="{
-                    'bg-blue-grey-1': isToday(scope.timestamp.date),
+                    'bg-teal-2': isBeforeToday(scope.timestamp.date),
                     'cursor-pointer': true,
                   }"
-                  class="q-pa-xs"
+                  class="q-py-md"
                   @click="selectDay(scope.timestamp.date)"
                 >
                   <div
@@ -49,7 +49,13 @@
                       :color="statusConfig[group.status]?.color"
                       class="justify-center"
                     >
-                      <span v-if="group.type === 'full-day'" class="text-subtitle2">
+                      <span
+                        v-if="group.type === 'full-day'"
+                        class="text-subtitle2"
+                        :class="{
+                          'q-px-md': !$q.platform.is.mobile
+                        }"
+                      >
                         {{ statusConfig[group.status].label }}
                       </span>
                       <span
@@ -296,8 +302,8 @@ const getEvents = (date) => {
   return events.value.filter((e) => e.date === date)
 }
 
-const isToday = (date) => {
-  return date === format(new Date(), 'yyyy-MM-dd')
+const isBeforeToday = (date) => {
+  return date < format(new Date(), 'yyyy-MM-dd')
 }
 
 const hasFullDayEvent = (date) => {
