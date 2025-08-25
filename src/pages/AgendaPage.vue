@@ -16,40 +16,59 @@
             </q-btn>
           </q-btn-group>
         </template>
-        <q-card class="row justify-around">
-          <q-calendar-month
-            ref="calendarMonth"
-            v-model="selectedDate"
-            animated
-            short-weekday-label
-            bordered
-            locale="pt-BR"
-            :weekdays="[0, 1, 2, 3, 4, 5, 6]"
-            :day-min-height="80"
-          >
-            <template #day="{ scope }">
-              <div
-                :class="{
-                  'bg-blue-grey-1': isToday(scope.timestamp.date),
-                  'cursor-pointer': true,
-                }"
-                class="q-pa-xs"
-                @click="selectDay(scope.timestamp.date)"
-              >
-                <div class="row items-start q-gutter-xs flex-wrap justify-around">
-                  <q-badge
-                    v-for="group in getEventsGrouped(scope.timestamp.date)"
-                    :key="group.status"
-                    :color="statusColors[group.status]"
-                    class="text-center"
-                  >
-                    {{ group.sample.title }} #{{ group.count }}
-                  </q-badge>
+        <div class="row q-gutter-md">
+          <q-card class="col">
+            <q-calendar-month
+              ref="calendarMonth"
+              v-model="selectedDate"
+              animated
+              short-weekday-label
+              bordered
+              locale="pt-BR"
+              :weekdays="[0, 1, 2, 3, 4, 5, 6]"
+              :day-min-height="80"
+            >
+              <template #day="{ scope }">
+                <div
+                  :class="{
+                    'bg-blue-grey-1': isToday(scope.timestamp.date),
+                    'cursor-pointer': true,
+                  }"
+                  class="q-pa-xs"
+                  @click="selectDay(scope.timestamp.date)"
+                >
+                  <div class="column q-gutter-xs">
+                    <q-badge
+                      v-for="group in getEventsGrouped(scope.timestamp.date)"
+                      :key="group.status"
+                      :color="statusColors[group.status]"
+                      class="justify-center"
+                    >
+                      QTD:[ {{ group.count }} ]
+                    </q-badge>
+                  </div>
                 </div>
+              </template>
+            </q-calendar-month>
+          </q-card>
+          <q-card class="col-auto">
+            <q-card-section>
+              <div class="text-subtitle1 text-weight-light">Legenda</div>
+              <q-separator class="q-mb-sm" />
+              <div class="column q-gutter-sm">
+                <q-badge
+                  v-for="(color, status) in statusColors"
+                  :key="status"
+                  :color="color"
+                  rounded
+                  class="justify-center"
+                >
+                  <span class="text-subtitle2">{{ status }}</span>
+                </q-badge>
               </div>
-            </template>
-          </q-calendar-month>
-        </q-card>
+            </q-card-section>
+          </q-card>
+        </div>
       </CardBase>
     </div>
 
@@ -100,14 +119,16 @@ const formatDateBR = (dateStr) => {
 function generateEvents() {
   const start = new Date(2025, 5, 1)
   const end = new Date(2025, 9, 31)
-
   const days = eachDayOfInterval({ start, end })
   let idCounter = 1
+
+  const slots = ['08:00', '09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00']
 
   days.forEach((day) => {
     const dateStr = format(day, 'yyyy-MM-dd')
     const dow = getDay(day)
 
+    // Junho = férias
     if (day.getMonth() === 5) {
       events.value.push({
         id: idCounter++,
@@ -116,11 +137,12 @@ function generateEvents() {
         title: 'Férias',
         patientName: '-',
         professionalName: 'Dr. Carlos Mendes',
-        status: 'ferias',
+        status: 'folga', // 'folga' é o status correto para ausências
       })
       return
     }
 
+    // Fins de semana = folga
     if (dow === 0 || dow === 6) {
       events.value.push({
         id: idCounter++,
@@ -134,46 +156,67 @@ function generateEvents() {
       return
     }
 
+    // Sexta-feira = todas vagas disponíveis
     if (dow === 5) {
-      events.value.push({
-        id: idCounter++,
-        date: dateStr,
-        time: '09:00',
-        title: 'Disponibilidade',
-        patientName: '-',
-        professionalName: 'Dr. Carlos Mendes',
-        status: 'disponivel',
+      slots.forEach((time) => {
+        events.value.push({
+          id: idCounter++,
+          date: dateStr,
+          time,
+          title: 'Nenhum',
+          patientName: '-',
+          professionalName: 'Dr. Carlos Mendes',
+          status: 'disponivel',
+        })
       })
       return
     }
 
-    if (dow === 2 || dow === 4) {
-      const morningSlots = ['08:00', '09:00', '10:00', '11:00']
-      const afternoonSlots = ['14:00', '15:00', '16:00']
+    // Segunda a quinta -> mix consultas/vagas
+    const consultas = Math.floor(Math.random() * 9)
+    const shuffled = [...slots].sort(() => Math.random() - 0.5)
 
-      morningSlots.forEach((time) => {
+    shuffled.forEach((time, index) => {
+      if (index < consultas) {
         events.value.push({
           id: idCounter++,
           date: dateStr,
           time,
-          title: 'Consulta',
+          title: 'Marcada',
           patientName: `Paciente ${idCounter}`,
           professionalName: 'Dr. Carlos Mendes',
-          status: 'marcada',
+          status: 'a confirmar', // Status: 'a confirmar'
         })
-      })
-
-      afternoonSlots.forEach((time) => {
+      } else {
         events.value.push({
           id: idCounter++,
           date: dateStr,
           time,
-          title: 'Consulta',
-          patientName: `Paciente ${idCounter}`,
+          title: 'Nenhum',
+          patientName: '-',
           professionalName: 'Dr. Carlos Mendes',
-          status: 'marcada',
+          status: 'disponivel', // Status: 'disponivel'
         })
-      })
+      }
+    })
+  })
+
+  // 🔄 Ajustar status conforme a data/hora
+  const hoje = format(new Date(), 'yyyy-MM-dd')
+
+  events.value.forEach((ev) => {
+    // se o evento está marcado
+    if (ev.title === 'Marcada') {
+      if (ev.date < hoje) {
+        ev.status = 'não aplica'
+        ev.title = 'Efetivada'
+      } else if (ev.date === hoje) {
+        ev.status = 'aguarda'
+        ev.title = 'Confirmada'
+      } else {
+        ev.status = 'a confirmar'
+        ev.title = 'Marcada'
+      }
     }
   })
 }
@@ -182,9 +225,9 @@ generateEvents()
 
 const statusColors = {
   disponivel: 'green',
-  marcada: 'orange',
-  confirmada: 'blue',
-  efetivada: 'teal',
+  'a confirmar': 'orange',
+  aguarda: 'blue',
+  'não aplica': 'teal',
   cancelada: 'red',
   folga: 'grey',
   ferias: 'purple',
@@ -192,9 +235,9 @@ const statusColors = {
 }
 
 const columns = [
-  { name: 'status', label: 'Status', align: 'left', field: 'status' },
   { name: 'time', label: 'Hora', field: 'time', align: 'left' },
   { name: 'title', label: 'Evento', field: 'title', align: 'left' },
+  { name: 'status', label: 'Status', align: 'left', field: 'status' },
   { name: 'patientName', label: 'Paciente', field: 'patientName', align: 'left' },
   { name: 'professionalName', label: 'Profissional', field: 'professionalName', align: 'left' },
 ]
