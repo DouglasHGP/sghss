@@ -57,7 +57,7 @@
       v-if="filteredDailyEvents.length > 0"
       icon="event"
       :label-search="'Paciente ou Profissional'"
-      :subtitle="`Eventos em ${selectedDate}`"
+      :subtitle="`Eventos em ${formatDateBR(selectedDate)}`"
       :rows="filteredDailyEvents"
       :columns="columns"
       :actions="[
@@ -82,6 +82,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { format, eachDayOfInterval, getDay } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 import { QCalendarMonth } from '@quasar/quasar-ui-qcalendar'
 import '@quasar/quasar-ui-qcalendar/dist/index.css'
 
@@ -91,6 +92,10 @@ const isAdminOrDev = ref(true)
 const calendarMonth = ref(null)
 
 const events = ref([])
+
+const formatDateBR = (dateStr) => {
+  return format(new Date(dateStr), 'dd/MM/yyyy', { locale: ptBR })
+}
 
 function generateEvents() {
   const start = new Date(2025, 5, 1)
