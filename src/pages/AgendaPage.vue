@@ -91,7 +91,7 @@
         { icon: 'filter_alt', label: 'Filtros', event: 'filter' },
       ]"
       :row-actions="[
-        { icon: 'done', label: 'Atender', event: 'respond' },
+        { icon: 'done', label: 'Atendimento', event: 'respond' },
         { icon: 'edit', label: 'Editar', event: 'edit' },
         { icon: 'delete', label: 'Excluir', event: 'delete' },
       ]"
