@@ -3,7 +3,7 @@
     <TitlePage title="Agenda" description="Gerencie suas consultas e horários de forma eficiente" />
 
     <div class="row q-gutter-md">
-      <CardBase class="col" title="Geral" icon="calendar_month">
+      <CardBase class="col" :title="currentMonthTitle" icon="calendar_month">
         <template #actions>
           <q-btn-group glossy push class="q-mt-xs">
             <q-btn color="secondary" icon="chevron_left" @click.stop="moveMonth(-1)">
@@ -23,6 +23,8 @@
               ref="calendarMonth"
               v-model="selectedDate"
               animated
+              dateType="rounded"
+              dateAlign="left"
               short-weekday-label
               bordered
               locale="pt-BR"
@@ -33,16 +35,18 @@
                 <div
                   :class="{
                     'bg-teal-2': isBeforeToday(scope.timestamp.date),
-                    'cursor-pointer': true, 'q-py-md': !isToday(scope.timestamp.date)
+                    'cursor-pointer': true,
+                    'q-py-md': !isToday(scope.timestamp.date),
                   }"
                   @click="selectDay(scope.timestamp.date)"
                 >
-                  <div
-                    class="column justify-around"
-                  >
+                  <div class="column justify-around">
                     <q-badge
                       rounded
-                      :outline="statusConfig[group.status].label === 'Efetivada' || statusConfig[group.status].label === 'Folga'"
+                      :outline="
+                        statusConfig[group.status].label === 'Efetivada' ||
+                        statusConfig[group.status].label === 'Folga'
+                      "
                       v-for="group in getEventsGrouped(scope.timestamp.date)"
                       :key="group.status"
                       :color="statusConfig[group.status]?.color"
@@ -143,6 +147,16 @@ const isAdminOrDev = ref(true)
 const calendarMonth = ref(null)
 const events = ref([])
 const patientDialogRef = ref(null)
+
+// 📌 Adicione esta computed property
+const currentMonthTitle = computed(() => {
+  if (selectedDate.value) {
+    const [year, month, day] = selectedDate.value.split('-').map(Number)
+    const date = new Date(year, month - 1, day)
+    return format(date, 'MMMM', { locale: ptBR }).toUpperCase() + ` / ${year}`
+  }
+  return 'Geral'
+})
 
 // 📌 Configuração centralizada dos status
 const statusConfig = {
