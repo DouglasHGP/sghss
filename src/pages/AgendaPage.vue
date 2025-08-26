@@ -33,18 +33,16 @@
                 <div
                   :class="{
                     'bg-teal-2': isBeforeToday(scope.timestamp.date),
-                    'cursor-pointer': true,
+                    'cursor-pointer': true, 'q-py-md': !isToday(scope.timestamp.date)
                   }"
-                  class="q-py-md"
                   @click="selectDay(scope.timestamp.date)"
                 >
                   <div
-                    class="justify-around"
-                    :class="{ row: !$q.platform.is.mobile, column: $q.platform.is.mobile }"
+                    class="column justify-around"
                   >
                     <q-badge
                       rounded
-                      :outline="statusConfig[group.status].label === 'Efetivada'"
+                      :outline="statusConfig[group.status].label === 'Efetivada' || statusConfig[group.status].label === 'Folga'"
                       v-for="group in getEventsGrouped(scope.timestamp.date)"
                       :key="group.status"
                       :color="statusConfig[group.status]?.color"
@@ -307,6 +305,10 @@ const getEvents = (date) => {
 
 const isBeforeToday = (date) => {
   return date < format(new Date(), 'yyyy-MM-dd')
+}
+
+const isToday = (date) => {
+  return date === format(new Date(), 'yyyy-MM-dd')
 }
 
 const hasFullDayEvent = (date) => {
