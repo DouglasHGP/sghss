@@ -1,6 +1,10 @@
 <template>
   <q-dialog v-model="isDialogOpen" persistent>
-    <q-card class="full-width q-pa-md" style="overflow-y: auto" :style="{ maxWidth: $q.platform.is.mobile ? '100%' : '70vw' }">
+    <q-card
+      class="full-width q-pa-md"
+      style="overflow-y: auto"
+      :style="{ maxWidth: $q.platform.is.mobile ? '100%' : '70vw' }"
+    >
       <div>
         <TitlePage
           title="Atendimento"
@@ -9,7 +13,13 @@
           isDialog
         />
         <div class="row q-gutter-md">
-          <CardBase class="col" :title="patientData.name" :subtitle="true" icon="person" collapsible>
+          <CardBase
+            class="col"
+            :title="patientData.name"
+            :subtitle="true"
+            icon="person"
+            collapsible
+          >
             <template #subtitle-prepend>
               <div
                 class="text-weight-light"
@@ -21,6 +31,60 @@
                 Idade: {{ patientData.age }}
               </div>
             </template>
+
+            <div class="q-gutter-sm">
+              <div class="rounded-borders text-white bg-teal-3 q-pa-sm">
+                <div class="row justify-between">
+                  <label class="text-subtitle1">
+                    Nascimento:
+                    <span class="text-subtitle2">{{ patientData.birth_date }}</span>
+                  </label>
+                  <label class="text-subtitle1"
+                    >Documento: <span class="text-subtitle2">{{ patientData.document }}</span>
+                  </label>
+                </div>
+
+                <div class="row justify-between">
+                  <label class="text-subtitle1">
+                    Telefone: <span class="text-subtitle2">{{ patientData.phone }}</span>
+                  </label>
+                  <q-space />
+                  <label class="text-subtitle1"
+                    >Email: <span class="text-subtitle2">{{ patientData.email }}</span></label
+                  >
+                </div>
+
+                <div class="row justify-between">
+                  <label class="text-subtitle1"
+                    >Logradouro:
+                    <span class="text-subtitle2">{{ patientData.address }}</span></label
+                  >
+                  <q-space />
+                  <label class="text-subtitle1"
+                    >Complemento:
+                    <span class="text-subtitle2">{{ patientData.complement }}</span></label
+                  >
+                  <q-space />
+                  <label class="text-subtitle1"
+                    >Bairro:
+                    <span class="text-subtitle2">{{ patientData.district }}</span></label
+                  >
+                  <q-space />
+                  <label class="text-subtitle1"
+                    >Cidade: <span class="text-subtitle2">{{ patientData.city }}</span></label
+                  >
+                  <q-space />
+                  <label class="text-subtitle1"
+                    >UF: <span class="text-subtitle2">{{ patientData.state }}</span></label
+                  >
+                </div>
+
+                <label class="text-subtitle1"
+                  >Observação:
+                  <span class="text-subtitle2">{{ patientData.observation }}</span></label
+                >
+              </div>
+            </div>
             <q-card>
               <q-tabs
                 v-model="tab"
@@ -32,45 +96,13 @@
                 align="justify"
                 narrow-indicator
               >
-                <q-tab name="resumo" label="Resumo" icon="info" />
                 <q-tab name="historico" label="Histórico" icon="history" />
                 <q-tab name="evolucao" label="Evolução" icon="notes" />
                 <q-tab name="prescricao" label="Prescrições" icon="history_edu" />
                 <q-tab name="exames" label="Exames e Outros" icon="science" />
               </q-tabs>
               <q-tab-panels v-model="tab" animated>
-                <q-tab-panel name="resumo">
-                  <div class="text-h6">Resumo</div>
-                  <q-list bordered separator>
-                    <q-item>
-                      <q-item-section>
-                        <q-item-label>Condição</q-item-label>
-                        <q-item-label caption
-                          ><q-badge
-                            class="q-px-sm"
-                            rounded
-                            :color="conditionColors[patientData.condition]"
-                            >{{ patientData.condition }}</q-badge
-                          ></q-item-label
-                        >
-                      </q-item-section>
-                    </q-item>
-                    <q-item>
-                      <q-item-section>
-                        <q-item-label>Telefone</q-item-label>
-                        <q-item-label caption>{{ patientData.phone }}</q-item-label>
-                      </q-item-section>
-                    </q-item>
-                    <q-item>
-                      <q-item-section>
-                        <q-item-label>Endereço</q-item-label>
-                        <q-item-label caption>{{ patientData.address }}</q-item-label>
-                      </q-item-section>
-                    </q-item>
-                  </q-list>
-                </q-tab-panel>
                 <q-tab-panel name="historico">
-                  <div class="text-h6">Histórico de Atendimentos</div>
                   <q-list bordered separator>
                     <q-item v-for="att in historyData" :key="att.id" clickable v-ripple>
                       <q-item-section>
@@ -86,22 +118,22 @@
                   </q-list>
                 </q-tab-panel>
                 <q-tab-panel name="evolucao">
-                  <div class="text-h6">Evolução Clínica</div>
-                  <q-timeline color="teal">
-                    <q-timeline-entry
-                      v-for="evol in evolutionData"
-                      :key="evol.id"
-                      :title="`Evolução de ${evol.professional}`"
-                      :subtitle="evol.date"
-                      :icon="evol.icon"
-                      :color="evolutionColors[evol.type]"
-                    >
-                      <div>{{ evol.description }}</div>
-                    </q-timeline-entry>
-                  </q-timeline>
+                  <div style="border: 1px solid #ddd; padding-left: 20px; padding-right: 20px;">
+                    <q-timeline color="teal">
+                      <q-timeline-entry
+                        v-for="evol in evolutionData"
+                        :key="evol.id"
+                        :title="`Evolução de ${evol.professional}`"
+                        :subtitle="evol.date"
+                        :icon="evol.icon"
+                        :color="evolutionColors[evol.type]"
+                      >
+                        <div>{{ evol.description }}</div>
+                      </q-timeline-entry>
+                    </q-timeline>
+                  </div>
                 </q-tab-panel>
                 <q-tab-panel name="prescricao">
-                  <div class="text-h6">Prescrições</div>
                   <q-table
                     :rows="prescriptionData"
                     :columns="prescriptionColumns"
@@ -119,7 +151,6 @@
                   </q-table>
                 </q-tab-panel>
                 <q-tab-panel name="exames">
-                  <div class="text-h6">Exames e Resultados</div>
                   <q-list bordered separator>
                     <q-item v-for="exam in examsData" :key="exam.id" clickable v-ripple>
                       <q-item-section>
@@ -140,7 +171,7 @@
         </div>
 
         <div class="row q-gutter-md">
-          <AnamneseForm @onSave="handleAnamneseSubmit" @close="handleClose"/>
+          <AnamneseForm @onSave="handleAnamneseSubmit" @close="handleClose" />
         </div>
       </div>
     </q-card>
@@ -151,7 +182,7 @@
 import { ref } from 'vue'
 import AnamneseForm from 'src/forms/AnamneseForm.vue'
 
-const tab = ref('resumo')
+const tab = ref('historico')
 
 const isDialogOpen = ref(false)
 
@@ -223,12 +254,6 @@ const examsData = [
   { id: 2, date: '16/07/2025', name: 'Radiografia do Tórax', status: 'Finalizado' },
   { id: 3, date: '05/06/2025', name: 'Ressonância Magnética', status: 'Pendente' },
 ]
-
-const conditionColors = {
-  Estável: 'teal-8',
-  Crítico: 'negative',
-  Recuperação: 'warning',
-}
 
 const evolutionColors = {
   Melhora: 'positive',

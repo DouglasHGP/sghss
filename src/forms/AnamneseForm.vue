@@ -34,12 +34,22 @@
             type="checkbox"
             :options="doencasCronicasOptions"
           />
+          <q-input
+            standout="bg-teal text-white"
+            rounded
+            v-if="formData.doencasCronicas.includes('outras') && $q.screen.lt.md"
+            v-model="formData.outrasDoencasCronicas"
+            type="textarea"
+            label="Especifique outras doenças *"
+            rows="2"
+            class="q-mt-md"
+          />
         </div>
 
         <div
           :class="{
             'col-8 q-gutter-md': !$q.platform.is.mobile,
-            'col-grow': $q.platform.is.mobile,
+            'col-grow': $q.screen.lt.md,
           }"
         >
           <div class="text-subtitle1 q-mb-sm text-grey-7">Uso de Substâncias</div>
@@ -79,10 +89,10 @@
       <q-input
         standout="bg-teal text-white"
         rounded
-        v-if="formData.doencasCronicas.includes('outras')"
+        v-if="formData.doencasCronicas.includes('outras') && $q.screen.lt.sm"
         v-model="formData.outrasDoencasCronicas"
         type="textarea"
-        label="Especifique outras doenças"
+        label="Especifique outras doenças *"
         rows="2"
         class="q-mt-md"
       />
@@ -175,7 +185,7 @@ const doencasCronicasOptions = [
   { label: 'Diabetes Mellitus', value: 'dm' },
   { label: 'Asma', value: 'asma' },
   { label: 'Artrite Reumatoide', value: 'artrite' },
-  { label: 'Outras Doenças', value: 'outras' },
+  { label: 'Outras Doenças *', value: 'outras' },
 ]
 
 const resetForm = () => {
