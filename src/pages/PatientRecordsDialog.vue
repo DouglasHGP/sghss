@@ -93,27 +93,12 @@
                 align="justify"
                 narrow-indicator
               >
-                <q-tab name="historico" label="Histórico" icon="history" />
                 <q-tab name="evolucao" label="Evolução" icon="notes" />
+                <q-tab name="historico" label="Histórico" icon="history" />
                 <q-tab name="prescricao" label="Prescrições" icon="history_edu" />
                 <q-tab name="exames" label="Exames e Outros" icon="science" />
               </q-tabs>
               <q-tab-panels v-model="tab" animated>
-                <q-tab-panel name="historico">
-                  <q-list bordered separator>
-                    <q-item v-for="att in historyData" :key="att.id" clickable v-ripple>
-                      <q-item-section>
-                        <q-item-label>{{ att.date }}</q-item-label>
-                        <q-item-label caption>
-                          {{ att.type }} com {{ att.professional }}
-                        </q-item-label>
-                      </q-item-section>
-                      <q-item-section side>
-                        <q-icon name="chevron_right" />
-                      </q-item-section>
-                    </q-item>
-                  </q-list>
-                </q-tab-panel>
                 <q-tab-panel name="evolucao">
                   <div style="border: 1px solid #ddd; padding-left: 20px; padding-right: 20px">
                     <q-timeline color="teal">
@@ -130,6 +115,19 @@
                     </q-timeline>
                   </div>
                 </q-tab-panel>
+
+                <q-tab-panel name="historico">
+                  <q-table
+                    :rows="historyData"
+                    :columns="historyColumns"
+                    row-key="id"
+                    flat
+                    bordered
+                    dense
+                  >
+                  </q-table>
+                </q-tab-panel>
+
                 <q-tab-panel name="prescricao">
                   <q-table
                     :rows="prescriptionData"
@@ -139,28 +137,19 @@
                     bordered
                     dense
                   >
-                    <template v-slot:body-cell-item="props">
-                      <q-td :props="props">
-                        <q-item-label>{{ props.row.item }}</q-item-label>
-                        <q-item-label caption>{{ props.row.instruction }}</q-item-label>
-                      </q-td>
-                    </template>
                   </q-table>
                 </q-tab-panel>
+
                 <q-tab-panel name="exames">
-                  <q-list bordered separator>
-                    <q-item v-for="exam in examsData" :key="exam.id" clickable v-ripple>
-                      <q-item-section>
-                        <q-item-label>{{ exam.name }}</q-item-label>
-                        <q-item-label caption>
-                          Data: {{ exam.date }} | Status: {{ exam.status }}
-                        </q-item-label>
-                      </q-item-section>
-                      <q-item-section side>
-                        <q-btn flat round icon="download" color="primary" />
-                      </q-item-section>
-                    </q-item>
-                  </q-list>
+                  <q-table
+                    :rows="examsData"
+                    :columns="examsColumns"
+                    row-key="id"
+                    flat
+                    bordered
+                    dense
+                  >
+                  </q-table>
                 </q-tab-panel>
               </q-tab-panels>
             </q-card>
@@ -179,7 +168,7 @@
 import { ref } from 'vue'
 import AnamneseForm from 'src/forms/AnamneseForm.vue'
 
-const tab = ref('historico')
+const tab = ref('evolucao')
 
 const isDialogOpen = ref(false)
 
@@ -219,10 +208,30 @@ const patientData = {
 }
 
 const historyData = [
-  { id: 1, date: '20/08/2025', type: 'Consulta de Rotina', professional: 'Dr. Carlos Mendes' },
-  { id: 2, date: '15/07/2025', type: 'Retorno Pós-operatório', professional: 'Dra. Ana Costa' },
-  { id: 3, date: '10/06/2025', type: 'Revisão de Exames', professional: 'Dr. Lucas Pereira' },
-  { id: 4, date: '05/05/2025', type: 'Primeira Consulta', professional: 'Dr. Lucas Pereira' },
+  {
+    id: '1',
+    date: '20/08/2025',
+    description: 'Consulta de Rotina',
+    professional: 'Dr. Carlos Mendes',
+  },
+  {
+    id: '2',
+    date: '15/07/2025',
+    description: 'Retorno Pós-operatório',
+    professional: 'Dra. Ana Costa',
+  },
+  {
+    id: '3',
+    date: '10/06/2025',
+    description: 'Revisão de Exames',
+    professional: 'Dr. Lucas Pereira',
+  },
+  {
+    id: '4',
+    date: '05/05/2025',
+    description: 'Primeira Consulta',
+    professional: 'Dr. Lucas Pereira',
+  },
 ]
 
 const evolutionData = [
@@ -265,21 +274,26 @@ const evolutionData = [
 ]
 
 const prescriptionData = [
-  { id: 1, date: '20/08/2025', item: 'Dipirona 500mg', instruction: '1 comprimido a cada 6 horas' },
   {
-    id: 2,
+    id: '1',
+    date: '20/08/2025',
+    item: 'Dipirona 500mg',
+    instruction: '1 comprimido a cada 6 horas',
+  },
+  {
+    id: '2',
     date: '20/08/2025',
     item: 'Amoxicilina 500mg',
     instruction: '1 comprimido a cada 8 horas por 7 dias',
   },
   {
-    id: 3,
+    id: '3',
     date: '15/07/2025',
     item: 'Ibuprofeno 400mg',
     instruction: '1 comprimido a cada 8 horas por 3 dias, em caso de dor',
   },
   {
-    id: 4,
+    id: '4',
     date: '10/06/2025',
     item: 'Losartana 50mg',
     instruction: '1 comprimido por dia',
@@ -287,10 +301,10 @@ const prescriptionData = [
 ]
 
 const examsData = [
-  { id: 1, date: '18/08/2025', name: 'Exame de Sangue', status: 'Finalizado' },
-  { id: 2, date: '16/07/2025', name: 'Radiografia do Tórax', status: 'Finalizado' },
-  { id: 3, date: '05/06/2025', name: 'Ressonância Magnética', status: 'Pendente' },
-  { id: 4, date: '02/05/2025', name: 'Eletrocardiograma', status: 'Finalizado' },
+  { id: '1', date: '18/08/2025', name: 'Exame de Sangue', status: 'Finalizado' },
+  { id: '2', date: '16/07/2025', name: 'Radiografia do Tórax', status: 'Finalizado' },
+  { id: '3', date: '05/06/2025', name: 'Ressonância Magnética', status: 'Pendente' },
+  { id: '4', date: '02/05/2025', name: 'Eletrocardiograma', status: 'Finalizado' },
 ]
 
 const evolutionColors = {
@@ -298,11 +312,6 @@ const evolutionColors = {
   Alerta: 'warning',
   Piora: 'negative',
 }
-
-const prescriptionColumns = [
-  { name: 'date', label: 'Data', field: 'date', align: 'left' },
-  { name: 'item', label: 'Item/Instrução', field: 'item', align: 'left' },
-]
 </script>
 
 <style scoped>
