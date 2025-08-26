@@ -47,7 +47,7 @@ import { ref } from 'vue'
 
 const props = defineProps({
   title: { type: String, required: true },
-  subtitle: { type: String, default: '' },
+  subtitle: { type: [String, Boolean], default: '' },
   icon: { type: String, default: 'info' },
   collapsible: { type: Boolean, default: false },
   searchable: { type: Boolean, default: false },
