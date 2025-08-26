@@ -134,7 +134,14 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
-import { format, eachDayOfInterval, getDay, isBefore, isToday as isTodayFns } from 'date-fns'
+import {
+  format,
+  parseISO,
+  eachDayOfInterval,
+  getDay,
+  isBefore,
+  isToday as isTodayFns,
+} from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { QCalendarMonth } from '@quasar/quasar-ui-qcalendar'
 import '@quasar/quasar-ui-qcalendar/dist/index.css'
@@ -196,7 +203,7 @@ const statusConfig = {
 
 // 📌 Utilitário
 const formatDateBR = (dateStr) => {
-  return format(new Date(dateStr), 'dd/MM/yyyy', { locale: ptBR })
+  return format(parseISO(dateStr), 'dd/MM/yyyy', { locale: ptBR })
 }
 
 // 📌 Geração de eventos fake
