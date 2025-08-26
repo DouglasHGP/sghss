@@ -2,7 +2,7 @@
   <q-page class="q-pa-md">
     <TitlePage title="Agenda" description="Gerencie suas consultas e horários de forma eficiente" />
 
-    <div class="row q-gutter-md" :class="{'q-mr-md' : $q.platform.is.mobile}">
+    <div class="row q-gutter-md" >
       <CardBase class="col" title="Geral" icon="calendar_month">
         <template #actions>
           <q-btn-group glossy push class="q-mt-xs">
@@ -83,45 +83,46 @@
         </div>
       </CardBase>
 
-    <TableList
-      v-if="filteredDailyEvents.length > 0"
-      icon="event"
-      :label-search="'Paciente ou Profissional'"
-      :subtitle="`Eventos em ${formatDateBR(selectedDate)}`"
-      :rows="filteredDailyEvents"
-      :columns="columns"
-      :actions="[
-        { icon: 'add', label: 'Adicionar', event: 'add' },
-        { icon: 'filter_alt', label: 'Filtros', event: 'filter' },
-      ]"
-      :row-actions="[
-        { icon: 'done', label: 'Atendimento', event: 'respond' },
-        { icon: 'edit', label: 'Editar', event: 'edit' },
-        { icon: 'delete', label: 'Excluir', event: 'delete' },
-      ]"
-      @action="handleTableAction"
-      @rowAction="handleLineAction"
-    >
-      <template #body-cell-title="props">
-        <q-td :props="props">
-          <q-badge
-            :color="statusConfig[props.row.status]?.color"
-            :outline="statusConfig[props.row.status].label === 'Efetivada'"
-            class="q-mr-sm"
-            rounded
-          >
-            {{ statusConfig[props.row.status]?.label }}
-          </q-badge>
-        </q-td>
-      </template>
-    </TableList>
-    <q-card v-else class="col text-center flex flex-center text-grey-6 q-mt-md q-pt-md q-pb-xs">
-      <q-icon name="event_busy" size="md" class="q-mb-md q-mr-md" />
-      <p v-if="hasFullDayEvent(selectedDate)">
-        {{ statusConfig[getEventType(selectedDate).status].label }}
-      </p>
-      <p v-else>Nenhum evento agendado para este dia.</p>
-    </q-card>
+      <TableList
+        v-if="filteredDailyEvents.length > 0"
+        icon="event"
+        :class="{'col-11' : $q.platform.is.mobile}"
+        :label-search="'Paciente ou Profissional'"
+        :subtitle="`Eventos em ${formatDateBR(selectedDate)}`"
+        :rows="filteredDailyEvents"
+        :columns="columns"
+        :actions="[
+          { icon: 'add', label: 'Adicionar', event: 'add' },
+          { icon: 'filter_alt', label: 'Filtros', event: 'filter' },
+        ]"
+        :row-actions="[
+          { icon: 'done', label: 'Atendimento', event: 'respond' },
+          { icon: 'edit', label: 'Editar', event: 'edit' },
+          { icon: 'delete', label: 'Excluir', event: 'delete' },
+        ]"
+        @action="handleTableAction"
+        @rowAction="handleLineAction"
+      >
+        <template #body-cell-title="props">
+          <q-td :props="props">
+            <q-badge
+              :color="statusConfig[props.row.status]?.color"
+              :outline="statusConfig[props.row.status].label === 'Efetivada'"
+              class="q-mr-sm"
+              rounded
+            >
+              {{ statusConfig[props.row.status]?.label }}
+            </q-badge>
+          </q-td>
+        </template>
+      </TableList>
+      <q-card v-else class="col text-center flex flex-center text-grey-6 q-mt-md q-pt-md q-pb-xs">
+        <q-icon name="event_busy" size="md" class="q-mb-md q-mr-md" />
+        <p v-if="hasFullDayEvent(selectedDate)">
+          {{ statusConfig[getEventType(selectedDate).status].label }}
+        </p>
+        <p v-else>Nenhum evento agendado para este dia.</p>
+      </q-card>
     </div>
 
     <PatientRecordsDialog ref="patientDialogRef" />
