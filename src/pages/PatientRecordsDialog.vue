@@ -33,7 +33,7 @@
             </template>
 
             <div class="q-gutter-sm">
-              <div class="rounded-borders text-white bg-teal-3 q-pa-sm">
+              <div class="rounded-borders text-teal-9 bg-teal-1 q-pa-sm">
                 <div class="row justify-between">
                   <label class="text-subtitle1">
                     Nascimento:
@@ -66,8 +66,7 @@
                   >
                   <q-space />
                   <label class="text-subtitle1"
-                    >Bairro:
-                    <span class="text-subtitle2">{{ patientData.district }}</span></label
+                    >Bairro: <span class="text-subtitle2">{{ patientData.district }}</span></label
                   >
                   <q-space />
                   <label class="text-subtitle1"
@@ -118,7 +117,7 @@
                   </q-list>
                 </q-tab-panel>
                 <q-tab-panel name="evolucao">
-                  <div style="border: 1px solid #ddd; padding-left: 20px; padding-right: 20px;">
+                  <div style="border: 1px solid #ddd; padding-left: 20px; padding-right: 20px">
                     <q-timeline color="teal">
                       <q-timeline-entry
                         v-for="evol in evolutionData"
@@ -208,14 +207,23 @@ const handleAnamneseSubmit = (data) => {
 const patientData = {
   name: 'João da Silva',
   age: 30,
-  condition: 'Estável',
-  last_appointment: '20/08/2025',
+  birth_date: '15/05/1995',
+  document: '123.456.789-00',
+  phone: '(11) 98765-4321',
+  email: 'joao.silva@email.com',
+  address: 'Rua das Flores, 123',
+  complement: 'Apto 45',
+  district: 'Jardim Primavera',
+  city: 'São Paulo',
+  state: 'SP',
+  observation: 'Paciente com histórico de hipertensão e diabetes tipo 2. Segue tratamento regular.',
 }
 
 const historyData = [
   { id: 1, date: '20/08/2025', type: 'Consulta de Rotina', professional: 'Dr. Carlos Mendes' },
   { id: 2, date: '15/07/2025', type: 'Retorno Pós-operatório', professional: 'Dra. Ana Costa' },
   { id: 3, date: '10/06/2025', type: 'Revisão de Exames', professional: 'Dr. Lucas Pereira' },
+  { id: 4, date: '05/05/2025', type: 'Primeira Consulta', professional: 'Dr. Lucas Pereira' },
 ]
 
 const evolutionData = [
@@ -237,6 +245,24 @@ const evolutionData = [
     description:
       'Quadro evoluiu com dor e inchaço no tornozelo. Sugerido encaminhamento para ortopedista.',
   },
+  {
+    id: 3,
+    date: '10/06/2025',
+    type: 'Melhora',
+    icon: 'sentiment_satisfied',
+    professional: 'Dr. Lucas Pereira',
+    description:
+      'Paciente apresentou melhora após início da medicação. Pressão arterial estável e níveis de glicose controlados.',
+  },
+  {
+    id: 4,
+    date: '05/05/2025',
+    type: 'Piora',
+    icon: 'sentiment_very_dissatisfied',
+    professional: 'Dr. Lucas Pereira',
+    description:
+      'Paciente compareceu com queixa de dores no peito e falta de ar. Iniciado protocolo de exames e medicação de emergência.',
+  },
 ]
 
 const prescriptionData = [
@@ -247,12 +273,25 @@ const prescriptionData = [
     item: 'Amoxicilina 500mg',
     instruction: '1 comprimido a cada 8 horas por 7 dias',
   },
+  {
+    id: 3,
+    date: '15/07/2025',
+    item: 'Ibuprofeno 400mg',
+    instruction: '1 comprimido a cada 8 horas por 3 dias, em caso de dor',
+  },
+  {
+    id: 4,
+    date: '10/06/2025',
+    item: 'Losartana 50mg',
+    instruction: '1 comprimido por dia',
+  },
 ]
 
 const examsData = [
   { id: 1, date: '18/08/2025', name: 'Exame de Sangue', status: 'Finalizado' },
   { id: 2, date: '16/07/2025', name: 'Radiografia do Tórax', status: 'Finalizado' },
   { id: 3, date: '05/06/2025', name: 'Ressonância Magnética', status: 'Pendente' },
+  { id: 4, date: '02/05/2025', name: 'Eletrocardiograma', status: 'Finalizado' },
 ]
 
 const evolutionColors = {

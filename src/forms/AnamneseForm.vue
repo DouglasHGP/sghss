@@ -2,7 +2,7 @@
   <q-form @submit="handleSubmit" class="col">
     <CardBase title="Anamnese" icon="search">
       <q-input
-        standout="bg-teal text-white"
+        standout="bg-teal-3 text-teal-9"
         rounded
         v-model="formData.queixaPrincipal"
         type="textarea"
@@ -14,7 +14,7 @@
       <q-space class="q-mt-md" />
 
       <q-input
-        standout="bg-teal text-white"
+        standout="bg-teal-3 text-teal-9"
         rounded
         v-model="formData.hda"
         type="textarea"
@@ -35,7 +35,7 @@
             :options="doencasCronicasOptions"
           />
           <q-input
-            standout="bg-teal text-white"
+            standout="bg-teal-3 text-teal-9"
             rounded
             v-if="formData.doencasCronicas.includes('outras') && $q.screen.lt.md"
             v-model="formData.outrasDoencasCronicas"
@@ -55,7 +55,7 @@
           <div class="text-subtitle1 q-mb-sm text-grey-7">Uso de Substâncias</div>
 
           <q-input
-            standout="bg-teal text-white"
+            standout="bg-teal-3 text-teal-9"
             rounded
             v-model="formData.tabagismo"
             type="textarea"
@@ -64,7 +64,7 @@
             class="row"
           />
           <q-input
-            standout="bg-teal text-white"
+            standout="bg-teal-3 text-teal-9"
             rounded
             v-model="formData.alcoolismo"
             type="textarea"
@@ -74,7 +74,7 @@
             :class="{ 'q-mt-md': $q.platform.is.mobile }"
           />
           <q-input
-            standout="bg-teal text-white"
+            standout="bg-teal-3 text-teal-9"
             rounded
             v-model="formData.outras_substancias"
             type="textarea"
@@ -87,7 +87,7 @@
       </div>
 
       <q-input
-        standout="bg-teal text-white"
+        standout="bg-teal-3 text-teal-9"
         rounded
         v-if="formData.doencasCronicas.includes('outras') && $q.screen.lt.sm"
         v-model="formData.outrasDoencasCronicas"
@@ -100,7 +100,7 @@
       <q-space class="q-mt-md" />
 
       <q-input
-        standout="bg-teal text-white"
+        standout="bg-teal-3 text-teal-9"
         rounded
         v-model="formData.medicamentos"
         type="textarea"
@@ -111,7 +111,7 @@
       <q-space class="q-mt-md" />
 
       <q-input
-        standout="bg-teal text-white"
+        standout="bg-teal-3 text-teal-9"
         rounded
         v-model="formData.cirurgias"
         type="textarea"
@@ -122,7 +122,7 @@
       <q-space class="q-mt-md" />
 
       <q-input
-        standout="bg-teal text-white"
+        standout="bg-teal-3 text-teal-9"
         rounded
         v-model="formData.alergias"
         type="textarea"
@@ -133,7 +133,7 @@
       <q-space class="q-mt-md" />
 
       <q-input
-        standout="bg-teal text-white"
+        standout="bg-teal-3 text-teal-9"
         rounded
         v-model="formData.historiaFamiliar"
         type="textarea"
