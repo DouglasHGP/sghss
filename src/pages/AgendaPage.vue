@@ -2,7 +2,7 @@
   <q-page class="q-pa-md">
     <TitlePage title="Agenda" description="Gerencie suas consultas e horários de forma eficiente" />
 
-    <div class="row q-gutter-md" >
+    <div class="row q-gutter-md">
       <CardBase class="col" title="Geral" icon="calendar_month">
         <template #actions>
           <q-btn-group glossy push class="q-mt-xs">
@@ -54,7 +54,7 @@
                         v-if="group.type === 'full-day'"
                         class="text-subtitle2"
                         :class="{
-                          'q-px-md': !$q.platform.is.mobile,
+                          'q-px-sm': !$q.platform.is.mobile,
                         }"
                       >
                         {{ statusConfig[group.status].label }}
@@ -86,7 +86,8 @@
       <TableList
         v-if="filteredDailyEvents.length > 0"
         icon="event"
-        :class="{'col-11' : $q.platform.is.mobile}"
+        class="col"
+        :class="{ 'col-11': $q.platform.is.mobile }"
         :label-search="'Paciente ou Profissional'"
         :subtitle="`Eventos em ${formatDateBR(selectedDate)}`"
         :rows="filteredDailyEvents"

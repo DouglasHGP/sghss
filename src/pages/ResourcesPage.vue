@@ -6,8 +6,7 @@
     />
 
     <div class="row q-gutter-md">
-      <CardBase class="col" title="Resumo" icon="info" collapsible>
-        <q-card>
+l        <q-card>
           <q-tabs
             v-model="tab"
             :inline-label="!$q.platform.is.mobile"
