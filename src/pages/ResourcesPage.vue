@@ -26,17 +26,17 @@
             <q-tab-panel name="materiais" class="q-pa-none">
               <div class="q-mx-md q-mb-md">
                 <q-card class="row justify-around q-mt-md">
-                  <q-card-section class="text-center">
+                  <q-card-section class="text-center q-py-xs col">
                     <div :class="[responsiveText()]" class="text-teal">1.250</div>
                     <div class="text-caption">Itens</div>
                   </q-card-section>
                   <q-separator vertical inset />
-                  <q-card-section class="text-center">
+                  <q-card-section class="text-center q-py-xs col">
                     <div :class="[responsiveText()]" class="text-teal">980</div>
                     <div class="text-caption">Disponíveis</div>
                   </q-card-section>
                   <q-separator vertical inset />
-                  <q-card-section class="text-center">
+                  <q-card-section class="text-center q-py-xs col">
                     <div :class="[responsiveText()]" class="text-teal">150</div>
                     <div class="text-caption">Críticos</div>
                   </q-card-section>
@@ -241,22 +241,58 @@ const materiais = ref([
   { id: 5, nome: 'Omeprazol 20mg', categoria: 'Medicamento', tipo: 'Gastro', quantidade: 180 },
   { id: 6, nome: 'Algodão', categoria: 'Material', tipo: 'Curativos', quantidade: 300 },
   { id: 7, nome: 'LTM-005', categoria: 'Leito', tipo: 'Motorizada', quantidade: 1 },
-  { id: 8, nome: 'Soro Fisiológico', categoria: 'Medicamento', tipo: 'Hidratante', quantidade: 1000 },
+  {
+    id: 8,
+    nome: 'Soro Fisiológico',
+    categoria: 'Medicamento',
+    tipo: 'Hidratante',
+    quantidade: 1000,
+  },
   { id: 9, nome: 'Máscaras N95', categoria: 'Material', tipo: 'EPI', quantidade: 200 },
   { id: 10, nome: 'Vacina Antitetânica', categoria: 'Medicamento', tipo: 'Vacina', quantidade: 75 },
   { id: 11, nome: 'Ataduras', categoria: 'Material', tipo: 'Curativos', quantidade: 400 },
-  { id: 12, nome: 'Paracetamol 750mg', categoria: 'Medicamento', tipo: 'Analgésico', quantidade: 450 },
+  {
+    id: 12,
+    nome: 'Paracetamol 750mg',
+    categoria: 'Medicamento',
+    tipo: 'Analgésico',
+    quantidade: 450,
+  },
   { id: 13, nome: 'LTH-005', categoria: 'Leito', tipo: 'Manual', quantidade: 1 },
-  { id: 14, nome: 'Amoxicilina 500mg', categoria: 'Medicamento', tipo: 'Antibiótico', quantidade: 150 },
-  { id: 15, nome: 'Bisturis Descartáveis', categoria: 'Material', tipo: 'Instrumentos', quantidade: 100 },
-  { id: 16, nome: 'Ibuprofeno 400mg', categoria: 'Medicamento', tipo: 'Analgésico', quantidade: 200 },
+  {
+    id: 14,
+    nome: 'Amoxicilina 500mg',
+    categoria: 'Medicamento',
+    tipo: 'Antibiótico',
+    quantidade: 150,
+  },
+  {
+    id: 15,
+    nome: 'Bisturis Descartáveis',
+    categoria: 'Material',
+    tipo: 'Instrumentos',
+    quantidade: 100,
+  },
+  {
+    id: 16,
+    nome: 'Ibuprofeno 400mg',
+    categoria: 'Medicamento',
+    tipo: 'Analgésico',
+    quantidade: 200,
+  },
   { id: 17, nome: 'LTH-001', categoria: 'Leito', tipo: 'Manual', quantidade: 1 },
   { id: 18, nome: 'Álcool 70%', categoria: 'Material', tipo: 'Higiene', quantidade: 50 },
   { id: 19, nome: 'Dipirona 500mg', categoria: 'Medicamento', tipo: 'Analgésico', quantidade: 300 },
   { id: 20, nome: 'LTM-003', categoria: 'Leito', tipo: 'Motorizada', quantidade: 1 },
   { id: 21, nome: 'Gazes Estéreis', categoria: 'Material', tipo: 'Curativos', quantidade: 250 },
   { id: 22, nome: 'Insulina', categoria: 'Medicamento', tipo: 'Diabetes', quantidade: 60 },
-  { id: 23, nome: 'Cefalexina 500mg', categoria: 'Medicamento', tipo: 'Antibiótico', quantidade: 120 },
+  {
+    id: 23,
+    nome: 'Cefalexina 500mg',
+    categoria: 'Medicamento',
+    tipo: 'Antibiótico',
+    quantidade: 120,
+  },
   { id: 24, nome: 'Seringas 5ml', categoria: 'Material', tipo: 'Insumos', quantidade: 1000 },
   { id: 25, nome: 'Agulhas Hipodérmicas', categoria: 'Material', tipo: 'Insumos', quantidade: 700 },
   { id: 26, nome: 'LTH-004', categoria: 'Leito', tipo: 'Manual', quantidade: 1 },

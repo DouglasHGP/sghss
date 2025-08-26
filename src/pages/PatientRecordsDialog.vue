@@ -42,13 +42,15 @@
                   <label class="text-subtitle1"
                     >Documento: <span class="text-subtitle2">{{ patientData.document }}</span>
                   </label>
+                  <label class="text-subtitle1"
+                    >Matrícula: <span class="text-subtitle2">{{ patientData.registration }}</span>
+                  </label>
                 </div>
 
                 <div class="row justify-between">
                   <label class="text-subtitle1">
                     Telefone: <span class="text-subtitle2">{{ patientData.phone }}</span>
                   </label>
-                  <q-space />
                   <label class="text-subtitle1"
                     >Email: <span class="text-subtitle2">{{ patientData.email }}</span></label
                   >
@@ -59,20 +61,16 @@
                     >Logradouro:
                     <span class="text-subtitle2">{{ patientData.address }}</span></label
                   >
-                  <q-space />
                   <label class="text-subtitle1"
                     >Complemento:
                     <span class="text-subtitle2">{{ patientData.complement }}</span></label
                   >
-                  <q-space />
                   <label class="text-subtitle1"
                     >Bairro: <span class="text-subtitle2">{{ patientData.district }}</span></label
                   >
-                  <q-space />
                   <label class="text-subtitle1"
                     >Cidade: <span class="text-subtitle2">{{ patientData.city }}</span></label
                   >
-                  <q-space />
                   <label class="text-subtitle1"
                     >UF: <span class="text-subtitle2">{{ patientData.state }}</span></label
                   >
@@ -209,6 +207,7 @@ const patientData = {
   age: 30,
   birth_date: '15/05/1995',
   document: '123.456.789-00',
+  registration: 'ABC-12345',
   phone: '(11) 98765-4321',
   email: 'joao.silva@email.com',
   address: 'Rua das Flores, 123',

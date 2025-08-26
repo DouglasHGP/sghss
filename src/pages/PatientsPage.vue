@@ -5,17 +5,17 @@
     <div class="row q-gutter-md">
       <CardBase class="col" title="Resumo" icon="info" collapsible>
         <q-card class="row justify-around">
-          <q-card-section class="text-center">
+          <q-card-section class="text-center q-py-xs col">
             <div :class="[responsiveText()]" class="text-teal">4.523</div>
             <div class="text-caption">Cadastrados</div>
           </q-card-section>
           <q-separator vertical inset />
-          <q-card-section class="text-center">
+          <q-card-section class="text-center q-py-xs col">
             <div :class="[responsiveText()]" class="text-teal">128</div>
             <div class="text-caption">Novos Mês</div>
           </q-card-section>
           <q-separator vertical inset />
-          <q-card-section class="text-center">
+          <q-card-section class="text-center q-py-xs col">
             <div :class="[responsiveText()]" class="text-teal">56</div>
             <div class="text-caption">Agendados Hoje</div>
           </q-card-section>
