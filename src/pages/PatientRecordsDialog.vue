@@ -1,6 +1,6 @@
 <template>
   <q-dialog v-model="isDialogOpen" persistent>
-    <q-card class="full-width q-pa-md" style="max-width: 70vw; height: 100%; overflow-y: auto">
+    <q-card class="full-width q-pa-md" style="overflow-y: auto" :style="{ maxWidth: $q.platform.is.mobile ? '100%' : '70vw' }">
       <div>
         <TitlePage
           title="Atendimento"
@@ -140,7 +140,7 @@
         </div>
 
         <div class="row q-gutter-md">
-          <AnamneseForm v-model="anamneseData" @submit="handleAnamneseSubmit"/>
+          <AnamneseForm @onSave="handleAnamneseSubmit" @close="handleClose"/>
         </div>
       </div>
     </q-card>
@@ -167,6 +167,11 @@ defineExpose({
 const handleClose = () => {
   console.log('Fechando o diálogo')
   isDialogOpen.value = false
+}
+
+const handleAnamneseSubmit = (data) => {
+  console.log('Dados da anamnese recebidos:', data)
+  handleClose()
 }
 
 const patientData = {

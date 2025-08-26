@@ -1,5 +1,5 @@
 <template>
-  <q-form @submit="onSubmit" class="col">
+  <q-form @submit="handleSubmit" class="col">
     <CardBase title="Anamnese" icon="search">
       <q-input
         standout="bg-teal text-white"
@@ -19,7 +19,7 @@
         v-model="formData.hda"
         type="textarea"
         label="Descreva detalhadamente a evolução do quadro"
-        hint="Ex: Início dos sintomas, duração, características da dor, fatores de melhora/piora, sintomas associados, etc."
+        hint="Ex: Início dos sintomas, duração, características da dor, fatores de melhora/piora, etc."
         rows="2"
       />
 
@@ -36,7 +36,12 @@
           />
         </div>
 
-        <div class="col-8 q-gutter-md">
+        <div
+          :class="{
+            'col-8 q-gutter-md': !$q.platform.is.mobile,
+            'col-grow': $q.platform.is.mobile,
+          }"
+        >
           <div class="text-subtitle1 q-mb-sm text-grey-7">Uso de Substâncias</div>
 
           <q-input
@@ -56,18 +61,21 @@
             label="Etilismo"
             rows="1"
             class="row"
+            :class="{ 'q-mt-md': $q.platform.is.mobile }"
           />
           <q-input
             standout="bg-teal text-white"
             rounded
-            v-model="formData.alcoolismo"
+            v-model="formData.outras_substancias"
             type="textarea"
             label="Outras Substâncias"
             rows="1"
             class="row"
+            :class="{ 'q-mt-md': $q.platform.is.mobile }"
           />
         </div>
       </div>
+
       <q-input
         standout="bg-teal text-white"
         rounded
@@ -134,21 +142,18 @@
         type="reset"
         color="secondary"
         class="q-ml-md"
+        @click="onReset"
       />
-      <q-btn
-        glossy
-        label="Salvar"
-        style="width: 150px"
-        type="submit"
-        color="secondary"
-      />
+      <q-btn glossy label="Salvar" style="width: 150px" type="submit" color="secondary" />
     </q-card-actions>
   </q-form>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import CardBase from 'src/components/CardBase.vue' // Ajuste o caminho conforme a sua estrutura
+import CardBase from 'src/components/CardBase.vue'
+
+const emit = defineEmits(['close', 'save'])
 
 const formData = ref({
   queixaPrincipal: '',
@@ -160,6 +165,7 @@ const formData = ref({
   alergias: '',
   tabagismo: '',
   alcoolismo: '',
+  outras_substancias: '',
   atividadeFisica: '',
   historiaFamiliar: '',
 })
@@ -172,9 +178,32 @@ const doencasCronicasOptions = [
   { label: 'Outras Doenças', value: 'outras' },
 ]
 
-const onSubmit = () => {
+const resetForm = () => {
+  formData.value = {
+    queixaPrincipal: '',
+    hda: '',
+    doencasCronicas: [],
+    outrasDoencasCronicas: '',
+    medicamentos: '',
+    cirurgias: '',
+    alergias: '',
+    tabagismo: '',
+    alcoolismo: '',
+    outras_substancias: '',
+    atividadeFisica: '',
+    historiaFamiliar: '',
+  }
+}
+
+const onReset = () => {
+  emit('close')
+  console.log('Formulário resetado e fechado')
+}
+
+const handleSubmit = () => {
   console.log('Anamnese salva:', formData.value)
-  // Aqui você pode adicionar a lógica para enviar os dados para a API
-  // ou para o estado global da aplicação.
+  emit('save', formData.value)
+  resetForm()
+  emit('close')
 }
 </script>
