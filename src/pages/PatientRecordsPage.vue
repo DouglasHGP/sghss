@@ -70,7 +70,7 @@
       :label-search="'Nome do Paciente ou Diagnóstico'"
       :columns="columns"
       :actions="[
-        { icon: 'add', label: 'Expontâneo', event: 'add', alert: 'Extra Agenda' },
+        { icon: 'add', label: 'Expontâneo', event: 'respond', alert: 'Extra Agenda' },
         { icon: 'filter_alt', label: 'Filtros', event: 'filter' },
       ]"
       :row-actions="[
@@ -81,14 +81,18 @@
       @action="handleTableAction"
       @rowAction="handleLineAction"
     />
+    <PatientRecordsDialog ref="patientDialogRef" />
   </q-page>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import PatientRecordsDialog from './PatientRecordsDialog.vue'
 import { useResponsiveText } from 'src/composables/useResponsiveText'
 
 const { responsiveText } = useResponsiveText()
+
+const patientDialogRef = ref(null)
 
 const patientRecords = ref([
   {
@@ -199,9 +203,20 @@ const columns = [
 ]
 
 const handleTableAction = (event) => {
-  if (event === 'add') {
-    console.log('Adicionar prontuário clicado')
+  if (event === 'respond') {
+    console.log('Responder clicado para table')
+    // Chamando o diálogo e passando os dados do paciente
+    if (patientDialogRef.value) {
+      patientDialogRef.value.openDialog({
+        patient: null,
+        history: [],
+        evolution: [],
+        prescriptions: [],
+        exams: [],
+      })
+    }
   }
+
   if (event === 'filter') {
     console.log('Filtros clicado')
   }

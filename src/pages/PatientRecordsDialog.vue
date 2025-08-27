@@ -231,126 +231,21 @@ const handleSubmit = (form, data) => {
   handleClose()
 }
 
-const patientData = {
-  name: 'João da Silva',
-  age: 30,
-  birth_date: '15/05/1995',
-  document: '123.456.789-00',
-  registration: 'ABC-12345',
-  phone: '(11) 98765-4321',
-  email: 'joao.silva@email.com',
-  address: 'Rua das Flores, 123',
-  complement: 'Apto 45',
-  district: 'Jardim Primavera',
-  city: 'São Paulo',
-  state: 'SP',
-  observation: 'Paciente com histórico de hipertensão e diabetes tipo 2. Segue tratamento regular.',
-}
-
-const historyData = [
-  {
-    id: '1',
-    date: '20/08/2025',
-    description: 'Consulta de Rotina',
-    professional: 'Dr. Carlos Mendes',
-  },
-  {
-    id: '2',
-    date: '15/07/2025',
-    description: 'Retorno Pós-operatório',
-    professional: 'Dra. Ana Costa',
-  },
-  {
-    id: '3',
-    date: '10/06/2025',
-    description: 'Revisão de Exames',
-    professional: 'Dr. Lucas Pereira',
-  },
-  {
-    id: '4',
-    date: '05/05/2025',
-    description: 'Primeira Consulta',
-    professional: 'Dr. Lucas Pereira',
-  },
-]
-
-const evolutionData = [
-  {
-    id: 1,
-    date: '20/08/2025',
-    type: 'Melhora',
-    icon: 'sentiment_satisfied',
-    professional: 'Dr. Carlos Mendes',
-    description:
-      'Paciente apresentou melhora significativa do quadro clínico. Refere ausência de dores e melhora da mobilidade.',
-  },
-  {
-    id: 2,
-    date: '15/07/2025',
-    type: 'Alerta',
-    icon: 'warning',
-    professional: 'Dra. Ana Costa',
-    description:
-      'Quadro evoluiu com dor e inchaço no tornozelo. Sugerido encaminhamento para ortopedista.',
-  },
-  {
-    id: 3,
-    date: '10/06/2025',
-    type: 'Melhora',
-    icon: 'sentiment_satisfied',
-    professional: 'Dr. Lucas Pereira',
-    description:
-      'Paciente apresentou melhora após início da medicação. Pressão arterial estável e níveis de glicose controlados.',
-  },
-  {
-    id: 4,
-    date: '05/05/2025',
-    type: 'Piora',
-    icon: 'sentiment_very_dissatisfied',
-    professional: 'Dr. Lucas Pereira',
-    description:
-      'Paciente compareceu com queixa de dores no peito e falta de ar. Iniciado protocolo de exames e medicação de emergência.',
-  },
-]
-
-const prescriptionData = [
-  {
-    id: '1',
-    date: '20/08/2025',
-    item: 'Dipirona 500mg',
-    instruction: '1 comprimido a cada 6 horas',
-  },
-  {
-    id: '2',
-    date: '20/08/2025',
-    item: 'Amoxicilina 500mg',
-    instruction: '1 comprimido a cada 8 horas por 7 dias',
-  },
-  {
-    id: '3',
-    date: '15/07/2025',
-    item: 'Ibuprofeno 400mg',
-    instruction: '1 comprimido a cada 8 horas por 3 dias, em caso de dor',
-  },
-  {
-    id: '4',
-    date: '10/06/2025',
-    item: 'Losartana 50mg',
-    instruction: '1 comprimido por dia',
-  },
-]
-
-const examsData = [
-  { id: '1', date: '18/08/2025', name: 'Exame de Sangue', status: 'Finalizado' },
-  { id: '2', date: '16/07/2025', name: 'Radiografia do Tórax', status: 'Finalizado' },
-  { id: '3', date: '05/06/2025', name: 'Ressonância Magnética', status: 'Pendente' },
-  { id: '4', date: '02/05/2025', name: 'Eletrocardiograma', status: 'Finalizado' },
-]
-
 const evolutionColors = {
   Melhora: 'positive',
   Alerta: 'warning',
   Piora: 'negative',
+}
+
+
+const handleRowAction = (tab, event, row) => {
+  if (event === 'view') {
+    console.log('Tab:', tab)
+    console.log('Ação Visualizar clicado para a linha:', row)
+  } else if (event === 'download') {
+    console.log('Tab:', tab)
+    console.log('Ação Download clicado para a linha:', row)
+  }
 }
 
 const historyColumns = [
@@ -377,13 +272,172 @@ const examsColumns = [
   { name: 'actions', label: 'Ações', field: 'actions', align: 'center' },
 ]
 
-const handleRowAction = (tab, event, row) => {
-  if (event === 'view') {
-    console.log('Tab:', tab)
-    console.log('Ação Visualizar clicado para a linha:', row)
-  } else if (event === 'download') {
-    console.log('Tab:', tab)
-    console.log('Ação Download clicado para a linha:', row)
-  }
-}
+const patientData = ref({
+  name: '',
+  age: '',
+  birth_date: '',
+  document: '',
+  registration: '',
+  phone: '',
+  email: '',
+  address: '',
+  complement: '',
+  district: '',
+  city: '',
+  state: '',
+  observation: '',
+})
+
+const historyData = [
+  {
+    id: '',
+    date: '',
+    description: '',
+    professional: '',
+  },
+]
+
+const evolutionData = [
+  {
+    id: '',
+    date: '',
+    description: '',
+    professional: '',
+  },
+]
+
+const prescriptionData = [
+  {
+    id: '',
+    date: '',
+    description: '',
+    professional: '',
+  },
+]
+
+const examsData = [
+  {
+    id: '',
+    date: '',
+    description: '',
+    professional: '',
+  },
+]
+
+// const patientData = {
+//   name: 'João da Silva',
+//   age: 30,
+//   birth_date: '15/05/1995',
+//   document: '123.456.789-00',
+//   registration: 'ABC-12345',
+//   phone: '(11) 98765-4321',
+//   email: 'joao.silva@email.com',
+//   address: 'Rua das Flores, 123',
+//   complement: 'Apto 45',
+//   district: 'Jardim Primavera',
+//   city: 'São Paulo',
+//   state: 'SP',
+//   observation: 'Paciente com histórico de hipertensão e diabetes tipo 2. Segue tratamento regular.',
+// }
+
+// const historyData = [
+//   {
+//     id: '1',
+//     date: '20/08/2025',
+//     description: 'Consulta de Rotina',
+//     professional: 'Dr. Carlos Mendes',
+//   },
+//   {
+//     id: '2',
+//     date: '15/07/2025',
+//     description: 'Retorno Pós-operatório',
+//     professional: 'Dra. Ana Costa',
+//   },
+//   {
+//     id: '3',
+//     date: '10/06/2025',
+//     description: 'Revisão de Exames',
+//     professional: 'Dr. Lucas Pereira',
+//   },
+//   {
+//     id: '4',
+//     date: '05/05/2025',
+//     description: 'Primeira Consulta',
+//     professional: 'Dr. Lucas Pereira',
+//   },
+// ]
+
+// const evolutionData = [
+//   {
+//     id: 1,
+//     date: '20/08/2025',
+//     type: 'Melhora',
+//     icon: 'sentiment_satisfied',
+//     professional: 'Dr. Carlos Mendes',
+//     description:
+//       'Paciente apresentou melhora significativa do quadro clínico. Refere ausência de dores e melhora da mobilidade.',
+//   },
+//   {
+//     id: 2,
+//     date: '15/07/2025',
+//     type: 'Alerta',
+//     icon: 'warning',
+//     professional: 'Dra. Ana Costa',
+//     description:
+//       'Quadro evoluiu com dor e inchaço no tornozelo. Sugerido encaminhamento para ortopedista.',
+//   },
+//   {
+//     id: 3,
+//     date: '10/06/2025',
+//     type: 'Melhora',
+//     icon: 'sentiment_satisfied',
+//     professional: 'Dr. Lucas Pereira',
+//     description:
+//       'Paciente apresentou melhora após início da medicação. Pressão arterial estável e níveis de glicose controlados.',
+//   },
+//   {
+//     id: 4,
+//     date: '05/05/2025',
+//     type: 'Piora',
+//     icon: 'sentiment_very_dissatisfied',
+//     professional: 'Dr. Lucas Pereira',
+//     description:
+//       'Paciente compareceu com queixa de dores no peito e falta de ar. Iniciado protocolo de exames e medicação de emergência.',
+//   },
+// ]
+
+// const prescriptionData = [
+//   {
+//     id: '1',
+//     date: '20/08/2025',
+//     item: 'Dipirona 500mg',
+//     instruction: '1 comprimido a cada 6 horas',
+//   },
+//   {
+//     id: '2',
+//     date: '20/08/2025',
+//     item: 'Amoxicilina 500mg',
+//     instruction: '1 comprimido a cada 8 horas por 7 dias',
+//   },
+//   {
+//     id: '3',
+//     date: '15/07/2025',
+//     item: 'Ibuprofeno 400mg',
+//     instruction: '1 comprimido a cada 8 horas por 3 dias, em caso de dor',
+//   },
+//   {
+//     id: '4',
+//     date: '10/06/2025',
+//     item: 'Losartana 50mg',
+//     instruction: '1 comprimido por dia',
+//   },
+// ]
+
+// const examsData = [
+//   { id: '1', date: '18/08/2025', name: 'Exame de Sangue', status: 'Finalizado' },
+//   { id: '2', date: '16/07/2025', name: 'Radiografia do Tórax', status: 'Finalizado' },
+//   { id: '3', date: '05/06/2025', name: 'Ressonância Magnética', status: 'Pendente' },
+//   { id: '4', date: '02/05/2025', name: 'Eletrocardiograma', status: 'Finalizado' },
+// ]
+
 </script>

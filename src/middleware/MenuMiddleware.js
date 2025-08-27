@@ -47,7 +47,7 @@ export default [
   {
     title: 'Prontuários',
     caption: 'Acesse e atualize prontuários de pacientes',
-    icon: 'favorite',
+    icon: 'folder',
     link: '/patient-records',
     roles: ['dev', 'professional'],
   },
