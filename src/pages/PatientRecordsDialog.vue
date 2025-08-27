@@ -1,7 +1,7 @@
 <template>
   <q-dialog v-model="isDialogOpen" persistent>
     <q-card
-      class="full-width q-pa-md"
+      class="full-width q-pa-md" :class="tab === '' || tab === 'evolucao' ? 'q-pb-xl' : ''"
       style="overflow-y: auto"
       :style="!$q.platform.is.mobile ? 'max-width: 150vh' : 'max-width: 100%'"
     >
