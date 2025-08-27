@@ -193,9 +193,9 @@
         </div>
 
         <div class="row q-gutter-md">
-          <AnamneseForm @onSave="handleSubmit('anamnese', data)" @close="handleClose" />
-          <PrescriptionForm @onSave="handleSubmit('prescription', data)" @close="handleClose" />
-          <ExamForm @onSave="handleSubmit('exam', data)" @close="handleClose" />
+          <AnamneseForm v-show="tab === 'evolucao' || tab === 'historico'" @onSave="handleSubmit('anamnese', data)" @close="handleClose" />
+          <PrescriptionForm v-show="tab === 'prescricao'" @onSave="handleSubmit('prescription', data)" @close="handleClose" />
+          <ExamForm v-show="tab === 'exames'" @onSave="handleSubmit('exam', data)" @close="handleClose" />
         </div>
       </div>
     </q-card>
