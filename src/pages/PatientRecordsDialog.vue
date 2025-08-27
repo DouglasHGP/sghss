@@ -3,7 +3,7 @@
     <q-card
       class="full-width q-pa-md"
       style="overflow-y: auto"
-      :style="{ maxWidth: $q.platform.is.mobile ? '100%' : '70vw' }"
+      :style="!$q.platform.is.mobile ? 'max-width: 150vh' : 'max-width: 100%'"
     >
       <div>
         <TitlePage
@@ -125,6 +125,18 @@
                     bordered
                     dense
                   >
+                    <template v-slot:body-cell-actions="props">
+                      <q-td :props="props" style="width: 65px">
+                        <ActionsDropdown
+                          :actions="[
+                            { icon: 'visibility', label: 'Visualizar', event: 'view' },
+                            { icon: 'download', label: 'Download', event: 'download' },
+                          ]"
+                          tooltip="Ações"
+                          @action="(event) => handleRowAction('historico', event, props.row)"
+                        />
+                      </q-td>
+                    </template>
                   </q-table>
                 </q-tab-panel>
 
@@ -137,6 +149,18 @@
                     bordered
                     dense
                   >
+                    <template v-slot:body-cell-actions="props">
+                      <q-td :props="props" style="width: 65px">
+                        <ActionsDropdown
+                          :actions="[
+                            { icon: 'visibility', label: 'Visualizar', event: 'view' },
+                            { icon: 'download', label: 'Download', event: 'download' },
+                          ]"
+                          tooltip="Ações"
+                          @action="(event) => handleRowAction('prescricao', event, props.row)"
+                        />
+                      </q-td>
+                    </template>
                   </q-table>
                 </q-tab-panel>
 
@@ -149,6 +173,18 @@
                     bordered
                     dense
                   >
+                    <template v-slot:body-cell-actions="props">
+                      <q-td :props="props" style="width: 65px">
+                        <ActionsDropdown
+                          :actions="[
+                            { icon: 'visibility', label: 'Visualizar', event: 'view' },
+                            { icon: 'download', label: 'Download', event: 'download' },
+                          ]"
+                          tooltip="Ações"
+                          @action="(event) => handleRowAction('exames', event, props.row)"
+                        />
+                      </q-td>
+                    </template>
                   </q-table>
                 </q-tab-panel>
               </q-tab-panels>
@@ -168,7 +204,7 @@
 import { ref } from 'vue'
 import AnamneseForm from 'src/forms/AnamneseForm.vue'
 
-const tab = ref('evolucao')
+const tab = ref('')
 
 const isDialogOpen = ref(false)
 
@@ -312,11 +348,38 @@ const evolutionColors = {
   Alerta: 'warning',
   Piora: 'negative',
 }
-</script>
 
-<style scoped>
-.full-width {
-  display: block;
-  width: 100%;
+const historyColumns = [
+  { name: 'id', label: 'ID', field: 'id', align: 'center' },
+  { name: 'date', label: 'Data', field: 'date', align: 'left' },
+  { name: 'description', label: 'Descrição', field: 'description', align: 'left' },
+  { name: 'professional', label: 'Profissional', field: 'professional', align: 'left' },
+  { name: 'actions', label: 'Ações', field: 'actions', align: 'center' },
+]
+
+const prescriptionColumns = [
+  { name: 'id', label: 'ID', field: 'id', align: 'center' },
+  { name: 'date', label: 'Data', field: 'date', align: 'left' },
+  { name: 'item', label: 'Item', field: 'item', align: 'left' },
+  { name: 'instruction', label: 'Instrução', field: 'instruction', align: 'left' },
+  { name: 'actions', label: 'Ações', field: 'actions', align: 'center' },
+]
+
+const examsColumns = [
+  { name: 'id', label: 'ID', field: 'id', align: 'center' },
+  { name: 'date', label: 'Data', field: 'date', align: 'left' },
+  { name: 'name', label: 'Exame', field: 'name', align: 'left' },
+  { name: 'status', label: 'Status', field: 'status', align: 'left' },
+  { name: 'actions', label: 'Ações', field: 'actions', align: 'center' },
+]
+
+const handleRowAction = (tab, event, row) => {
+  if (event === 'view') {
+    console.log('Tab:', tab)
+    console.log('Ação Visualizar clicado para a linha:', row)
+  } else if (event === 'download') {
+    console.log('Tab:', tab)
+    console.log('Ação Download clicado para a linha:', row)
+  }
 }
-</style>
+</script>
