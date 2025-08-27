@@ -27,8 +27,7 @@ const routes = [
       { path: 'resources', component: () => import('pages/ResourcesPage.vue') },
       { path: 'reports', component: () => import('pages/ReportsPage.vue') },
       { path: 'agenda', component: () => import('pages/AgendaPage.vue') },
-      { path: 'patiente-records', component: () => import('src/pages/PatientRecordsDialog.vue') },
-      { path: 'prescriptions', component: () => import('pages/PrescriptionsPage.vue') },
+      { path: 'patient-records', component: () => import('src/pages/PatientRecordsPage.vue') },
       {
         path: 'inperson-scheduling',
         component: () => import('pages/InPersonSchedulingPage.vue'),

@@ -48,14 +48,7 @@ export default [
     title: 'Prontuários',
     caption: 'Acesse e atualize prontuários de pacientes',
     icon: 'favorite',
-    link: '/patiente-records',
-    roles: ['dev', 'professional'],
-  },
-  {
-    title: 'Prescrições',
-    caption: 'Emita receitas digitais e atestados',
-    icon: 'history_edu',
-    link: '/prescriptions',
+    link: '/patient-records',
     roles: ['dev', 'professional'],
   },
 
@@ -72,6 +65,13 @@ export default [
     caption: 'Telemedicina e consultas virtuais',
     icon: 'video_call',
     link: '/online-scheduling',
+    roles: ['dev', 'patient'],
+  },
+  {
+    title: 'Prescrições',
+    caption: 'Visualize receitas digitais e atestados emitidos',
+    icon: 'history_edu',
+    link: '/prescriptions',
     roles: ['dev', 'patient'],
   },
   {

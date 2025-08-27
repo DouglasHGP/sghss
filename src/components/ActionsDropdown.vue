@@ -23,6 +23,11 @@
           <q-item-section>
             <q-item-label>{{ action.label }}</q-item-label>
           </q-item-section>
+          <q-item-section side v-if="action.alert">
+            <q-icon color="grey" name="info_outline" />
+            <q-tooltip><span class="text-subtitle2">{{ action.alert }}</span></q-tooltip>
+          </q-item-section>
+
         </q-item>
       </q-list>
     </q-btn-dropdown>
