@@ -161,7 +161,6 @@
 
 <script setup>
 import { ref } from 'vue'
-import CardBase from 'src/components/CardBase.vue'
 
 const emit = defineEmits(['close', 'save'])
 
