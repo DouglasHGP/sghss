@@ -7,20 +7,18 @@
     >
       <q-icon :name="props.icon" color="secondary" size="md" />
 
-      <div v-if="!props.searchable" class="col-grow q-mx-md text-h6 text-weight-light">
+      <div v-if="props.title" class="col-grow q-mx-md text-h6 text-weight-light">
         {{ props.title }}
       </div>
 
-      <div v-else class="col-grow q-ml-md q-mr-xs">
-        <slot name="filters-prepend" />
-      </div>
+      <slot name="select-prepend" />
 
-      <div class="col-grow" :class="{ 'q-mr-xl': !$q.platform.is.mobile }">
-        <slot name="header-actions" />
-      </div>
-      <div v-if="props.subtitle" class="col-grow q-ml-sm">
-        <slot name="subtitle-prepend" />
-      </div>
+      <slot name="filters-prepend" />
+
+      <slot name="header-actions" />
+
+      <slot name="subtitle-prepend" />
+
       <q-card-actions class="q-pa-none">
         <q-btn
           v-if="props.collapsible"
@@ -46,11 +44,12 @@
 import { ref } from 'vue'
 
 const props = defineProps({
-  title: { type: String, required: true },
+  title: { type: String, required: true, default: '' },
   subtitle: { type: [String, Boolean], default: '' },
   icon: { type: String, default: 'info' },
   collapsible: { type: Boolean, default: false },
   searchable: { type: Boolean, default: false },
+  selectable: { type: Boolean, default: false },
 })
 
 const isVisible = ref(false)

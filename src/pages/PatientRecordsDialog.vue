@@ -1,9 +1,9 @@
 <template>
-  <q-dialog v-model="isDialogOpen" persistent>
+  <q-dialog v-model="isDialogOpen" persistent :maximized="$q.platform.is.mobile">
     <q-card
       class="full-width q-pa-md" :class="tab === '' || tab === 'evolucao' ? 'q-pb-xl' : ''"
       style="overflow-y: auto"
-      :style="!$q.platform.is.mobile ? 'max-width: 150vh' : 'max-width: 100%'"
+      :style="!$q.platform.is.mobile ? 'max-width: 150vh' : ''"
     >
       <div>
         <TitlePage
@@ -12,13 +12,26 @@
           @close="handleClose"
           isDialog
         />
-        <div class="row q-gutter-md">
-          <CardBase
-            class="col"
-            :title="patientData.name"
-            :subtitle="true"
-            icon="person"
-          >
+        <div class="row q-gutter-md" :class="{ 'q-mr-md': $q.platform.is.mobile }">
+          <CardBase class="col" :title="patientData.name" :subtitle="true" icon="person" selectable>
+            <template #select-prepend>
+              <div class="col-grow q-ml-md">
+                <q-select
+                  v-if="!patientData.name"
+                  v-model="patientData.name"
+                  :style="!$q.platform.is.mobile ? 'width: 350px' : ''"
+                  standout="bg-teal-4 text-white"
+                  rounded
+                  dense
+                  debounce="300"
+                  label="Selecione o Paciente"
+                  options-dense
+                  emit-value
+                  map-options
+                  :options="options"
+                ></q-select>
+              </div>
+            </template>
             <template #subtitle-prepend>
               <div
                 class="text-weight-light"
@@ -30,7 +43,6 @@
                 Idade: {{ patientData.age }}
               </div>
             </template>
-
             <div class="q-gutter-sm">
               <div class="rounded-borders text-teal-9 bg-teal-1 q-pa-sm">
                 <div class="row justify-between">
@@ -192,9 +204,21 @@
         </div>
 
         <div class="row q-gutter-md">
-          <AnamneseForm v-show="tab === 'anamnese'" @onSave="handleSubmit('anamnese', data)" @close="handleClose" />
-          <PrescriptionForm v-show="tab === 'prescricao'" @onSave="handleSubmit('prescription', data)" @close="handleClose" />
-          <ExamForm v-show="tab === 'exames'" @onSave="handleSubmit('exam', data)" @close="handleClose" />
+          <AnamneseForm
+            v-show="tab === 'anamnese'"
+            @onSave="handleSubmit('anamnese', data)"
+            @close="handleClose"
+          />
+          <PrescriptionForm
+            v-show="tab === 'prescricao'"
+            @onSave="handleSubmit('prescription', data)"
+            @close="handleClose"
+          />
+          <ExamForm
+            v-show="tab === 'exames'"
+            @onSave="handleSubmit('exam', data)"
+            @close="handleClose"
+          />
         </div>
       </div>
     </q-card>
@@ -236,7 +260,6 @@ const evolutionColors = {
   Alerta: 'warning',
   Piora: 'negative',
 }
-
 
 const handleRowAction = (tab, event, row) => {
   if (event === 'view') {
@@ -440,5 +463,4 @@ const examsData = [
 //   { id: '3', date: '05/06/2025', name: 'Ressonância Magnética', status: 'Pendente' },
 //   { id: '4', date: '02/05/2025', name: 'Eletrocardiograma', status: 'Finalizado' },
 // ]
-
 </script>

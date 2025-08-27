@@ -1,18 +1,20 @@
 <template>
   <CardBase :title="title" :subtitle="subtitle" :icon="icon" :collapsible="collapsible" searchable>
     <template #filters-prepend>
-      <q-input
-        v-model="searchQuery"
-        :style="!$q.platform.is.mobile ? 'width: 350px' : ''"
-        dense
-        standout="bg-teal-4 text-white"
-        rounded
-        :label="labelSearch"
-      >
-        <template v-slot:append>
-          <q-btn round dense flat icon="search" />
-        </template>
-      </q-input>
+      <div class="col-grow q-ml-md">
+        <q-input
+          v-model="searchQuery"
+          :style="!$q.platform.is.mobile ? 'width: 350px' : ''"
+          dense
+          standout="bg-teal-4 text-white"
+          rounded
+          :label="labelSearch"
+        >
+          <template v-slot:append>
+            <q-btn round dense flat icon="search" />
+          </template>
+        </q-input>
+      </div>
     </template>
     <template #subtitle-prepend v-if="subtitle">
       <div
@@ -73,7 +75,7 @@ import ActionsDropdown from 'components/ActionsDropdown.vue'
 
 // Definição das props do componente
 const props = defineProps({
-  title: { type: String, default: 'Lista' },
+  title: { type: String, default: '' },
   subtitle: { type: String, default: '' },
   icon: { type: String, default: 'list' },
   labelSearch: { type: String, default: 'Buscar' },
