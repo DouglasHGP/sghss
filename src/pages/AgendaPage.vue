@@ -455,9 +455,3 @@ const getEventsGrouped = (date) => {
 }
 </script>
 
-<style scoped>
-.full-width {
-  display: block;
-  width: 100%;
-}
-</style>
