@@ -1,6 +1,6 @@
 <template>
   <q-form @submit="handleSubmit" class="col">
-    <CardBase title="Prescrição" icon="healing">
+    <CardBase title="Prescrição" icon="history_edu">
       <q-input
         standout="bg-indigo-3 text-indigo-9"
         rounded

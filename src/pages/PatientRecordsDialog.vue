@@ -18,7 +18,6 @@
             :title="patientData.name"
             :subtitle="true"
             icon="person"
-            collapsible
           >
             <template #subtitle-prepend>
               <div
@@ -93,8 +92,8 @@
                 align="justify"
                 narrow-indicator
               >
-                <q-tab name="evolucao" label="Evolução" icon="notes" />
-                <q-tab name="historico" label="Histórico" icon="history" />
+                <q-tab name="evolucao" label="Evolução/Histórico" icon="notes" />
+                <q-tab name="anamnese" label="Anamnese" icon="search" />
                 <q-tab name="prescricao" label="Prescrições" icon="history_edu" />
                 <q-tab name="exames" label="Exames e Outros" icon="science" />
               </q-tabs>
@@ -116,7 +115,7 @@
                   </div>
                 </q-tab-panel>
 
-                <q-tab-panel name="historico">
+                <q-tab-panel name="anamnese">
                   <q-table
                     :rows="historyData"
                     :columns="historyColumns"
@@ -133,7 +132,7 @@
                             { icon: 'download', label: 'Download', event: 'download' },
                           ]"
                           tooltip="Ações"
-                          @action="(event) => handleRowAction('historico', event, props.row)"
+                          @action="(event) => handleRowAction('anamnese', event, props.row)"
                         />
                       </q-td>
                     </template>
@@ -193,7 +192,7 @@
         </div>
 
         <div class="row q-gutter-md">
-          <AnamneseForm v-show="tab === 'evolucao' || tab === 'historico'" @onSave="handleSubmit('anamnese', data)" @close="handleClose" />
+          <AnamneseForm v-show="tab === 'anamnese'" @onSave="handleSubmit('anamnese', data)" @close="handleClose" />
           <PrescriptionForm v-show="tab === 'prescricao'" @onSave="handleSubmit('prescription', data)" @close="handleClose" />
           <ExamForm v-show="tab === 'exames'" @onSave="handleSubmit('exam', data)" @close="handleClose" />
         </div>
@@ -227,8 +226,8 @@ const handleClose = () => {
 }
 
 const handleSubmit = (form, data) => {
-  console.log('Formulário salvo:', form)
-  console.log('Dados da anamnese recebidos:', data)
+  console.log(`Formulário salvo (${form}):`, data)
+  // Aqui salvar em prescriptionData, examsData ou outro array
   handleClose()
 }
 
