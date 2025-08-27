@@ -90,7 +90,7 @@
         icon="event"
         :class="$q.platform.is.mobile ? 'col-11' : 'col'"
         :label-search="'Paciente ou Profissional'"
-        :subtitle="`Eventos em ${formatDateBR(selectedDate)}`"
+        :subtitle="`Data: ${formatDateBR(selectedDate)}`"
         :rows="filteredDailyEvents"
         :columns="columns"
         :actions="[
@@ -132,7 +132,6 @@
 import { ref, computed, watch } from 'vue'
 import {
   format,
-  parseISO,
   eachDayOfInterval,
   getDay,
   isBefore,
@@ -142,7 +141,9 @@ import { ptBR } from 'date-fns/locale'
 import { QCalendarMonth } from '@quasar/quasar-ui-qcalendar'
 import '@quasar/quasar-ui-qcalendar/dist/index.css'
 import PatientRecordsDialog from './PatientRecordsDialog.vue'
+import { useFormatters } from 'src/composables/useFormatters'
 
+const { formatDateBR } = useFormatters()
 // 📌 Estado principal
 const selectedDate = ref(format(new Date(), 'yyyy-MM-dd'))
 const searchQuery = ref('')
@@ -195,11 +196,6 @@ const statusConfig = {
     color: 'red',
     statusEvent: '',
   },
-}
-
-// 📌 Utilitário
-const formatDateBR = (dateStr) => {
-  return format(parseISO(dateStr), 'dd/MM/yyyy', { locale: ptBR })
 }
 
 // 📌 Geração de eventos fake

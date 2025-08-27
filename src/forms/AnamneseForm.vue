@@ -1,6 +1,17 @@
 <template>
   <q-form @submit="handleSubmit" class="col">
-    <CardBase title="Anamnese" icon="search">
+    <CardBase title="Anamnese" :subtitle="true" icon="search">
+      <template #subtitle-prepend>
+        <div
+          class="text-weight-light"
+          :class="{
+            'text-h6 ': !$q.platform.is.mobile,
+            'text-subtitle2 q-mt-xs': $q.platform.is.mobile,
+          }"
+        >
+          Data: {{ formatDateBR(today) }}
+        </div>
+      </template>
       <q-input
         standout="bg-teal-3 text-teal-9"
         rounded
@@ -161,6 +172,10 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useFormatters } from 'src/composables/useFormatters'
+
+const { formatDateBR } = useFormatters()
+const today = new Date().toISOString().split('T')[0]
 
 const emit = defineEmits(['close', 'save'])
 
