@@ -14,12 +14,16 @@
           isDialog
         />
         <div class="row q-gutter-md" :class="{ 'q-mr-md': $q.platform.is.mobile }">
-          <CardBase class="col" :title="patientData.name" :subtitle="true" icon="person" selectable>
+          <CardBase
+            class="col"
+            :title="patientData.name"
+            :subtitle="true"
+            icon="person"
+          >
             <template #select-prepend>
-              <div class="col-grow q-ml-md">
+              <div v-if="context === 'prontuario' && !patientData.id" class="col-grow q-ml-md">
                 <q-select
-                  v-if="context === 'prontuario' && !patientData.id"
-                  v-model="patientData.id"
+                  v-model="selectedPatientId"
                   :style="!$q.platform.is.mobile ? 'width: 350px' : ''"
                   standout="bg-teal-4 text-white"
                   rounded
@@ -104,7 +108,7 @@
                 align="justify"
                 narrow-indicator
               >
-                <q-tab name="evolucao" label="Evolução/Histórico" icon="notes" />
+                <q-tab name="evolucao" label="Evolução/Histórico" icon="notes" />
                 <q-tab name="anamnese" label="Anamnese" icon="search" />
                 <q-tab name="prescricao" label="Prescrições" icon="history_edu" />
                 <q-tab name="exames" label="Exames e Outros" icon="science" />
@@ -114,7 +118,7 @@
                   <div style="border: 1px solid #ddd; padding-left: 20px; padding-right: 20px">
                     <q-timeline color="teal">
                       <q-timeline-entry
-                        v-for="evol in evolutionData"
+                        v-for="evol in patientData.evolution"
                         :key="evol.id"
                         :title="`Evolução de ${evol.professional}`"
                         :subtitle="evol.date"
@@ -129,7 +133,7 @@
 
                 <q-tab-panel name="anamnese">
                   <q-table
-                    :rows="historyData"
+                    :rows="patientData.history"
                     :columns="historyColumns"
                     row-key="id"
                     flat
@@ -153,7 +157,7 @@
 
                 <q-tab-panel name="prescricao">
                   <q-table
-                    :rows="prescriptionData"
+                    :rows="patientData.prescriptions"
                     :columns="prescriptionColumns"
                     row-key="id"
                     flat
@@ -177,7 +181,7 @@
 
                 <q-tab-panel name="exames">
                   <q-table
-                    :rows="examsData"
+                    :rows="patientData.exams"
                     :columns="examsColumns"
                     row-key="id"
                     flat
@@ -202,8 +206,7 @@
             </q-card>
           </CardBase>
         </div>
-
-        <div class="row q-gutter-md">
+        <div class="row q-gutter-md" v-if="patientData.id">
           <AnamneseForm
             v-show="tab === 'anamnese'"
             @onSave="handleSubmit('anamnese', data)"
@@ -227,79 +230,19 @@
 
 <script setup>
 import { computed, ref } from 'vue'
-import { patients } from 'src/mocks/patients'
+import { patientRecords } from 'src/mocks/index'
 import AnamneseForm from 'src/forms/AnamneseForm.vue'
 import PrescriptionForm from 'src/forms/PrescriptionForm.vue'
 import ExamForm from 'src/forms/ExamForm.vue'
 
-const tab = ref('')
-
+const tab = ref('') // Vazio como padrão
 const isDialogOpen = ref(false)
-
 const patientData = ref({})
+const context = ref('')
 
-const context = ref('') // agenda - prontuário
+const selectedPatientId = ref(null) // Variável para o v-model do q-select
 
-const options = computed(() =>
-  patients.map((p) => ({
-    label: p.name,
-    value: p.id,
-  })),
-)
-
-const openDialog = (payload) => {
-  /**
-   * payload esperado:
-   * {
-   *   context: 'agenda' | 'prontuario',
-   *   patientId?: string
-   * }
-   */
-  context.value = payload.context
-  if (payload.context === 'agenda' && payload.patientId) {
-    patientData.value = patients.find((p) => p.id === payload.patientId) || {}
-  } else {
-    patientData.value = {} // força abrir o select
-  }
-  isDialogOpen.value = true
-}
-
-defineExpose({
-  openDialog,
-})
-
-const handleClose = () => {
-  console.log('Fechando o diálogo')
-  isDialogOpen.value = false
-  patientData.value = {}
-}
-
-const handleSelectPatient = (id) => {
-  patientData.value = patients.find((p) => p.id === id) || {}
-}
-
-const handleSubmit = (form, data) => {
-  console.log(`Formulário salvo (${form}):`, data)
-  // Aqui salvar em prescriptionData, examsData ou outro array
-  handleClose()
-}
-
-const evolutionColors = {
-  Melhora: 'positive',
-  Alerta: 'warning',
-  Piora: 'negative',
-}
-
-const handleRowAction = (tab, event, row) => {
-  if (event === 'view') {
-    console.log('Tab:', tab)
-    console.log('Ação Visualizar clicado para a linha:', row)
-  } else if (event === 'download') {
-    console.log('Tab:', tab)
-    console.log('Ação Download clicado para a linha:', row)
-  }
-}
-
+// Dados das colunas para as tabelas
 const historyColumns = [
   { name: 'id', label: 'ID', field: 'id', align: 'center' },
   { name: 'date', label: 'Data', field: 'date', align: 'left' },
@@ -324,39 +267,50 @@ const examsColumns = [
   { name: 'actions', label: 'Ações', field: 'actions', align: 'center' },
 ]
 
-const historyData = [
-  {
-    id: '',
-    date: '',
-    description: '',
-    professional: '',
-  },
-]
+const evolutionColors = {
+  Melhora: 'positive',
+  Alerta: 'warning',
+  Piora: 'negative',
+}
 
-const evolutionData = [
-  {
-    id: '',
-    date: '',
-    description: '',
-    professional: '',
-  },
-]
+// Propriedade computada para o q-select
+const options = computed(() =>
+  patientRecords.map((p) => ({
+    label: p.name,
+    value: p.id,
+  })),
+)
 
-const prescriptionData = [
-  {
-    id: '',
-    date: '',
-    description: '',
-    professional: '',
-  },
-]
+// Funções de manipulação
+const openDialog = (payload) => {
+  context.value = payload.context
+  if (payload.context === 'agenda' && payload.patientId) {
+    patientData.value = patientRecords.find((p) => p.id === payload.patientId) || {}
+  } else {
+    patientData.value = {} // Força a exibição do select
+  }
+  isDialogOpen.value = true
+}
+defineExpose({ openDialog })
 
-const examsData = [
-  {
-    id: '',
-    date: '',
-    description: '',
-    professional: '',
-  },
-]
+const handleClose = () => {
+  isDialogOpen.value = false
+  patientData.value = {} // Limpa os dados do paciente ao fechar
+  selectedPatientId.value = null
+  tab.value = 'anamnese'
+}
+
+const handleSelectPatient = (id) => {
+  patientData.value = patientRecords.find((p) => p.id === id) || {}
+}
+
+const handleSubmit = (form, data) => {
+  console.log(`Formulário salvo (${form}):`, data)
+  // Lógica para salvar os dados
+  handleClose()
+}
+
+const handleRowAction = (tab, event, row) => {
+  console.log(`Tab: ${tab}, Ação: ${event}, Linha:`, row)
+}
 </script>
