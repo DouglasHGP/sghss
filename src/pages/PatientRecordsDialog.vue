@@ -1,7 +1,8 @@
 <template>
   <q-dialog v-model="isDialogOpen" persistent :maximized="$q.platform.is.mobile">
     <q-card
-      class="full-width q-pa-md" :class="tab === '' || tab === 'evolucao' ? 'q-pb-xl' : ''"
+      class="full-width q-pa-md"
+      :class="tab === '' || tab === 'evolucao' ? 'q-pb-xl' : ''"
       style="overflow-y: auto"
       :style="!$q.platform.is.mobile ? 'max-width: 150vh' : ''"
     >
@@ -17,19 +18,18 @@
             <template #select-prepend>
               <div class="col-grow q-ml-md">
                 <q-select
-                  v-if="!patientData.name"
-                  v-model="patientData.name"
+                  v-if="context === 'prontuario' && !patientData.id"
+                  v-model="patientData.id"
                   :style="!$q.platform.is.mobile ? 'width: 350px' : ''"
                   standout="bg-teal-4 text-white"
                   rounded
                   dense
-                  debounce="300"
                   label="Selecione o Paciente"
-                  options-dense
-                  emit-value
                   map-options
                   :options="options"
-                ></q-select>
+                  emit-value
+                  @update:model-value="handleSelectPatient"
+                />
               </div>
             </template>
             <template #subtitle-prepend>
@@ -226,7 +226,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { patients } from 'src/mocks/patients'
 import AnamneseForm from 'src/forms/AnamneseForm.vue'
 import PrescriptionForm from 'src/forms/PrescriptionForm.vue'
 import ExamForm from 'src/forms/ExamForm.vue'
@@ -235,8 +236,31 @@ const tab = ref('')
 
 const isDialogOpen = ref(false)
 
-const openDialog = (data) => {
-  console.log('Dados recebidos no diálogo:', data)
+const patientData = ref({})
+
+const context = ref('') // agenda - prontuário
+
+const options = computed(() =>
+  patients.map((p) => ({
+    label: p.name,
+    value: p.id,
+  })),
+)
+
+const openDialog = (payload) => {
+  /**
+   * payload esperado:
+   * {
+   *   context: 'agenda' | 'prontuario',
+   *   patientId?: string
+   * }
+   */
+  context.value = payload.context
+  if (payload.context === 'agenda' && payload.patientId) {
+    patientData.value = patients.find((p) => p.id === payload.patientId) || {}
+  } else {
+    patientData.value = {} // força abrir o select
+  }
   isDialogOpen.value = true
 }
 
@@ -247,6 +271,11 @@ defineExpose({
 const handleClose = () => {
   console.log('Fechando o diálogo')
   isDialogOpen.value = false
+  patientData.value = {}
+}
+
+const handleSelectPatient = (id) => {
+  patientData.value = patients.find((p) => p.id === id) || {}
 }
 
 const handleSubmit = (form, data) => {
@@ -294,22 +323,6 @@ const examsColumns = [
   { name: 'status', label: 'Status', field: 'status', align: 'left' },
   { name: 'actions', label: 'Ações', field: 'actions', align: 'center' },
 ]
-
-const patientData = ref({
-  name: '',
-  age: '',
-  birth_date: '',
-  document: '',
-  registration: '',
-  phone: '',
-  email: '',
-  address: '',
-  complement: '',
-  district: '',
-  city: '',
-  state: '',
-  observation: '',
-})
 
 const historyData = [
   {

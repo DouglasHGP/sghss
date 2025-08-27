@@ -87,6 +87,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { patients } from 'src/mocks/patients'
 import PatientRecordsDialog from './PatientRecordsDialog.vue'
 import { useResponsiveText } from 'src/composables/useResponsiveText'
 
@@ -94,104 +95,39 @@ const { responsiveText } = useResponsiveText()
 
 const patientDialogRef = ref(null)
 
-const patientRecords = ref([
-  {
-    id: 1,
-    patientName: 'João Silva',
-    type: 'Clínica Geral',
+const patientRecords = ref(
+  patients.map((p, index) => ({
+    id: p.id,
+    patientName: p.name,
+    diagnosis: mockDiagnosis(index),
+    type: mockType(index),
     lastUpdate: '12/08/2025',
-    diagnosis: 'Hipertensão',
-    status: 'Completa',
-  },
-  {
-    id: 2,
-    patientName: 'Ana Costa',
-    type: 'Pediátrica',
-    lastUpdate: '11/08/2025',
-    diagnosis: 'Asma',
-    status: 'Completa',
-  },
-  {
-    id: 3,
-    patientName: 'Carlos Lima',
-    type: 'Geriátrica',
-    lastUpdate: '10/08/2025',
-    diagnosis: 'Diabetes Tipo 2',
-    status: 'Incompleta',
-  },
-  {
-    id: 4,
-    patientName: 'Maria Souza',
-    type: 'Clínica Geral',
-    lastUpdate: '09/08/2025',
-    diagnosis: 'Enxaqueca',
-    status: 'Completa',
-  },
-  {
-    id: 5,
-    patientName: 'Pedro Rocha',
-    type: 'Pediátrica',
-    lastUpdate: '08/08/2025',
-    diagnosis: 'Otite Média',
-    status: 'Completa',
-  },
-  {
-    id: 6,
-    patientName: 'Luiza Fernandes',
-    type: 'Clínica Geral',
-    lastUpdate: '07/08/2025',
-    diagnosis: 'Gastrite',
-    status: 'Completa',
-  },
-  {
-    id: 7,
-    patientName: 'Ricardo Alves',
-    type: 'Geriátrica',
-    lastUpdate: '06/08/2025',
-    diagnosis: 'Artrite',
-    status: 'Completa',
-  },
-  {
-    id: 8,
-    patientName: 'Carla Mendes',
-    type: 'Clínica Geral',
-    lastUpdate: '05/08/2025',
-    diagnosis: 'Ansiedade',
-    status: 'Incompleta',
-  },
-  {
-    id: 9,
-    patientName: 'Bruno Santos',
-    type: 'Pediátrica',
-    lastUpdate: '04/08/2025',
-    diagnosis: 'Alergia',
-    status: 'Completa',
-  },
-  {
-    id: 10,
-    patientName: 'Fernanda Lima',
-    type: 'Clínica Geral',
-    lastUpdate: '03/08/2025',
-    diagnosis: 'Insônia',
-    status: 'Completa',
-  },
-  {
-    id: 11,
-    patientName: 'Lucas Pereira',
-    type: 'Geriátrica',
-    lastUpdate: '02/08/2025',
-    diagnosis: 'Catarata',
-    status: 'Completa',
-  },
-  {
-    id: 12,
-    patientName: 'Mariana Rocha',
-    type: 'Clínica Geral',
-    lastUpdate: '01/08/2025',
-    diagnosis: 'Sinusite',
-    status: 'Incompleta',
-  },
-])
+    status: index % 3 === 0 ? 'Incompleta' : 'Completa',
+  })),
+)
+
+function mockDiagnosis(index) {
+  const list = [
+    'Hipertensão',
+    'Asma',
+    'Diabetes Tipo 2',
+    'Enxaqueca',
+    'Otite Média',
+    'Gastrite',
+    'Artrite',
+    'Ansiedade',
+    'Alergia',
+    'Insônia',
+    'Catarata',
+    'Sinusite',
+  ]
+  return list[index % list.length]
+}
+
+function mockType(index) {
+  const list = ['Clínica Geral', 'Pediátrica', 'Geriátrica']
+  return list[index % list.length]
+}
 
 const columns = [
   { name: 'id', label: 'ID', field: 'id', align: 'left' },
@@ -204,15 +140,9 @@ const columns = [
 
 const handleTableAction = (event) => {
   if (event === 'respond') {
-    console.log('Responder clicado para table')
-    // Chamando o diálogo e passando os dados do paciente
     if (patientDialogRef.value) {
       patientDialogRef.value.openDialog({
-        patient: null,
-        history: [],
-        evolution: [],
-        prescriptions: [],
-        exams: [],
+        context: 'prontuario',
       })
     }
   }
@@ -225,6 +155,12 @@ const handleTableAction = (event) => {
 const handleLineAction = ({ event, row }) => {
   if (event === 'view') {
     console.log('Detalhar prontuário clicado:', row)
+    if (patientDialogRef.value) {
+      patientDialogRef.value.openDialog({
+        context: 'prontuario',
+        patientId: row.id,
+      })
+    }
   }
   if (event === 'edit') {
     console.log('Editar prontuário clicado:', row)
