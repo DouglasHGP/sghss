@@ -8,7 +8,7 @@
         type="textarea"
         label="Medicamentos prescritos"
         hint="Ex: Nome, dosagem, frequência, via de administração, duração."
-        rows="3"
+        rows="2"
       />
 
       <q-space class="q-mt-md" />

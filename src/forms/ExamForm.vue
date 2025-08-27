@@ -8,7 +8,7 @@
         type="textarea"
         label="Exames solicitados"
         hint="Ex: Exames laboratoriais, imagem, outros complementares."
-        rows="3"
+        rows="2"
       />
 
       <q-space class="q-mt-md" />
@@ -20,7 +20,7 @@
         type="textarea"
         label="Exames já realizados"
         hint="Ex: Resultados prévios disponíveis no prontuário."
-        rows="3"
+        rows="2"
       />
 
       <q-space class="q-mt-md" />

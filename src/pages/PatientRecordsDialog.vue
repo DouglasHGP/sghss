@@ -193,7 +193,9 @@
         </div>
 
         <div class="row q-gutter-md">
-          <AnamneseForm @onSave="handleAnamneseSubmit" @close="handleClose" />
+          <AnamneseForm @onSave="handleSubmit('anamnese', data)" @close="handleClose" />
+          <PrescriptionForm @onSave="handleSubmit('prescription', data)" @close="handleClose" />
+          <ExamForm @onSave="handleSubmit('exam', data)" @close="handleClose" />
         </div>
       </div>
     </q-card>
@@ -203,6 +205,8 @@
 <script setup>
 import { ref } from 'vue'
 import AnamneseForm from 'src/forms/AnamneseForm.vue'
+import PrescriptionForm from 'src/forms/PrescriptionForm.vue'
+import ExamForm from 'src/forms/ExamForm.vue'
 
 const tab = ref('')
 
@@ -222,7 +226,8 @@ const handleClose = () => {
   isDialogOpen.value = false
 }
 
-const handleAnamneseSubmit = (data) => {
+const handleSubmit = (form, data) => {
+  console.log('Formulário salvo:', form)
   console.log('Dados da anamnese recebidos:', data)
   handleClose()
 }
