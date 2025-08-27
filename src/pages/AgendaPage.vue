@@ -44,7 +44,7 @@
                     <q-badge
                       rounded
                       :outline="
-                        statusConfig[group.status].label === 'Efetivada' ||
+                        statusConfig[group.status].label === 'Atendida' ||
                         statusConfig[group.status].label === 'Folga'
                       "
                       v-for="group in getEventsGrouped(scope.timestamp.date)"
@@ -88,8 +88,7 @@
       <TableList
         v-if="filteredDailyEvents.length > 0"
         icon="event"
-        class="col"
-        :class="{ 'col-11': $q.platform.is.mobile }"
+        :class="$q.platform.is.mobile ? 'col-11' : 'col'"
         :label-search="'Paciente ou Profissional'"
         :subtitle="`Eventos em ${formatDateBR(selectedDate)}`"
         :rows="filteredDailyEvents"
@@ -98,11 +97,7 @@
           { icon: 'add', label: 'Adicionar', event: 'add' },
           { icon: 'filter_alt', label: 'Filtros', event: 'filter' },
         ]"
-        :row-actions="[
-          { icon: 'done', label: 'Atendimento', event: 'respond' },
-          { icon: 'edit', label: 'Editar', event: 'edit' },
-          { icon: 'delete', label: 'Excluir', event: 'delete' },
-        ]"
+        :row-actions="rowActions"
         @action="handleTableAction"
         @rowAction="handleLineAction"
       >
@@ -110,7 +105,7 @@
           <q-td :props="props">
             <q-badge
               :color="statusConfig[props.row.status]?.color"
-              :outline="statusConfig[props.row.status].label === 'Efetivada'"
+              :outline="statusConfig[props.row.status].label === 'Atendida'"
               class="q-mr-sm"
               rounded
             >
@@ -119,6 +114,7 @@
           </q-td>
         </template>
       </TableList>
+
       <q-card v-else class="col text-center flex flex-center text-grey-6 q-mt-md q-pt-md q-pb-xs">
         <q-icon name="event_busy" size="md" class="q-mb-md q-mr-md" />
         <p v-if="hasFullDayEvent(selectedDate)">
@@ -168,8 +164,8 @@ const currentMonthTitle = computed(() => {
 // 📌 Configuração centralizada dos status
 const statusConfig = {
   // Status de Consultas (slots)
-  efetivada: {
-    label: 'Efetivada',
+  atendida: {
+    label: 'Atendida',
     color: 'teal-9',
     statusEvent: '- - -',
   },
@@ -260,8 +256,8 @@ function generateEvents() {
         // ✅ Caso especial: hoje
         if (isBefore(eventDateTime, now)) {
           // Horário de hoje já passou
-          status = 'efetivada'
-          title = statusConfig.efetivada.label
+          status = 'atendida'
+          title = statusConfig.atendida.label
         } else {
           // Horário de hoje ainda vai acontecer
           if (index < consultas) {
@@ -274,8 +270,8 @@ function generateEvents() {
         }
       } else if (isBefore(eventDateTime, now)) {
         // Dias anteriores
-        status = 'efetivada'
-        title = statusConfig.efetivada.label
+        status = 'atendida'
+        title = statusConfig.atendida.label
       } else {
         // Dias futuros
         status = 'prevista'
@@ -313,6 +309,35 @@ const columns = [
   },
   { name: 'patientName', label: 'Paciente', field: 'patientName', align: 'left' },
   { name: 'professionalName', label: 'Profissional', field: 'professionalName', align: 'left' },
+]
+
+// 📌 Actions da tabela
+const rowActions = [
+  {
+    icon: 'done',
+    label: 'Confirmar',
+    event: 'confirm',
+    disabled: (row) => row.status !== 'prevista', // só habilita se prevista
+  },
+  {
+    icon: 'done_all',
+    label: 'Atender',
+    event: 'respond',
+    disabled: (row) => row.status !== 'confirmada', // só habilita se confirmada
+  },
+
+  {
+    icon: 'edit',
+    label: 'Editar',
+    event: 'edit',
+    disabled: (row) => row.status === 'atendida', // não pode editar se já foi atendida
+  },
+  {
+    icon: 'delete',
+    label: 'Excluir',
+    event: 'delete',
+    disabled: (row) => row.status === 'atendida', // não pode excluir se já foi atendida
+  },
 ]
 
 // 📌 Funções auxiliares
@@ -413,6 +438,14 @@ const handleLineAction = ({ event, row }) => {
       })
     }
   }
+
+  // Se o evento for 'confirm', atualize o status da linha
+  if (event === 'confirm') {
+    console.log('Confirmar clicado:', row)
+    row.status = 'confirmada'
+
+  }
+
   if (event === 'edit') {
     console.log('Editar clicado para a linha:', row)
   }
@@ -449,9 +482,8 @@ const getEventsGrouped = (date) => {
   }
   return Object.values(grouped).sort((a, b) => {
     // Ordem de exibição
-    const order = ['efetivada', 'confirmada', 'prevista']
+    const order = ['atendida', 'confirmada', 'prevista']
     return order.indexOf(a.status) - order.indexOf(b.status)
   })
 }
 </script>
-

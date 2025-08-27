@@ -5,10 +5,11 @@
         <q-item
           v-for="(action, index) in props.actions"
           :key="index"
-          clickable
+          :clickable="!action.disabled"
+          :disable="action.disabled"
           v-close-popup
           tabindex="0"
-          @click="$emit('action', action.event)"
+          @click="!action.disabled && $emit('action', action.event)"
         >
           <q-item-section avatar>
             <q-avatar

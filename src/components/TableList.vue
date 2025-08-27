@@ -41,7 +41,7 @@
       <template v-slot:body-cell-actions="props">
         <q-td :props="props" style="width: 65px">
           <ActionsDropdown
-            :actions="rowActions"
+            :actions="resolveRowActions(props.row)"
             @action="(event) => handleRowAction(event, props.row)"
           />
         </q-td>
@@ -122,5 +122,13 @@ const handleAction = (event) => {
 // Lida com as ações do dropdown de cada linha
 const handleRowAction = (event, row) => {
   emit('rowAction', { event, row })
+}
+
+const resolveRowActions = (row) => {
+  return props.rowActions.map((action) => ({
+    ...action,
+    disabled:
+      typeof action.disabled === 'function' ? action.disabled(row) : action.disabled || false,
+  }))
 }
 </script>
