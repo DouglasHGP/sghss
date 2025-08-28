@@ -8,7 +8,7 @@
       <div ref="jitsiContainer" style="height: 80vh; width: 100%; position: relative">
         <transition name="fade">
           <div
-            v-if="loading"
+            v-if="loading && !timeoutReached"
             class="absolute-full flex flex-center"
             style="background-color: rgba(0, 0, 0, 0.05); z-index: 10"
           >
