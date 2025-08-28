@@ -61,10 +61,10 @@ export default [
     roles: ['dev', 'patient'],
   },
   {
-    title: 'Prescrições e Atestados',
-    caption: 'Visualize receitas digitais e atestados emitidos',
+    title: 'Meu Espaço',
+    caption: 'Visualize receitas digitais, validade, declarações, atestados emitidos e exames',
     icon: 'history_edu',
-    link: '/prescriptions',
+    link: '/my-space',
     roles: ['dev', 'patient'],
   },
   {

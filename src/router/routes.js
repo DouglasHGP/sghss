@@ -29,7 +29,7 @@ const routes = [
       { path: 'agenda', component: () => import('pages/AgendaPage.vue') },
       { path: 'patient-records', component: () => import('src/pages/PatientRecordsPage.vue') },
       { path: 'scheduling', component: () => import('pages/SchedulingPage.vue') },
-      { path: 'prescriptions', component: () => import('pages/PrescriptionsPage.vue') },
+      { path: 'my-space', component: () => import('pages/MySpacePage.vue') },
       { path: 'my-plan', component: () => import('pages/PlanPage.vue') },
       { path: 'contact-us', component: () => import('pages/ContactPage.vue') },
     ],
