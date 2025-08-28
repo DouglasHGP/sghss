@@ -67,13 +67,6 @@ export default [
     link: '/my-space',
     roles: ['dev', 'patient'],
   },
-  {
-    title: 'Meu Plano',
-    caption: 'Consulte detalhes do seu plano de saúde',
-    icon: 'assignment',
-    link: '/my-plan',
-    roles: ['dev', 'patient'],
-  },
 
   // Links de Suporte e Navegação
 

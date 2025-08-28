@@ -93,6 +93,7 @@
             <q-tab name="prescricao" label="Prescrições" icon="history_edu" />
             <q-tab name="exame" label="Exames" icon="science" />
             <q-tab name="declaracao" label="Declarações" icon="description" />
+            <q-tab name="meu_plano" label="Meu Plano" icon="assignment" />
           </q-tabs>
           <q-tab-panels v-model="tab" animated>
             <q-tab-panel name="prescricao">
@@ -163,6 +164,92 @@
                 </template>
               </q-table>
             </q-tab-panel>
+
+            <q-tab-panel name="meu_plano">
+              <CardBase
+                class="col"
+                :title="planData.name"
+                :subtitle="planData.validity.start"
+                icon="contact_mail"
+              >
+                <template #subtitle-prepend>
+                  <div
+                    class="text-weight-light"
+                    :class="{
+                      'text-h6 ': !$q.platform.is.mobile,
+                      'text-subtitle2 q-mt-xs': $q.platform.is.mobile,
+                    }"
+                  >
+                    Assinado: {{ planData.validity.start }}
+                  </div>
+                </template>
+                <div class="q-gutter-sm">
+                  <div class="rounded-borders text-teal-9 bg-teal-1 q-pa-md">
+                    <div class="row justify-between">
+                      <label class="text-subtitle1">
+                        Expira:
+                        <span class="text-subtitle2">{{ planData.validity.end }}</span>
+                      </label>
+                      <label class="text-subtitle1"
+                        >Acomodação:
+                        <span class="text-subtitle2">{{ planData.accommodation }}</span>
+                      </label>
+                      <label class="text-subtitle1"
+                        >Abrangência: <span class="text-subtitle2">{{ planData.coverage }}</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </CardBase>
+
+              <CardBase class="col" title="Informações Financeiras" icon="payments">
+                <div class="row q-gutter-sm">
+                  <div class="col">
+                    <div class="rounded-borders text-teal-9 bg-teal-1 q-pa-md">
+                      <div class="column">
+                        <label class="text-subtitle1">
+                          Valor Mensalidade:
+                          <span class="text-subtitle2">{{
+                            formatCurrency(planData.financial.monthly_fee)
+                          }}</span>
+                        </label>
+                        <label class="text-subtitle1"
+                          >Vencimento:
+                          <span class="text-subtitle2">{{ planData.financial.due_date }}</span>
+                        </label>
+                        <label class="text-subtitle1"
+                          >Último Pagamento:
+                          <span class="text-subtitle2">{{ planData.financial.last_payment }}</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <q-space />
+                  <div class="col">
+                    <div class="rounded-borders text-teal-9 bg-teal-1 q-pa-md">
+                      <div class="column">
+                        <label class="text-subtitle1">
+                          Franquia Anual:
+                          <span class="text-subtitle2">{{
+                            formatCurrency(planData.deductible.annual_limit)
+                          }}</span>
+                        </label>
+                        <label class="text-subtitle1"
+                          >Valor Utilizado:
+                          <span class="text-subtitle2">{{ planData.deductible.used_amount }}</span>
+                        </label>
+                        <label class="text-subtitle1"
+                          >Saldo:
+                          <span class="text-subtitle2">{{
+                            planData.deductible.remaining_amount
+                          }}</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardBase>
+            </q-tab-panel>
           </q-tab-panels>
         </q-card>
       </CardBase>
@@ -224,6 +311,26 @@ const patientData = ref({
   ],
 })
 
+const planData = ref({
+  name: 'Plano Diamante VIP',
+  validity: {
+    start: '01/01/2025',
+    end: '31/12/2025',
+  },
+  accommodation: 'Apartamento',
+  coverage: 'Nacional',
+  financial: {
+    monthly_fee: 850.5,
+    due_date: '10 de cada mês',
+    last_payment: '10/08/2025',
+  },
+  deductible: {
+    annual_limit: 500.0,
+    used_amount: 150.0,
+    remaining_amount: 350.0,
+  },
+})
+
 const prescriptionColumns = [
   { name: 'id', label: 'ID', field: 'id', align: 'center' },
   { name: 'date', label: 'Data', field: 'date', align: 'left' },
@@ -279,5 +386,12 @@ const getActions = (row) => {
     })
   }
   return actions
+}
+
+const formatCurrency = (value) => {
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(value)
 }
 </script>

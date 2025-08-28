@@ -30,7 +30,6 @@ const routes = [
       { path: 'patient-records', component: () => import('src/pages/PatientRecordsPage.vue') },
       { path: 'scheduling', component: () => import('pages/SchedulingPage.vue') },
       { path: 'my-space', component: () => import('pages/MySpacePage.vue') },
-      { path: 'my-plan', component: () => import('pages/PlanPage.vue') },
       { path: 'contact-us', component: () => import('pages/ContactPage.vue') },
     ],
   },
