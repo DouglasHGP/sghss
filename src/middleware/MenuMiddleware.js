@@ -54,21 +54,14 @@ export default [
 
   // Links de Atendimento ao Usuário (paciente)
   {
-    title: 'Consulta Presencial',
+    title: 'Consulta',
     caption: 'Consulte profissionais e horários',
     icon: 'schedule',
-    link: '/inperson-scheduling',
+    link: '/scheduling',
     roles: ['dev', 'patient'],
   },
   {
-    title: 'Consulta Online',
-    caption: 'Telemedicina e consultas virtuais',
-    icon: 'video_call',
-    link: '/online-scheduling',
-    roles: ['dev', 'patient'],
-  },
-  {
-    title: 'Prescrições',
+    title: 'Prescrições e Atestados',
     caption: 'Visualize receitas digitais e atestados emitidos',
     icon: 'history_edu',
     link: '/prescriptions',

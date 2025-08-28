@@ -14,6 +14,7 @@ export const professionals = [
         city: 'São Paulo',
         state: 'SP',
         observation: 'Médico com especialidade em medicina da família.',
+        specialty: 'Medicina Familiar',
     },
     {
         id: '2',
@@ -30,6 +31,7 @@ export const professionals = [
         city: 'Rio de Janeiro',
         state: 'RJ',
         observation: 'Nutricionista com especialidade em nutrição pós-cirúrgica.',
+        specialty: 'Nutrição Pós-Cirúrgica',
     },
     {
         id: '3',
@@ -46,6 +48,7 @@ export const professionals = [
         city: 'São Paulo',
         state: 'SP',
         observation: 'Enfermeiro com especialidade em enfermagem pós-cirúrgica.',
+        specialty: 'Enfermagem Pós-Cirúrgica',
     },
     {
         id: '4',
@@ -62,5 +65,6 @@ export const professionals = [
         city: 'Curitiba',
         state: 'PR',
         observation: 'Médica com especialidade em oftalmologia.',
+        specialty: 'Oftalmologia',
     }
 ]

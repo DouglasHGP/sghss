@@ -28,11 +28,8 @@ const routes = [
       { path: 'reports', component: () => import('pages/ReportsPage.vue') },
       { path: 'agenda', component: () => import('pages/AgendaPage.vue') },
       { path: 'patient-records', component: () => import('src/pages/PatientRecordsPage.vue') },
-      {
-        path: 'inperson-scheduling',
-        component: () => import('pages/InPersonSchedulingPage.vue'),
-      },
-      { path: 'online-scheduling', component: () => import('pages/OnlineSchedulingPage.vue') },
+      { path: 'scheduling', component: () => import('pages/SchedulingPage.vue') },
+      { path: 'prescriptions', component: () => import('pages/PrescriptionsPage.vue') },
       { path: 'my-plan', component: () => import('pages/PlanPage.vue') },
       { path: 'contact-us', component: () => import('pages/ContactPage.vue') },
     ],
