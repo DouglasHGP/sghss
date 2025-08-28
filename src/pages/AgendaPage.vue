@@ -130,20 +130,17 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
-import {
-  format,
-  eachDayOfInterval,
-  getDay,
-  isBefore,
-  isToday as isTodayFns,
-} from 'date-fns'
+import { format, eachDayOfInterval, getDay, isBefore, isToday as isTodayFns } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { QCalendarMonth } from '@quasar/quasar-ui-qcalendar'
 import '@quasar/quasar-ui-qcalendar/dist/index.css'
 import PatientRecordsDialog from './PatientRecordsDialog.vue'
 import { useFormatters } from 'src/composables/useFormatters'
+import { patients as patientMocks } from 'src/mocks/patients' // Importa a lista de pacientes
+import { professionals as professionalMocks } from 'src/mocks/professionals' // Importa a lista de profissionais
 
 const { formatDateBR } = useFormatters()
+
 // 📌 Estado principal
 const selectedDate = ref(format(new Date(), 'yyyy-MM-dd'))
 const searchQuery = ref('')
@@ -164,49 +161,24 @@ const currentMonthTitle = computed(() => {
 
 // 📌 Configuração centralizada dos status
 const statusConfig = {
-  // Status de Consultas (slots)
-  atendida: {
-    label: 'Atendida',
-    color: 'teal-9',
-    statusEvent: '- - -',
-  },
-  confirmada: {
-    label: 'Confirmada',
-    color: 'teal-9',
-    statusEvent: 'A Consultar',
-  },
-  prevista: {
-    label: 'Prevista',
-    color: 'teal-5',
-    statusEvent: 'A Confirmar',
-  },
-  // Status de Ausência (full-day)
-  folga: {
-    label: 'Folga',
-    color: 'grey',
-    statusEvent: '',
-  },
-  ferias: {
-    label: 'Férias',
-    color: 'purple',
-    statusEvent: '',
-  },
-  afastamento: {
-    label: 'Ausencia',
-    color: 'red',
-    statusEvent: '',
-  },
+  atendida: { label: 'Atendida', color: 'teal-9', statusEvent: '- - -' },
+  confirmada: { label: 'Confirmada', color: 'teal-9', statusEvent: 'A Consultar' },
+  prevista: { label: 'Prevista', color: 'teal-5', statusEvent: 'A Confirmar' },
+  folga: { label: 'Folga', color: 'grey', statusEvent: '' },
+  ferias: { label: 'Férias', color: 'purple', statusEvent: '' },
+  afastamento: { label: 'Ausencia', color: 'red', statusEvent: '' },
 }
 
-// 📌 Geração de eventos fake
+// 📌 Geração de eventos com dados dos mocks
 function generateEvents() {
   const start = new Date(2025, 5, 1)
   const end = new Date(2025, 9, 31)
   const days = eachDayOfInterval({ start, end })
-  let idCounter = 1
   const allGeneratedEvents = []
-
   const slots = ['08:00', '09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00']
+
+  let patientIndex = 0
+  let professionalIndex = 0
 
   days.forEach((day) => {
     const dateStr = format(day, 'yyyy-MM-dd')
@@ -214,25 +186,31 @@ function generateEvents() {
 
     // 1. Eventos de full-day
     if (day.getMonth() === 5) {
+      const professional = professionalMocks[professionalIndex % professionalMocks.length]
       allGeneratedEvents.push({
-        id: idCounter++,
+        id: `full-day-${allGeneratedEvents.length}`,
         date: dateStr,
         title: statusConfig.ferias.label,
-        professionalName: 'Dr. Carlos Mendes',
+        professionalId: professional.id,
+        professionalName: professional.name,
         status: 'ferias',
         eventType: 'full-day',
       })
+      professionalIndex++
       return
     }
     if (dow === 0 || dow === 6) {
+      const professional = professionalMocks[professionalIndex % professionalMocks.length]
       allGeneratedEvents.push({
-        id: idCounter++,
+        id: `full-day-${allGeneratedEvents.length}`,
         date: dateStr,
         title: statusConfig.folga.label,
-        professionalName: 'Dr. Carlos Mendes',
+        professionalId: professional.id,
+        professionalName: professional.name,
         status: 'folga',
         eventType: 'full-day',
       })
+      professionalIndex++
       return
     }
 
@@ -243,47 +221,42 @@ function generateEvents() {
 
     shuffled.forEach((time, index) => {
       let status = 'prevista'
-      let title = statusConfig.prevista.label
-      let patientName = `Paciente ${idCounter}`
-
       const eventDateTime = new Date(`${dateStr}T${time}:00`)
 
+      const patient = patientMocks[patientIndex % patientMocks.length]
+      const professional = professionalMocks[professionalIndex % professionalMocks.length]
+
       if (isTodayFns(eventDateTime)) {
-        // ✅ Caso especial: hoje
         if (isBefore(eventDateTime, now)) {
-          // Horário de hoje já passou
           status = 'atendida'
-          title = statusConfig.atendida.label
         } else {
-          // Horário de hoje ainda vai acontecer
           if (index < consultas) {
             status = 'prevista'
-            title = statusConfig.prevista.label
           } else {
             status = 'confirmada'
-            title = statusConfig.confirmada.label
           }
         }
       } else if (isBefore(eventDateTime, now)) {
-        // Dias anteriores
         status = 'atendida'
-        title = statusConfig.atendida.label
       } else {
-        // Dias futuros
         status = 'prevista'
-        title = statusConfig.prevista.label
       }
 
       allGeneratedEvents.push({
-        id: idCounter++,
+        id: `slot-${allGeneratedEvents.length}`,
         date: dateStr,
         time,
-        title,
-        patientName,
-        professionalName: 'Dr. Carlos Mendes',
+        title: statusConfig[status].label,
+        patientId: patient.id,
+        patientName: patient.name,
+        professionalId: professional.id,
+        professionalName: professional.name,
         status,
         eventType: 'slot',
       })
+
+      patientIndex++
+      professionalIndex++
     })
   })
 
@@ -313,26 +286,25 @@ const rowActions = [
     icon: 'done',
     label: 'Confirmar',
     event: 'confirm',
-    disabled: (row) => row.status !== 'prevista', // só habilita se prevista
+    disabled: (row) => row.status !== 'prevista',
   },
   {
     icon: 'done_all',
     label: 'Atender',
     event: 'respond',
-    disabled: (row) => row.status !== 'confirmada', // só habilita se confirmada
+    disabled: (row) => row.status !== 'confirmada',
   },
-
   {
     icon: 'edit',
     label: 'Editar',
     event: 'edit',
-    disabled: (row) => row.status === 'atendida', // não pode editar se já foi atendida
+    disabled: (row) => row.status === 'atendida',
   },
   {
     icon: 'delete',
     label: 'Excluir',
     event: 'delete',
-    disabled: (row) => row.status === 'atendida', // não pode excluir se já foi atendida
+    disabled: (row) => row.status === 'atendida',
   },
 ]
 
@@ -372,10 +344,11 @@ const filteredDailyEvents = ref([])
 watch(
   [dailyEvents, searchQuery, isAdminOrDev],
   () => {
+    // Essa lógica precisa ser adaptada para usar os IDs de profissional para filtrar
     if (!isAdminOrDev.value) {
-      const loggedInProfessionalName = 'Dr. Carlos Mendes'
+      const loggedInProfessionalId = professionalMocks[0].id // Exemplo: Pega o primeiro profissional do mock
       filteredDailyEvents.value = dailyEvents.value.filter(
-        (event) => event.professionalName === loggedInProfessionalName,
+        (event) => event.professionalId === loggedInProfessionalId,
       )
     } else {
       if (searchQuery.value) {
@@ -409,6 +382,10 @@ const moveMonth = (val) => {
 const handleTableAction = (event) => {
   if (event === 'add') {
     console.log('Adicionar clicado')
+    // Chama o diálogo para uma demanda espontânea
+    if (patientDialogRef.value) {
+      patientDialogRef.value.openDialog({ context: 'agenda' })
+    }
   }
   if (event === 'filter') {
     console.log('Filtros clicado')
@@ -418,28 +395,21 @@ const handleTableAction = (event) => {
 const handleLineAction = ({ event, row }) => {
   if (event === 'respond') {
     console.log('Responder clicado para a linha:', row)
-    // Chamando o diálogo e passando os dados do paciente
+    // Chama o diálogo de prontuário, passando o ID do paciente
     if (patientDialogRef.value) {
       patientDialogRef.value.openDialog({
-        patient: {
-          name: row.patientName,
-          age: 30,
-          condition: 'Estável',
-          last_appointment: row.date,
-        },
-        history: [], // aqui você pode passar histórico real
-        evolution: [],
-        prescriptions: [],
-        exams: [],
+        context: 'agenda',
+        patientId: row.patientId, // Passa o ID do paciente do evento
       })
     }
   }
 
-  // Se o evento for 'confirm', atualize o status da linha
   if (event === 'confirm') {
     console.log('Confirmar clicado:', row)
-    row.status = 'confirmada'
-
+    const eventToUpdate = events.value.find((e) => e.id === row.id)
+    if (eventToUpdate) {
+      eventToUpdate.status = 'confirmada'
+    }
   }
 
   if (event === 'edit') {
@@ -455,7 +425,6 @@ const getEventsGrouped = (date) => {
   const allEventsForDay = getEvents(date)
   const fullDayEvent = allEventsForDay.find((e) => e.eventType === 'full-day')
 
-  // Se houver um evento de dia inteiro (folga, férias, etc.), exiba apenas ele.
   if (fullDayEvent) {
     return [
       {
@@ -466,7 +435,6 @@ const getEventsGrouped = (date) => {
     ]
   }
 
-  // Caso contrário, agrupe e conte os eventos de consulta (slots).
   const grouped = {}
   const slotEvents = allEventsForDay.filter((e) => e.eventType === 'slot')
 
@@ -477,7 +445,6 @@ const getEventsGrouped = (date) => {
     grouped[e.status].count++
   }
   return Object.values(grouped).sort((a, b) => {
-    // Ordem de exibição
     const order = ['atendida', 'confirmada', 'prevista']
     return order.indexOf(a.status) - order.indexOf(b.status)
   })
