@@ -191,6 +191,7 @@
         </div>
       </CardBase>
     </div>
+    <TelemedicineDialog v-model="videoDialog" :room-name="`consulta-${scheduledSlot?.id}`" />
   </q-page>
 </template>
 
@@ -210,7 +211,24 @@ import '@quasar/quasar-ui-qcalendar/dist/index.css'
 import { useFormatters } from 'src/composables/useFormatters'
 import { professionals as professionalMocks } from 'src/mocks/professionals'
 import CardBase from 'src/components/CardBase.vue'
+import TelemedicineDialog from './TelemedicineDialog.vue'
 import { Notify } from 'quasar'
+import { useJitsiLoader } from 'src/composables/useJitsiLoader'
+
+const { loadJitsi } = useJitsiLoader()
+loadJitsi().catch((err) => console.error('Erro ao carregar Jitsi:', err))
+
+const videoDialog = ref(false)
+const consultationType = ref('presencial')
+const selectedSpecialty = ref(null)
+const selectedDate = ref(format(new Date(), 'yyyy-MM-dd'))
+const calendarMonth = ref(null)
+const allAvailableEvents = ref([])
+const countdown = ref(null)
+const scheduledSlot = ref(null)
+let countdownInterval = null
+
+const { formatDateBR } = useFormatters()
 
 const handleScheduleAction = ({ event, row }) => {
   if (event === 'schedule') {
@@ -227,19 +245,6 @@ const handleScheduleAction = ({ event, row }) => {
   }
 }
 
-
-const { formatDateBR } = useFormatters()
-
-// 📌 Estado Principal
-const consultationType = ref('presencial')
-const selectedSpecialty = ref(null)
-const selectedDate = ref(format(new Date(), 'yyyy-MM-dd'))
-const calendarMonth = ref(null)
-const allAvailableEvents = ref([])
-const countdown = ref(null)
-const scheduledSlot = ref(null) // guarda o slot escolhido
-let countdownInterval = null
-
 watch([consultationType, selectedSpecialty], () => {
   generateAvailableEvents()
   scheduledSlot.value = null
@@ -247,7 +252,6 @@ watch([consultationType, selectedSpecialty], () => {
   if (countdownInterval) clearInterval(countdownInterval)
 })
 
-// 📌 Computed properties
 const currentMonthTitle = computed(() => {
   if (selectedDate.value) {
     const [year, month, day] = selectedDate.value.split('-').map(Number)
@@ -267,19 +271,15 @@ const filteredProfessionals = computed(() => {
   return professionalMocks.filter((p) => p.specialty === selectedSpecialty.value)
 })
 
-const availableDates = computed(() => {
-  return allAvailableEvents.value.map((e) => e.date)
-})
-
-const dailyAvailableSlots = computed(() => {
-  return allAvailableEvents.value
+const availableDates = computed(() => allAvailableEvents.value.map((e) => e.date))
+const dailyAvailableSlots = computed(() =>
+  allAvailableEvents.value
     .filter((e) => e.date === selectedDate.value)
-    .sort((a, b) => a.time.localeCompare(b.time))
-})
+    .sort((a, b) => a.time.localeCompare(b.time)),
+)
 
 function startCountdown(dateStr, time) {
   if (countdownInterval) clearInterval(countdownInterval)
-
   const target = new Date(`${dateStr}T${time}:00`)
 
   countdownInterval = setInterval(() => {
@@ -287,6 +287,7 @@ function startCountdown(dateStr, time) {
     if (diff <= 0) {
       countdown.value = 'Consulta iniciando agora'
       clearInterval(countdownInterval)
+      videoDialog.value = true
     } else {
       const hours = Math.floor(diff / 3600)
       const minutes = Math.floor((diff % 3600) / 60)
@@ -296,7 +297,6 @@ function startCountdown(dateStr, time) {
   }, 1000)
 }
 
-// 📌 Lógica de Geração de Eventos (adaptada do módulo Agenda)
 function generateAvailableEvents() {
   if (!selectedSpecialty.value || !consultationType.value) {
     allAvailableEvents.value = []
@@ -308,17 +308,14 @@ function generateAvailableEvents() {
   let eventIdCounter = 1
 
   if (consultationType.value === 'telemedicina') {
-    // 📌 só hoje
     const today = format(new Date(), 'yyyy-MM-dd')
     selectedDate.value = today
-
     const availableSlotsForDay = Math.floor(Math.random() * 5) + 3
     const shuffledSlots = [...slots].sort(() => Math.random() - 0.5)
 
     for (let i = 0; i < availableSlotsForDay; i++) {
       const time = shuffledSlots[i]
       const eventDateTime = new Date(`${today}T${time}:00`)
-
       if (isAfter(eventDateTime, new Date())) {
         const professional = filteredProfessionals.value[i % filteredProfessionals.value.length]
         if (professional) {
@@ -335,7 +332,6 @@ function generateAvailableEvents() {
       }
     }
   } else {
-    // 📌 Presencial - mantém lógica atual
     const start = new Date()
     const end = new Date()
     end.setMonth(start.getMonth() + 4)
@@ -345,14 +341,12 @@ function generateAvailableEvents() {
       const dateStr = format(day, 'yyyy-MM-dd')
       const dow = getDay(day)
       if (dow === 0 || dow === 6) return
-
       const availableSlotsForDay = Math.floor(Math.random() * 5) + 3
       const shuffledSlots = [...slots].sort(() => Math.random() - 0.5)
 
       for (let i = 0; i < availableSlotsForDay; i++) {
         const time = shuffledSlots[i]
         const eventDateTime = new Date(`${dateStr}T${time}:00`)
-
         if (isAfter(eventDateTime, new Date()) || isTodayFns(eventDateTime)) {
           const professional = filteredProfessionals.value[i % filteredProfessionals.value.length]
           if (professional) {
@@ -374,37 +368,20 @@ function generateAvailableEvents() {
   allAvailableEvents.value = generatedEvents
 }
 
-// 📌 Watchers para gerar eventos quando as seleções mudarem
 watch([consultationType, selectedSpecialty], generateAvailableEvents)
 
-// 📌 Funções de controle do calendário
 const goToToday = () => {
-  if (calendarMonth.value) {
-    calendarMonth.value.moveToToday()
-  }
+  if (calendarMonth.value) calendarMonth.value.moveToToday()
 }
-
 const moveMonth = (val) => {
-  if (calendarMonth.value) {
-    calendarMonth.value.move(val)
-  }
+  if (calendarMonth.value) calendarMonth.value.move(val)
 }
-
 const selectDay = (date) => {
-  if (isDateAvailable(date)) {
-    selectedDate.value = date
-  }
+  if (isDateAvailable(date)) selectedDate.value = date
 }
+const isDateAvailable = (date) => allAvailableEvents.value.some((e) => e.date === date)
+const getAvailableSlots = (date) => allAvailableEvents.value.filter((e) => e.date === date)
 
-const isDateAvailable = (date) => {
-  return allAvailableEvents.value.some((e) => e.date === date)
-}
-
-const getAvailableSlots = (date) => {
-  return allAvailableEvents.value.filter((e) => e.date === date)
-}
-
-// 📌 Colunas da tabela
 const columns = [
   { name: 'time', label: 'Hora', field: 'time', align: 'left' },
   { name: 'title', label: 'Profissional', field: 'title', align: 'left' },
