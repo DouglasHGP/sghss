@@ -70,7 +70,7 @@
       :label-search="'Nome do Paciente ou Diagnóstico'"
       :columns="columns"
       :actions="[
-        { icon: 'add', label: 'Expontâneo', event: 'respond', alert: 'Extra Agenda' },
+        { icon: 'add', label: 'Expontâneo', event: 'add' },
         { icon: 'filter_alt', label: 'Filtros', event: 'filter' },
       ]"
       :row-actions="[
@@ -87,7 +87,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { patients } from 'src/mocks/patients'
+import { patientRecords as allPatientRecords } from 'src/mocks/index'
 import PatientRecordsDialog from './PatientRecordsDialog.vue'
 import { useResponsiveText } from 'src/composables/useResponsiveText'
 
@@ -95,51 +95,32 @@ const { responsiveText } = useResponsiveText()
 
 const patientDialogRef = ref(null)
 
-const patientRecords = ref(
-  patients.map((p, index) => ({
-    id: p.id,
-    patientName: p.name,
-    diagnosis: mockDiagnosis(index),
-    type: mockType(index),
-    lastUpdate: '12/08/2025',
-    status: index % 3 === 0 ? 'Incompleta' : 'Completa',
-  })),
-)
+// 📌 Alteração aqui: Atribua o mock completo diretamente
+const patientRecords = ref(allPatientRecords)
 
-function mockDiagnosis(index) {
-  const list = [
-    'Hipertensão',
-    'Asma',
-    'Diabetes Tipo 2',
-    'Enxaqueca',
-    'Otite Média',
-    'Gastrite',
-    'Artrite',
-    'Ansiedade',
-    'Alergia',
-    'Insônia',
-    'Catarata',
-    'Sinusite',
-  ]
-  return list[index % list.length]
-}
-
-function mockType(index) {
-  const list = ['Clínica Geral', 'Pediátrica', 'Geriátrica']
-  return list[index % list.length]
-}
-
+// 📌 Alteração aqui: Adapte as colunas para usar os campos corretos do mock
 const columns = [
   { name: 'id', label: 'ID', field: 'id', align: 'left' },
-  { name: 'patientName', label: 'Paciente', field: 'patientName', align: 'left' },
-  { name: 'diagnosis', label: 'Último Diagnóstico', field: 'diagnosis', align: 'left' },
-  { name: 'type', label: 'Tipo de Anamnese', field: 'type', align: 'left' },
-  { name: 'lastUpdate', label: 'Última Atualização', field: 'lastUpdate', align: 'left' },
+  { name: 'patientName', label: 'Paciente', field: 'name', align: 'left' },
+  { name: 'observation', label: 'Observação', field: 'observation', align: 'left' },
+  {
+    name: 'type',
+    label: 'Tipo de Anamnese',
+    field: (row) => row.history[0]?.description || '-',
+    align: 'left',
+  },
+  {
+    name: 'lastUpdate',
+    label: 'Última Atualização',
+    field: (row) => row.history[0]?.date || '-',
+    align: 'left',
+  },
   { name: 'status', label: 'Status', field: 'status', align: 'left' },
 ]
 
 const handleTableAction = (event) => {
-  if (event === 'respond') {
+  // 📌 Alteração aqui: Ação 'respond' foi alterada para 'add' no template
+  if (event === 'add') {
     if (patientDialogRef.value) {
       patientDialogRef.value.openDialog({
         context: 'prontuario',
