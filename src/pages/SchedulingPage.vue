@@ -210,6 +210,23 @@ import '@quasar/quasar-ui-qcalendar/dist/index.css'
 import { useFormatters } from 'src/composables/useFormatters'
 import { professionals as professionalMocks } from 'src/mocks/professionals'
 import CardBase from 'src/components/CardBase.vue'
+import { Notify } from 'quasar'
+
+const handleScheduleAction = ({ event, row }) => {
+  if (event === 'schedule') {
+    scheduledSlot.value = row
+    if (consultationType.value === 'telemedicina') {
+      startCountdown(row.date, row.time)
+    }
+    Notify.create({
+      message: `Consulta com ${row.title} agendada para ${formatDateBR(row.date)} às ${row.time}`,
+      color: 'teal-6',
+      icon: 'event_available',
+      position: 'bottom',
+    })
+  }
+}
+
 
 const { formatDateBR } = useFormatters()
 
@@ -393,15 +410,4 @@ const columns = [
   { name: 'title', label: 'Profissional', field: 'title', align: 'left' },
   { name: 'especialty', label: 'Especialidade', field: 'specialty', align: 'left' },
 ]
-
-// 📌 Ações da tabela
-const handleScheduleAction = ({ event, row }) => {
-  if (event === 'schedule') {
-    scheduledSlot.value = row
-    if (consultationType.value === 'telemedicina') {
-      startCountdown(row.date, row.time)
-    }
-    alert(`Agendar consulta com ${row.title} para ${formatDateBR(row.date)} às ${row.time}`)
-  }
-}
 </script>
