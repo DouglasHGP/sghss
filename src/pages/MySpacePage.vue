@@ -183,6 +183,19 @@
                     Assinado: {{ planData.validity.start }}
                   </div>
                 </template>
+                <template #actions>
+                  <ActionsDropdown
+                    :actions="[
+                      {
+                        icon: 'gavel',
+                        label: 'Contrato',
+                        event: 'contrato',
+                        tooltip: 'Ver cópia do Contrato',
+                      },
+                    ]"
+                    @action="handleTableAction"
+                  />
+                </template>
                 <div class="q-gutter-sm">
                   <div class="rounded-borders text-teal-9 bg-teal-1 q-pa-md">
                     <div class="row justify-between">
