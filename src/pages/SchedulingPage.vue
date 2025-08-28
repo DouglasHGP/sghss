@@ -111,7 +111,14 @@
             :subtitle="`Disponibilidade em ${formatDateBR(selectedDate)}`"
             :rows="dailyAvailableSlots"
             :columns="columns"
-            :row-actions="[{ icon: 'event_available', label: 'Agendar', event: 'schedule', tooltip: 'Agendar consulta' }]"
+            :row-actions="[
+              {
+                icon: 'event_available',
+                label: 'Agendar',
+                event: 'schedule',
+                tooltip: 'Agendar consulta',
+              },
+            ]"
             @rowAction="handleScheduleAction"
           >
             <template #body-cell-title="props">
@@ -136,15 +143,46 @@
             <q-icon name="event_busy" size="md" class="q-mb-md q-mr-md" />
             <p>Nenhuma disponibilidade para este dia.</p>
           </q-card>
-        </div></CardBase
-      >
+        </div>
+        <div class="row">
+          <CardBase
+            v-if="consultationType === 'telemedicina' && scheduledSlot"
+            class="col"
+            :title="`Consulta com ${scheduledSlot.title}`"
+          >
+            <template #subtitle-prepend>
+              <div
+                class="text-weight-light"
+                :class="{
+                  'text-h6 ': !$q.platform.is.mobile,
+                  'text-subtitle2 q-mt-xs': $q.platform.is.mobile,
+                }"
+              >
+                Marcada para {{ formatDateBR(scheduledSlot.date) }} - {{ scheduledSlot.time }}h
+              </div>
+            </template>
+            <q-card-section>
+              <div class="text-h2">
+                Inicia em: <span class="text-teal">{{ countdown }}</span>
+              </div>
+            </q-card-section>
+          </CardBase>
+        </div>
+      </CardBase>
     </div>
   </q-page>
 </template>
 
 <script setup>
 import { ref, computed, watch } from 'vue'
-import { format, eachDayOfInterval, getDay, isAfter, isToday as isTodayFns } from 'date-fns'
+import {
+  format,
+  eachDayOfInterval,
+  getDay,
+  isAfter,
+  isToday as isTodayFns,
+  differenceInSeconds,
+} from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { QCalendarMonth } from '@quasar/quasar-ui-qcalendar'
 import '@quasar/quasar-ui-qcalendar/dist/index.css'
@@ -160,6 +198,9 @@ const selectedSpecialty = ref(null)
 const selectedDate = ref(format(new Date(), 'yyyy-MM-dd'))
 const calendarMonth = ref(null)
 const allAvailableEvents = ref([])
+const countdown = ref(null)
+const scheduledSlot = ref(null) // guarda o slot escolhido
+let countdownInterval = null
 
 // 📌 Computed properties
 const currentMonthTitle = computed(() => {
@@ -191,6 +232,25 @@ const dailyAvailableSlots = computed(() => {
     .sort((a, b) => a.time.localeCompare(b.time))
 })
 
+function startCountdown(dateStr, time) {
+  if (countdownInterval) clearInterval(countdownInterval)
+
+  const target = new Date(`${dateStr}T${time}:00`)
+
+  countdownInterval = setInterval(() => {
+    const diff = differenceInSeconds(target, new Date())
+    if (diff <= 0) {
+      countdown.value = 'Consulta iniciando agora'
+      clearInterval(countdownInterval)
+    } else {
+      const hours = Math.floor(diff / 3600)
+      const minutes = Math.floor((diff % 3600) / 60)
+      const seconds = diff % 60
+      countdown.value = `${hours}h ${minutes}m ${seconds}s`
+    }
+  }, 1000)
+}
+
 // 📌 Lógica de Geração de Eventos (adaptada do módulo Agenda)
 function generateAvailableEvents() {
   if (!selectedSpecialty.value || !consultationType.value) {
@@ -198,38 +258,28 @@ function generateAvailableEvents() {
     return
   }
 
-  const start = new Date() // Começa do dia atual
-  const end = new Date()
-  end.setMonth(start.getMonth() + 4) // Simula 4 meses de disponibilidade
-  const days = eachDayOfInterval({ start, end })
-  const generatedEvents = []
-
   const slots = ['08:00', '09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00']
-
+  const generatedEvents = []
   let eventIdCounter = 1
-  days.forEach((day) => {
-    const dateStr = format(day, 'yyyy-MM-dd')
-    const dow = getDay(day)
 
-    if (dow === 0 || dow === 6) {
-      // Ignora fins de semana (ajuste conforme necessário)
-      return
-    }
+  if (consultationType.value === 'telemedicina') {
+    // 📌 só hoje
+    const today = format(new Date(), 'yyyy-MM-dd')
+    selectedDate.value = today
 
-    const availableSlotsForDay = Math.floor(Math.random() * 5) + 3 // Simula 3 a 7 horários por dia
+    const availableSlotsForDay = Math.floor(Math.random() * 5) + 3
     const shuffledSlots = [...slots].sort(() => Math.random() - 0.5)
 
     for (let i = 0; i < availableSlotsForDay; i++) {
       const time = shuffledSlots[i]
-      const eventDateTime = new Date(`${dateStr}T${time}:00`)
+      const eventDateTime = new Date(`${today}T${time}:00`)
 
-      // Não exibe horários que já passaram
-      if (isAfter(eventDateTime, new Date()) || isTodayFns(eventDateTime)) {
+      if (isAfter(eventDateTime, new Date())) {
         const professional = filteredProfessionals.value[i % filteredProfessionals.value.length]
         if (professional) {
           generatedEvents.push({
             id: `slot-${eventIdCounter++}`,
-            date: dateStr,
+            date: today,
             time,
             title: professional.name,
             professionalId: professional.id,
@@ -239,7 +289,42 @@ function generateAvailableEvents() {
         }
       }
     }
-  })
+  } else {
+    // 📌 Presencial - mantém lógica atual
+    const start = new Date()
+    const end = new Date()
+    end.setMonth(start.getMonth() + 4)
+    const days = eachDayOfInterval({ start, end })
+
+    days.forEach((day) => {
+      const dateStr = format(day, 'yyyy-MM-dd')
+      const dow = getDay(day)
+      if (dow === 0 || dow === 6) return
+
+      const availableSlotsForDay = Math.floor(Math.random() * 5) + 3
+      const shuffledSlots = [...slots].sort(() => Math.random() - 0.5)
+
+      for (let i = 0; i < availableSlotsForDay; i++) {
+        const time = shuffledSlots[i]
+        const eventDateTime = new Date(`${dateStr}T${time}:00`)
+
+        if (isAfter(eventDateTime, new Date()) || isTodayFns(eventDateTime)) {
+          const professional = filteredProfessionals.value[i % filteredProfessionals.value.length]
+          if (professional) {
+            generatedEvents.push({
+              id: `slot-${eventIdCounter++}`,
+              date: dateStr,
+              time,
+              title: professional.name,
+              professionalId: professional.id,
+              type: consultationType.value,
+              specialty: selectedSpecialty.value,
+            })
+          }
+        }
+      }
+    })
+  }
 
   allAvailableEvents.value = generatedEvents
 }
@@ -284,8 +369,11 @@ const columns = [
 // 📌 Ações da tabela
 const handleScheduleAction = ({ event, row }) => {
   if (event === 'schedule') {
+    scheduledSlot.value = row
+    if (consultationType.value === 'telemedicina') {
+      startCountdown(row.date, row.time)
+    }
     alert(`Agendar consulta com ${row.title} para ${formatDateBR(row.date)} às ${row.time}`)
-    // Futuramente, esta ação abriria um formulário de agendamento.
   }
 }
 </script>
