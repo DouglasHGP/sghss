@@ -8,7 +8,7 @@
       color="teal"
       dense
       padding="xs"
-      glossy
+      flat
     >
       <q-tooltip v-if="props.actions[0].tooltip">
         <span class="text-subtitle2">{{ props.actions[0].tooltip }}</span>

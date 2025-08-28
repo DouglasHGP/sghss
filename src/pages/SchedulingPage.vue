@@ -42,9 +42,24 @@
           >
             <template #actions>
               <q-btn-group glossy push class="q-mt-xs">
-                <q-btn color="secondary" icon="chevron_left" @click.stop="moveMonth(-1)" />
-                <q-btn color="secondary" icon="today" @click.stop="goToToday()" />
-                <q-btn color="secondary" icon="chevron_right" @click.stop="moveMonth(1)" />
+                <q-btn
+                  color="secondary"
+                  icon="chevron_left"
+                  @click.stop="moveMonth(-1)"
+                  :disable="consultationType === 'telemedicina'"
+                />
+                <q-btn
+                  color="secondary"
+                  icon="today"
+                  @click.stop="goToToday()"
+                  :disable="consultationType === 'telemedicina'"
+                />
+                <q-btn
+                  color="secondary"
+                  icon="chevron_right"
+                  @click.stop="moveMonth(1)"
+                  :disable="consultationType === 'telemedicina'"
+                />
               </q-btn-group>
             </template>
             <div class="row q-gutter-md">
@@ -162,7 +177,13 @@
               </div>
             </template>
             <q-card-section>
-              <div class="text-h2">
+              <div
+                class="text-weight-medium"
+                :class="{
+                  'text-h2': !$q.platform.is.mobile,
+                  'text-subtitle1': $q.platform.is.mobile,
+                }"
+              >
                 Inicia em: <span class="text-teal">{{ countdown }}</span>
               </div>
             </q-card-section>
@@ -201,6 +222,13 @@ const allAvailableEvents = ref([])
 const countdown = ref(null)
 const scheduledSlot = ref(null) // guarda o slot escolhido
 let countdownInterval = null
+
+watch([consultationType, selectedSpecialty], () => {
+  generateAvailableEvents()
+  scheduledSlot.value = null
+  countdown.value = null
+  if (countdownInterval) clearInterval(countdownInterval)
+})
 
 // 📌 Computed properties
 const currentMonthTitle = computed(() => {
