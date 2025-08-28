@@ -5,41 +5,58 @@
       description="Entre em contato conosco para dúvidas, sugestões ou suporte."
     />
 
-    <div class="row q-gutter-md">
-      <CardBase class="col-xs-12 col-md-5" title="Canais de Atendimento" icon="rss_feed">
-        <div class="q-gutter-sm">
-          <div class="rounded-borders text-teal-9 bg-teal-1 q-pa-md">
-            <q-list separator>
-              <q-item>
-                <q-item-section avatar>
-                  <q-icon color="teal-8" name="email" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label class="text-subtitle1">E-mail</q-item-label>
-                  <q-item-label caption>
-                    Envie suas dúvidas para:
-                    <a href="mailto:suporte@exemplo.com">suporte@exemplo.com</a>
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
-
-              <q-item>
-                <q-item-section avatar>
-                  <q-icon color="teal-8" name="call" />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label class="text-subtitle1">Telefone</q-item-label>
-                  <q-item-label caption>
-                    Ligue para: <a href="tel:+5511999999999">+55 (11) 99999-9999</a>
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
+    <div class="row">
+      <div class="column">
+        <CardBase class="col" title="Canais de Atendimento" icon="rss_feed">
+          <div class="q-gutter-sm">
+            <div class="rounded-borders text-teal-9 bg-teal-1 q-pa-md">
+              <q-list separator>
+                <q-item>
+                  <q-item-section avatar>
+                    <q-icon color="teal-8" name="email" />
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label class="text-subtitle1">E-mail</q-item-label>
+                    <q-item-label caption>
+                      Envie suas dúvidas para:
+                      <a href="mailto:suporte@exemplo.com">suporte@exemplo.com</a>
+                    </q-item-label>
+                  </q-item-section>
+                </q-item>
+                <q-item>
+                  <q-item-section avatar>
+                    <q-icon color="teal-8" name="call" />
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label class="text-subtitle1">Telefone</q-item-label>
+                    <q-item-label caption>
+                      Ligue para: <a href="tel:+5511999999999">+55 (11) 99999-9999</a>
+                    </q-item-label>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </div>
           </div>
-        </div>
-      </CardBase>
+        </CardBase>
+        <CardBase class="col" title="Perguntas Frequentes" icon="help_outline">
+          <q-list bordered separator>
+            <q-expansion-item
+              v-for="(faq, index) in faqs"
+              :key="index"
+              :label="faq.question"
+              icon="question_answer"
+            >
+              <q-card>
+                <q-card-section>
+                  {{ faq.answer }}
+                </q-card-section>
+              </q-card>
+            </q-expansion-item>
+          </q-list>
+        </CardBase>
+      </div>
 
-      <CardBase class="col-xs-12 col-md" title="Envie sua Mensagem" icon="chat">
+      <CardBase class="col" title="Envie sua Mensagem" icon="chat">
         <div class="q-gutter-md">
           <q-form @submit.prevent="submitForm">
             <q-input
@@ -78,7 +95,8 @@
               rows="5"
               :rules="[(val) => !!val || 'A mensagem é obrigatória']"
             />
-            <q-btn glossy
+            <q-btn
+              glossy
               label="Enviar Mensagem"
               type="submit"
               color="teal"
@@ -86,25 +104,6 @@
             />
           </q-form>
         </div>
-      </CardBase>
-    </div>
-
-    <div class="row q-gutter-md q-mt-md">
-      <CardBase class="col" title="Perguntas Frequentes" icon="help_outline">
-        <q-list bordered separator>
-          <q-expansion-item
-            v-for="(faq, index) in faqs"
-            :key="index"
-            :label="faq.question"
-            icon="question_answer"
-          >
-            <q-card>
-              <q-card-section>
-                {{ faq.answer }}
-              </q-card-section>
-            </q-card>
-          </q-expansion-item>
-        </q-list>
       </CardBase>
     </div>
   </q-page>
