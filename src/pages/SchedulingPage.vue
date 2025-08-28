@@ -131,7 +131,8 @@
                 icon: 'event_available',
                 label: 'Agendar',
                 event: 'schedule',
-                tooltip: 'Agendar consulta',
+                tooltip: isScheduled ? 'Aguarde a Consulta' : 'Agendar Consulta',
+                disabled: isScheduled,
               },
             ]"
             @rowAction="handleScheduleAction"
@@ -218,6 +219,7 @@ import { useJitsiLoader } from 'src/composables/useJitsiLoader'
 const { loadJitsi } = useJitsiLoader()
 loadJitsi().catch((err) => console.error('Erro ao carregar Jitsi:', err))
 
+const isScheduled = ref(false)
 const videoDialog = ref(false)
 const consultationType = ref('presencial')
 const selectedSpecialty = ref(null)
@@ -235,6 +237,7 @@ const handleScheduleAction = ({ event, row }) => {
     scheduledSlot.value = row
     if (consultationType.value === 'telemedicina') {
       startCountdown(row.date, row.time)
+      isScheduled.value = true
     }
     Notify.create({
       message: `Consulta com ${row.title} agendada para ${formatDateBR(row.date)} às ${row.time}`,
@@ -249,6 +252,7 @@ watch([consultationType, selectedSpecialty], () => {
   generateAvailableEvents()
   scheduledSlot.value = null
   countdown.value = null
+  isScheduled.value = false
   if (countdownInterval) clearInterval(countdownInterval)
 })
 
