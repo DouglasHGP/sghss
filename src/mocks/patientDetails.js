@@ -37,5 +37,11 @@ export function generatePatientMockData(patient) {
     status: ['Finalizado', 'Finalizado', 'Pendente'][i],
   }))
 
-  return { history, evolution, prescriptions, exams }
+  const professional = Array.from({ length: 3 }, (_, i) => ({
+    id: `${patient.id}-d${i + 1}`,
+    name: ['Dr. Carlos Mendes', 'Dra. Ana Costa', 'Dr. Lucas Pereira'][i],
+    role: ['Medico', 'Enfermeiro', 'Nutricionista'][i],
+  }))
+
+  return { history, evolution, prescriptions, exams, professional }
 }

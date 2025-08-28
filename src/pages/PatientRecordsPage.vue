@@ -95,10 +95,8 @@ const { responsiveText } = useResponsiveText()
 
 const patientDialogRef = ref(null)
 
-// 📌 Alteração aqui: Atribua o mock completo diretamente
 const patientRecords = ref(allPatientRecords)
 
-// 📌 Alteração aqui: Adapte as colunas para usar os campos corretos do mock
 const columns = [
   { name: 'id', label: 'ID', field: 'id', align: 'left' },
   { name: 'patientName', label: 'Paciente', field: 'name', align: 'left' },
@@ -114,12 +112,10 @@ const columns = [
     label: 'Última Atualização',
     field: (row) => row.history[0]?.date || '-',
     align: 'left',
-  },
-  { name: 'status', label: 'Status', field: 'status', align: 'left' },
+  }
 ]
 
 const handleTableAction = (event) => {
-  // 📌 Alteração aqui: Ação 'respond' foi alterada para 'add' no template
   if (event === 'add') {
     if (patientDialogRef.value) {
       patientDialogRef.value.openDialog({
