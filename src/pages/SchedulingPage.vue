@@ -131,7 +131,7 @@
                 icon: 'event_available',
                 label: 'Agendar',
                 event: 'schedule',
-                tooltip: isScheduled ? 'Aguarde a Consulta' : 'Agendar Consulta',
+                tooltip: isScheduled ? 'Aguarde sua chamada nessa tela' : 'Agendar Consulta',
                 disabled: isScheduled,
               },
             ]"
