@@ -9,37 +9,42 @@
       <CardBase class="col" title="Resumo" icon="info" collapsible>
         <q-card class="row justify-around">
           <q-card-section class="text-center q-py-xs col">
-            <div :class="[responsiveText()]" class="text-teal">128</div>
-            <div class="text-caption">Prontuários</div>
+            <div :class="[responsiveText()]" class="text-teal">25</div>
+            <div class="text-caption">Pediátrica 0-12</div>
           </q-card-section>
           <q-separator vertical inset />
           <q-card-section class="text-center q-py-xs col">
             <div :class="[responsiveText()]" class="text-teal">96</div>
-            <div class="text-caption">Anamneses Completas</div>
+            <div class="text-caption">Adolescentes 13-17</div>
           </q-card-section>
           <q-separator vertical inset />
           <q-card-section class="text-center q-py-xs col">
-            <div :class="[responsiveText()]" class="text-negative">12</div>
-            <div class="text-caption">Incompletas</div>
+            <div :class="[responsiveText()]" class="text-teal">40</div>
+            <div class="text-caption">Adultos 18-59</div>
+          </q-card-section>
+          <q-separator vertical inset />
+          <q-card-section class="text-center q-py-xs col">
+            <div :class="[responsiveText()]" class="text-teal">52</div>
+            <div class="text-caption">Idosos 60+</div>
           </q-card-section>
         </q-card>
         <div class="row q-gutter-md q-mt-xs">
           <CardBase class="col" title="Tipo de Anamnese" icon="search">
             <div class="q-mb-md">
               <div class="row justify-between items-center">
-                <span>Pediátrica</span><span>40%</span>
+                <span>Rotina/Preventiva</span><span>50%</span>
               </div>
               <q-linear-progress :value="0.4" color="teal-9" rounded />
             </div>
             <div class="q-mb-md">
               <div class="row justify-between items-center">
-                <span>Clínica Geral</span><span>35%</span>
+                <span>Pré-operatório</span><span>25%</span>
               </div>
               <q-linear-progress :value="0.35" color="teal-4" rounded />
             </div>
             <div>
               <div class="row justify-between items-center">
-                <span>Geriátrica</span><span>25%</span>
+                <span>Pós-operatório</span><span>25%</span>
               </div>
               <q-linear-progress :value="0.25" color="teal-3" rounded />
             </div>
@@ -48,14 +53,14 @@
             <q-list bordered separator>
               <q-item clickable>
                 <q-item-section>
-                  <q-item-label>Prontuário incompleto</q-item-label>
-                  <q-item-label caption>Paciente: Marcos Lima</q-item-label>
+                  <q-item-label>Requereu Declaração de Comparecimento/ Atestado</q-item-label>
+                  <q-item-label caption>Paciente: Ana Costa</q-item-label>
                 </q-item-section>
               </q-item>
               <q-item clickable>
                 <q-item-section>
-                  <q-item-label>Aguardando informações</q-item-label>
-                  <q-item-label caption>Paciente: Ana Silva</q-item-label>
+                  <q-item-label>Só deseja atendimento da Enfermeira</q-item-label>
+                  <q-item-label caption>Paciente: Fernanda Lima</q-item-label>
                 </q-item-section>
               </q-item>
             </q-list>
