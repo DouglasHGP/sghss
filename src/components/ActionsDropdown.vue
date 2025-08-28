@@ -9,6 +9,7 @@
       dense
       padding="xs"
       flat
+      :class="!$q.platform.is.mobile ? 'q-ml-md' : 'q-ml-xs'"
     >
       <q-tooltip v-if="props.actions[0].tooltip">
         <span class="text-subtitle2">{{ props.actions[0].tooltip }}</span>

@@ -18,6 +18,19 @@
             Idade: {{ patientAge }}
           </div>
         </template>
+        <template #actions>
+          <ActionsDropdown
+            :actions="[
+              {
+                icon: 'edit',
+                label: 'Editar',
+                event: 'edit',
+                tooltip: 'Editar',
+              },
+            ]"
+            @action="handleTableAction"
+          />
+        </template>
         <div class="q-gutter-sm">
           <div class="rounded-borders text-teal-9 bg-teal-1 q-pa-sm">
             <div class="row justify-between">
@@ -78,7 +91,7 @@
             narrow-indicator
           >
             <q-tab name="prescricao" label="Prescrições" icon="history_edu" />
-            <q-tab name="exame" label="Exames e Outros" icon="science" />
+            <q-tab name="exame" label="Exames" icon="science" />
             <q-tab name="declaracao" label="Declarações" icon="description" />
           </q-tabs>
           <q-tab-panels v-model="tab" animated>
@@ -93,14 +106,13 @@
               >
                 <template v-slot:body-cell-actions="props">
                   <q-td :props="props" style="width: 65px">
-                    <ActionsDropdown
-                      :actions="[
-                        { icon: 'visibility', label: 'Visualizar', event: 'view' },
-                        { icon: 'download', label: 'Download', event: 'download' },
-                      ]"
-                      tooltip="Ações"
-                      @action="(event) => handleRowAction('prescricao', event, props.row)"
-                    />
+                    <q-td :props="props" style="width: 65px">
+                      <ActionsDropdown
+                        :actions="getActions(props.row)"
+                        tooltip="Ações"
+                        @action="(event) => handleRowAction('prescricao', event, props.row)"
+                      />
+                    </q-td>
                   </q-td>
                 </template>
               </q-table>
@@ -117,14 +129,13 @@
               >
                 <template v-slot:body-cell-actions="props">
                   <q-td :props="props" style="width: 65px">
-                    <ActionsDropdown
-                      :actions="[
-                        { icon: 'visibility', label: 'Visualizar', event: 'view' },
-                        { icon: 'download', label: 'Download', event: 'download' },
-                      ]"
-                      tooltip="Ações"
-                      @action="(event) => handleRowAction('exames', event, props.row)"
-                    />
+                    <q-td :props="props" style="width: 65px">
+                      <ActionsDropdown
+                        :actions="getActions(props.row)"
+                        tooltip="Ações"
+                        @action="(event) => handleRowAction('prescricao', event, props.row)"
+                      />
+                    </q-td>
                   </q-td>
                 </template>
               </q-table>
@@ -141,14 +152,13 @@
               >
                 <template v-slot:body-cell-actions="props">
                   <q-td :props="props" style="width: 65px">
-                    <ActionsDropdown
-                      :actions="[
-                        { icon: 'visibility', label: 'Visualizar', event: 'view' },
-                        { icon: 'download', label: 'Download', event: 'download' },
-                      ]"
-                      tooltip="Ações"
-                      @action="(event) => handleRowAction('declaracao', event, props.row)"
-                    />
+                    <q-td :props="props" style="width: 65px">
+                      <ActionsDropdown
+                        :actions="getActions(props.row)"
+                        tooltip="Ações"
+                        @action="(event) => handleRowAction('prescricao', event, props.row)"
+                      />
+                    </q-td>
                   </q-td>
                 </template>
               </q-table>
@@ -166,6 +176,7 @@ import { useAge } from 'src/composables/useAge'
 import ActionsDropdown from 'src/components/ActionsDropdown.vue'
 import CardBase from 'src/components/CardBase.vue'
 import TitlePage from 'src/components/TitlePage.vue'
+import { differenceInDays, parse } from 'date-fns'
 
 const tab = ref('prescricao')
 
@@ -239,5 +250,34 @@ const statementsColumns = [
 
 const handleRowAction = (tab, event, row) => {
   console.log(`Tab: ${tab}, Ação: ${event}, Linha:`, row)
+}
+
+const handleTableAction = (event, row) => {
+  console.log(`Ação: ${event}, Linha:`, row)
+}
+
+const isRecent = (dateStr) => {
+  const parsedDate = parse(dateStr, 'dd/MM/yyyy', new Date())
+  return differenceInDays(new Date(), parsedDate) <= 30
+}
+
+const getActions = (row) => {
+  const actions = []
+  if (isRecent(row.date)) {
+    actions.push({
+      icon: 'download',
+      label: 'Download',
+      event: 'download',
+      tooltip: 'Baixar',
+    })
+  } else {
+    actions.push({
+      icon: 'block',
+      label: 'Expirado',
+      event: 'disabled',
+      tooltip: 'Documento com mais de 30 dias',
+    })
+  }
+  return actions
 }
 </script>
