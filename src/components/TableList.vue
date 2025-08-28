@@ -27,7 +27,7 @@
         {{ subtitle }}
       </div>
     </template>
-    <template #actions>
+    <template v-if="actions.length > 0" #actions>
       <ActionsDropdown :actions="actions" :tooltip="actionsTooltip" @action="handleAction" />
     </template>
     <q-table

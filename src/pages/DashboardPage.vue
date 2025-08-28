@@ -147,7 +147,7 @@
       >
         <q-tab name="materiais" label="Materais" icon="inventory" />
         <q-tab name="medicamentos" label="Medicamentos" icon="medication" />
-        <q-tab name="leitos" label="Leitos" icon="hotel" />
+        <q-tab name="leitos" label="Equipamentos e Leitos" icon="home_repair_service" />
       </q-tabs>
       <q-tab-panels v-model="tab" animated>
         <q-tab-panel name="materiais" class="q-pa-none">

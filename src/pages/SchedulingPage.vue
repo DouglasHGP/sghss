@@ -111,7 +111,7 @@
             :subtitle="`Disponibilidade em ${formatDateBR(selectedDate)}`"
             :rows="dailyAvailableSlots"
             :columns="columns"
-            :row-actions="[{ icon: 'event_available', label: 'Agendar', event: 'schedule' }]"
+            :row-actions="[{ icon: 'event_available', label: 'Agendar', event: 'schedule', tooltip: 'Agendar consulta' }]"
             @rowAction="handleScheduleAction"
           >
             <template #body-cell-title="props">
@@ -278,6 +278,7 @@ const getAvailableSlots = (date) => {
 const columns = [
   { name: 'time', label: 'Hora', field: 'time', align: 'left' },
   { name: 'title', label: 'Profissional', field: 'title', align: 'left' },
+  { name: 'especialty', label: 'Especialidade', field: 'specialty', align: 'left' },
 ]
 
 // 📌 Ações da tabela
