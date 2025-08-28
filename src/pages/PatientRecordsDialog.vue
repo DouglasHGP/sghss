@@ -14,14 +14,9 @@
           isDialog
         />
         <div class="row q-gutter-md" :class="{ 'q-mr-md': $q.platform.is.mobile }">
-          <CardBase
-            class="col"
-            :title="patientData.name"
-            :subtitle="true"
-            icon="person"
-          >
+          <CardBase class="col" :title="patientData.name" :subtitle="true" icon="person">
             <template #select-prepend>
-              <div v-if="context === 'prontuario' && !patientData.id" class="col-grow q-ml-md">
+              <div v-if="context === 'expontaneo' && !patientData.id" class="col-grow q-ml-md">
                 <q-select
                   v-model="selectedPatientId"
                   :style="!$q.platform.is.mobile ? 'width: 350px' : ''"
@@ -239,8 +234,7 @@ const tab = ref('') // Vazio como padrão
 const isDialogOpen = ref(false)
 const patientData = ref({})
 const context = ref('')
-
-const selectedPatientId = ref(null) // Variável para o v-model do q-select
+const selectedPatientId = ref(null)
 
 // Dados das colunas para as tabelas
 const historyColumns = [
@@ -273,7 +267,6 @@ const evolutionColors = {
   Piora: 'negative',
 }
 
-// Propriedade computada para o q-select
 const options = computed(() =>
   patientRecords.map((p) => ({
     label: p.name,
@@ -284,18 +277,21 @@ const options = computed(() =>
 // Funções de manipulação
 const openDialog = (payload) => {
   context.value = payload.context
-  if (payload.context === 'agenda' && payload.patientId) {
-    patientData.value = patientRecords.find((p) => p.id === payload.patientId) || {}
-  } else {
-    patientData.value = {} // Força a exibição do select
-  }
   isDialogOpen.value = true
+  if (payload.patientId) {
+    patientData.value = patientRecords.find((p) => p.id === payload.patientId) || {}
+    selectedPatientId.value = payload.patientId
+  } else {
+    patientData.value = {}
+    selectedPatientId.value = null
+  }
 }
+
 defineExpose({ openDialog })
 
 const handleClose = () => {
   isDialogOpen.value = false
-  patientData.value = {} // Limpa os dados do paciente ao fechar
+  patientData.value = {}
   selectedPatientId.value = null
   tab.value = 'anamnese'
 }
@@ -306,7 +302,6 @@ const handleSelectPatient = (id) => {
 
 const handleSubmit = (form, data) => {
   console.log(`Formulário salvo (${form}):`, data)
-  // Lógica para salvar os dados
   handleClose()
 }
 

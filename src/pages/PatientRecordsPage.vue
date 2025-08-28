@@ -123,7 +123,7 @@ const handleTableAction = (event) => {
   if (event === 'add') {
     if (patientDialogRef.value) {
       patientDialogRef.value.openDialog({
-        context: 'prontuario',
+        context: 'expontaneo',
       })
     }
   }
@@ -138,7 +138,7 @@ const handleLineAction = ({ event, row }) => {
     console.log('Detalhar prontuário clicado:', row)
     if (patientDialogRef.value) {
       patientDialogRef.value.openDialog({
-        context: 'prontuario',
+        context: 'expontaneo',
         patientId: row.id,
       })
     }
