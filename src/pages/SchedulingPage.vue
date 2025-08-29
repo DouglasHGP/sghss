@@ -237,8 +237,8 @@ const handleScheduleAction = ({ event, row }) => {
     scheduledSlot.value = row
     if (consultationType.value === 'telemedicina') {
       startCountdown(row.date, row.time)
-      isScheduled.value = true
     }
+    isScheduled.value = true
     Notify.create({
       message: `Consulta com ${row.title} agendada para ${formatDateBR(row.date)} às ${row.time}`,
       color: 'teal-6',

@@ -5,7 +5,7 @@
       description="Entre em contato conosco para dúvidas, sugestões ou suporte."
     />
 
-    <div class="row q-gutter-md">
+    <div class="row q-gutter-md" :class="{ 'q-mr-md': $q.platform.is.mobile }">
       <CardBase class="col" title="Canais de Atendimento" icon="rss_feed">
         <div class="q-gutter-sm">
           <div class="rounded-borders text-teal-9 bg-teal-1 q-pa-md">
@@ -37,13 +37,19 @@
           </div>
         </div>
       </CardBase>
-      <CardBase class="col" title="Perguntas Frequentes" icon="help_outline">
+      <CardBase
+        class="col"
+        title="Perguntas Frequentes"
+        icon="help_outline"
+        :collapsible="$q.platform.is.mobile"
+      >
         <q-list bordered separator>
           <q-expansion-item
             v-for="(faq, index) in faqs"
-            :key="index"
-            :label="faq.question"
+            group="somegroup"
             icon="question_answer"
+            :label="faq.question"
+            :key="index"
           >
             <q-card>
               <q-card-section>
@@ -141,7 +147,7 @@ const faqs = ref([
   {
     question: 'Posso atualizar meus dados cadastrais online?',
     answer:
-      'Sim. Vá até a seção "Meu Perfil" e altere suas informações pessoais. Caso encontre dificuldades, preencha o formulário nesta página selecionando o assunto "Ajuste de Dados Cadastrais".',
+      'Sim. Vá até a seção "Meu Espaço" e altere suas informações pessoais. Caso encontre dificuldades, preencha o formulário nesta página selecionando o assunto "Ajuste de Dados Cadastrais".',
   },
 ])
 
