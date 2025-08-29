@@ -6,6 +6,7 @@
     />
   </q-page>
 </template>
+Em desenvolvimento ;-)
 <!-- 
     <div class="q-pa-md">
       <q-card flat bordered class="my-card">
