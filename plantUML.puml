@@ -131,7 +131,7 @@ entity "Recurso_Estoque" as RecursoEstoque {
 entity "Equipamento" as Equipamento {
   *id : INT
   --
-  tipo : INT <<EMUN: 0=informatica, 1=escritório, 2=leito>>
+  tipo : INT <<ENUM: 0=informatica, 1=escritório, 2=leito>>
   status : INT <<ENUM: 0=disponivel, 1=avariado, 2=manutencao>>
   --
   recurso_id : INT <<FK>>
