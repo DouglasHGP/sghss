@@ -62,7 +62,7 @@ entity "Paciente" as Paciente {
 }
 
 ' ===========================
-' PLANOS E FINANÇAS (duas abordagens mantidas)
+' PLANOS E FINANÇAS
 ' ===========================
 entity "Plano" as Plano {
   *id : INT
@@ -76,7 +76,6 @@ entity "Plano" as Plano {
   organizacao_id : INT <<FK>>
 }
 
-' Versão 1: Contrato Financeiro
 entity "ContratoFinanceiro" as ContratoFinanceiro {
   *id : INT
   --
@@ -202,7 +201,7 @@ entity "PrescricaoItem" as PrescricaoItem {
 }
 
 ' ===========================
-' DOCUMENTOS CLÍNICOS (detalhados da 1ª versão) + genérico
+' DOCUMENTOS CLÍNICOS
 ' ===========================
 
 entity "Anamnese" as Anamnese {
