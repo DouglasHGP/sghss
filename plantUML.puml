@@ -1,0 +1,367 @@
+@startuml projeto Uninter
+!theme plain
+
+' ===========================
+' MULTI-TENANT
+' ===========================
+entity "Organizacao" as Organizacao {
+  *id : INT
+  --
+  nome : VARCHAR
+  cnpj : VARCHAR
+  endereco : VARCHAR
+  telefone : VARCHAR
+  email : VARCHAR
+}
+
+' ===========================
+' ENTIDADES PRINCIPAIS
+' ===========================
+entity "Pessoa" as Pessoa {
+  *id : INT
+  --
+  nome : VARCHAR
+  documento : VARCHAR
+  data_nascimento : DATE
+  telefone : VARCHAR
+  email : VARCHAR
+  endereco : VARCHAR
+  complemento : VARCHAR
+  bairro : VARCHAR
+  cidade : VARCHAR
+  uf : VARCHAR
+  observacao : TEXT
+  --
+  organizacao_id : INT <<FK>>
+}
+
+entity "Funcionario" as Funcionario {
+  *id : INT
+  --
+  matricula : VARCHAR
+  cargo : VARCHAR
+  especialidade : VARCHAR
+  status : INT <<ENUM: 0=disponivel, 1=suspenso, 2=folga, 3=ferias, 4=falta>>
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+  --
+  organizacao_id : INT <<FK>>
+  pessoa_id : INT <<FK>>
+}
+
+entity "Paciente" as Paciente {
+  *id : INT
+  --
+  num_cartao_saude : VARCHAR
+  convenio : VARCHAR
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+  --
+  organizacao_id : INT <<FK>>
+  pessoa_id : INT <<FK>>
+}
+
+' ===========================
+' PLANOS E FINANÇAS (duas abordagens mantidas)
+' ===========================
+entity "Plano" as Plano {
+  *id : INT
+  --
+  nome : VARCHAR
+  acomodacao : VARCHAR
+  abrangencia : VARCHAR
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+  --
+  organizacao_id : INT <<FK>>
+}
+
+' Versão 1: Contrato Financeiro
+entity "ContratoFinanceiro" as ContratoFinanceiro {
+  *id : INT
+  --
+  valor_mensalidade : NUMERIC
+  data_vencimento : SMALLINT
+  ultimo_pagamento : DATE
+  validade_inicio : DATE
+  validade_fim : DATE
+  --
+  paciente_id : INT <<FK>>
+  plano_id : INT <<FK>>
+  organizacao_id : INT <<FK>>
+}
+
+entity "Franquia" as Franquia {
+  *id : INT
+  --
+  limite_anual : NUMERIC
+  valor_utilizado : NUMERIC
+  saldo_restante : NUMERIC
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+  --
+  contrato_id : INT <<FK>>
+  organizacao_id : INT <<FK>>
+}
+
+' ===========================
+' RECURSOS
+' ===========================
+
+entity "Recurso" as Recurso {
+  *id : INT
+  --
+  nome : VARCHAR
+  tipo : INT <<ENUM: 0=equipamento, 1=medicamento, 2=material, 3=limpeza>>
+  descricao : TEXT
+  --
+  organizacao_id : INT <<FK>>
+}
+
+entity "Recurso_Estoque" as RecursoEstoque {
+  *id : INT
+  --
+  quantidade : NUMERIC
+  validade : DATE
+  --
+  recurso_id : INT <<FK>>
+  organizacao_id : INT <<FK>>
+}
+
+entity "Equipamento" as Equipamento {
+  *id : INT
+  --
+  tipo : INT <<EMUN: 0=informatica, 1=escritório, 2=leito>>
+  status : INT <<ENUM: 0=disponivel, 1=avariado, 2=manutencao>>
+  --
+  recurso_id : INT <<FK>>
+  organizacao_id : INT <<FK>>
+}
+
+' ===========================
+' AGENDA E ATENDIMENTO
+' ===========================
+entity "Atendimento" as Atendimento {
+  *id : INT
+  --
+  data_hora_inicio : TIMESTAMP
+  data_hora_fim : TIMESTAMP
+  tipo : INT <<ENUM: 0=agenda, 1=expontaneo>>
+  status : INT <<ENUM: 0=disponivel, 1=marcado, 2=confirmado, 3=efetivado, 4=cancelado>>
+  --
+  funcionario_id : INT <<FK>>
+  paciente_id : INT <<FK>>
+  organizacao_id : INT <<FK>>
+}
+
+' ===========================
+' PRONTUÁRIO, EVOLUÇÃO, PRESCRIÇÃO E ITENS
+' ===========================
+entity "Prontuario" as Prontuario {
+  *id : INT
+  --
+  data_criacao : TIMESTAMP
+  --
+  paciente_id : INT <<FK>>
+  organizacao_id : INT <<FK>>
+}
+
+entity "Evolucao" as Evolucao {
+  *id : INT
+  --
+  data : TIMESTAMP
+  tipo : INT <<ENUM: 0=piora, 1=estabilidade, 2=melhora>>
+
+  descricao : TEXT
+  --
+  prontuario_id : INT <<FK>>
+  funcionario_id : INT <<FK>>
+  organizacao_id : INT <<FK>>
+}
+
+' *** Prescrição vinculada ao PRONTUÁRIO (não ao Atendimento) ***
+entity "Prescricao" as Prescricao {
+  *id : SERIAL
+  --
+  data : TIMESTAMP
+  --
+  prontuario_id : INT <<FK>>
+  funcionario_id : INT <<FK>>
+  organizacao_id : INT <<FK>>
+}
+
+entity "PrescricaoItem" as PrescricaoItem {
+  *id : INT
+  --
+  quantidade : NUMERIC
+  instrucao : TEXT
+  --
+  prescricao_id : INT <<FK>>
+  recurso_id : INT <<FK>>
+  organizacao_id : INT <<FK>>
+}
+
+' ===========================
+' DOCUMENTOS CLÍNICOS (detalhados da 1ª versão) + genérico
+' ===========================
+
+entity "Anamnese" as Anamnese {
+  *id : INT
+  --
+  data : TIMESTAMP
+  status : INT <<ENUM: 0=completo, 1=incompleto>>
+  url_arquivo : VARCHAR
+  descricao : TEXT
+  --
+  prontuario_id : INT <<FK>>
+  funcionario_id : INT <<FK>>
+  organizacao_id : INT <<FK>>
+}
+
+entity "Exame" as Exame {
+  *id : INT
+  --
+  data : TIMESTAMP
+  tipo_exame : VARCHAR
+  status : INT <<ENUM: 0=requerido, 1=autorizado, 2=pendente, 3=vencido, 4=feito>>
+  url_arquivo : VARCHAR
+  descricao : TEXT
+  --
+  prontuario_id : INT <<FK>>
+  funcionario_id : INT <<FK>>
+  organizacao_id : INT <<FK>>
+}
+
+entity "Declaracao" as Declaracao {
+  *id : INT
+  --
+  data : TIMESTAMP
+  tipo : INT <<ENUM: 0=atestado, 1=comparecimento, 2=acompanhamento
+  status : INT <<ENUM: 0=requerido, 1=emitido, 2=vencido, 3=efetivado, 4=cancelado>>
+  url_arquivo : VARCHAR
+  descricao : TEXT
+  --
+  prontuario_id : INT <<FK>>
+  funcionario_id : INT <<FK>>
+  organizacao_id : INT <<FK>>
+}
+
+' ===========================
+' GESTÃO DE PESSOAL / AFASTAMENTOS
+' ===========================
+
+entity "Advertencia" as Advertencia {
+  *id : INT
+  --
+  motivo : TEXT
+  data : DATE
+  --
+  funcionario_id : INT <<FK>>
+  organizacao_id : INT <<FK>>
+}
+
+entity "Suspensao" as Suspensao {
+  *id : INT
+  --
+  data_inicio : DATE
+  data_fim : DATE
+  motivo : TEXT
+  --
+  funcionario_id : INT <<FK>>
+  organizacao_id : INT <<FK>>
+}
+
+entity "Ferias" as Ferias {
+  *id : INT
+  --
+  data_inicio : DATE
+  data_fim : DATE
+  status : INT <<ENUM: 0=requerido, 1=previsto, 2=confirmado, 3=em_gozo, 4=vencido>>
+  --
+  funcionario_id : INT <<FK>>
+  organizacao_id : INT <<FK>>
+}
+
+' ===========================
+' ALERTAS
+' ===========================
+entity "Alerta" as Alerta {
+  *id : INT
+  --
+  tipo : INT <<ENUM: 0=criticidade, 1=eminência, 2=vencimento, 3=ruptura>>
+  descricao : TEXT
+  data : TIMESTAMP
+  --
+  pessoa_id : INT <<FK>>
+  recurso_id : INT <<FK>>
+  organizacao_id : INT <<FK>>
+}
+
+' ===========================
+' RELACIONAMENTOS
+' ===========================
+Pessoa <|-- Funcionario
+Pessoa <|-- Paciente
+
+Recurso ||--o{ RecursoEstoque
+Recurso ||--o{ Equipamento
+
+Funcionario ||--o{ Atendimento
+Paciente ||--o{ Atendimento
+
+' Prontuário 1:1 Paciente
+Paciente ||--|| Prontuario
+
+' Evolução dentro do Prontuário e por Funcionário
+Prontuario ||--o{ Evolucao
+Funcionario ||--o{ Evolucao
+
+' Prescrição dentro do Prontuário e por Funcionário
+Prontuario ||--o{ Prescricao
+Funcionario ||--o{ Prescricao
+Prescricao ||--o{ PrescricaoItem
+Recurso ||--o{ PrescricaoItem
+
+' Documentos (genérico e específicos) ligados ao Prontuário e Funcionário
+Prontuario ||--o{ Anamnese
+Funcionario ||--o{ Anamnese
+Prontuario ||--o{ Exame
+Funcionario ||--o{ Exame
+Prontuario ||--o{ Declaracao
+Funcionario ||--o{ Declaracao
+
+' Planos e finanças (duas abordagens)
+Plano ||--o{ ContratoFinanceiro
+Paciente ||--o{ ContratoFinanceiro
+ContratoFinanceiro ||--o{ Franquia
+
+' Pessoal
+Funcionario ||--o{ Advertencia
+Funcionario ||--o{ Suspensao
+Funcionario ||--o{ Ferias
+
+' Alertas
+Pessoa ||--o{ Alerta
+Recurso ||--o{ Alerta
+
+' Multi-tenant: Organização ligada a todas as entidades com dados
+Organizacao ||--o{ Pessoa
+Organizacao ||--o{ Plano
+Organizacao ||--o{ ContratoFinanceiro
+Organizacao ||--o{ Franquia
+Organizacao ||--o{ Recurso
+Organizacao ||--o{ RecursoEstoque
+Organizacao ||--o{ Equipamento
+Organizacao ||--o{ Atendimento
+Organizacao ||--o{ Prontuario
+Organizacao ||--o{ Evolucao
+Organizacao ||--o{ Prescricao
+Organizacao ||--o{ PrescricaoItem
+Organizacao ||--o{ Anamnese
+Organizacao ||--o{ Exame
+Organizacao ||--o{ Declaracao
+Organizacao ||--o{ Advertencia
+Organizacao ||--o{ Suspensao
+Organizacao ||--o{ Ferias
+Organizacao ||--o{ Alerta
+@enduml
